@@ -1,0 +1,53 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.hidetake.swagger.generator' version '2.18.1'
+    id 'java'
+}
+
+group = 'me.kupchenko'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    swaggerUI 'org.webjars:swagger-ui:3.22.1'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+swaggerSources {
+    nms {
+        inputFile = file('src/main/resources/api.spec.yaml')
+    }
+}
+
+task swagger(type: Copy) {
+    dependsOn generateSwaggerUI
+    from "$buildDir/swagger-ui-nms"
+    into "$buildDir/resources/main/static/swagger-ui"
+    doLast {
+        delete "$buildDir/swagger-ui-nms"
+    }
+}
+
+processResources.dependsOn swagger
+
+test {
+    useJUnitPlatform()
+}

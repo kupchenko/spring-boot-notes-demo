@@ -1,0 +1,80 @@
+openapi: 3.0.0
+info:
+  title: "Notes management system"
+  description: "This is a Notes management system. (NMS)"
+  version: "1.0.0"
+  contact:
+    email: "kupchenko.work@gmail.com"
+
+tags:
+  - name: Note API
+    description: "Notes endpoints"
+
+components:
+  schemas:
+    NotesRequest:
+      type: object
+      properties:
+        customerId:
+          description: "customerId can be array of Strings OR plain String. Also '*' is supported as a valid reference for 'all customers'"
+          type: array
+          items:
+            type: string
+        actorId:
+          type: string
+      required:
+        - customerId
+        - actorId
+
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+        message:
+          type: string
+        meta:
+          type: object
+          description: "Additional data as JSON object"
+
+paths:
+  /note/{id}:
+    post:
+      tags:
+        - Notes api
+      summary: "Notes api"
+      description: "API for Notes"
+      operationId: "getNoteById"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authorization information is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '5XX':
+          description: Unexpected error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+externalDocs:
+  description: "Project Repository"
+  url: "https://github.com/kupchenko/notes-app-demo"
