@@ -20,8 +20,8 @@ public class NoteController {
 
     private NoteService noteService;
 
-    @GetMapping("/{id}")
-    public Note getNote(@PathVariable String id) {
+    @GetMapping("/{id:[0-9]}")
+    public Note getNote(@PathVariable Long id) {
         return noteService.getNote(id);
     }
 
@@ -30,18 +30,18 @@ public class NoteController {
         return noteService.createNote(noteDto);
     }
 
-    @PutMapping("/{id}")
-    public Note replaceNote(@PathVariable String id, NoteDto noteDto) {
+    @PutMapping("/{id:[0-9]}")
+    public Note replaceNote(@PathVariable Long id, NoteDto noteDto) {
         return noteService.replaceNote(id, noteDto);
     }
 
-    @PatchMapping("/{id}")
-    public Note updateNote(@PathVariable String id, NoteDto noteDto) {
+    @PatchMapping("/{id:[0-9]}")
+    public Note updateNote(@PathVariable Long id, NoteDto noteDto) {
         return noteService.updateNote(id, noteDto);
     }
 
-    @DeleteMapping("/{id}")
-    public Note deleteNote(@PathVariable String id) {
-        return noteService.deleteNote(id);
+    @DeleteMapping("/{id:[0-9]}")
+    public void deleteNote(@PathVariable Long id) {
+        noteService.deleteNote(id);
     }
 }

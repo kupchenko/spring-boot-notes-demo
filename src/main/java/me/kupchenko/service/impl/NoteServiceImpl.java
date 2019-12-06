@@ -1,6 +1,7 @@
 package me.kupchenko.service.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import me.kupchenko.dto.NoteDto;
 import me.kupchenko.exception.NoteNotFoundException;
 import me.kupchenko.model.Note;
@@ -9,7 +10,11 @@ import me.kupchenko.repository.NoteRepository;
 import me.kupchenko.service.NoteService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -18,8 +23,9 @@ public class NoteServiceImpl implements NoteService {
     private NoteRepository noteRepository;
 
     @Override
-    public Optional<Note> getNote(Long id) {
-        return noteRepository.findById(id);
+    public Note getNote(Long id) {
+        return noteRepository.findById(id)
+                .orElseThrow(NoteNotFoundException::new);
     }
 
     @Override
@@ -38,7 +44,10 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public Note updateNote(Long id, NoteDto noteDto) {
-        return null;
+        Note note = noteRepository.findById(id)
+                .orElseThrow(NoteNotFoundException::new);
+//        replace fields
+        return noteRepository.save(note);
     }
 
     @Override
@@ -52,6 +61,28 @@ public class NoteServiceImpl implements NoteService {
     }
 
     private Note replaceAllFields(Note note, NoteDto noteDto, String... excludeFields) {
-        return null;
+        List<String> excludeFieldsList = Arrays.asList(excludeFields);
+        Map<String, Object> collect = Arrays.stream(noteDto.getClass().getDeclaredFields())
+                .collect(Collectors.toMap(Field::getName, field -> getObjectFieldValue(noteDto, field)));
+
+        Arrays.stream(note.getClass().getDeclaredFields())
+                .filter(field -> !excludeFieldsList.contains(field.getName()))
+                .forEach(field -> {
+                    setObjectFieldValue(note, collect, field);
+                });
+        return note;
+    }
+
+    @SneakyThrows
+    private void setObjectFieldValue(Note note, Map<String, Object> collect, Field field) {
+        field.setAccessible(true);
+        String name = field.getName();
+        field.set(note, collect.get(name));
+    }
+
+    @SneakyThrows
+    private Object getObjectFieldValue(NoteDto noteDto, Field field) {
+        field.setAccessible(true);
+        return field.get(noteDto);
     }
 }

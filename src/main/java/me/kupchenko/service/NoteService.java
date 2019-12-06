@@ -4,10 +4,8 @@ import me.kupchenko.dto.NoteDto;
 import me.kupchenko.model.Note;
 import me.kupchenko.model.Notes;
 
-import java.util.Optional;
-
 public interface NoteService {
-    Optional<Note> getNote(Long id);
+    Note getNote(Long id);
 
     Note createNote(NoteDto noteDto);
 
