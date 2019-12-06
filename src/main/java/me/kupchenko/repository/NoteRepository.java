@@ -10,4 +10,6 @@ import java.util.List;
 public interface NoteRepository extends CrudRepository<Note, Long> {
     @Override
     List<Note> findAll();
+
+    List<Note> findAllByUserId(Long id);
 }

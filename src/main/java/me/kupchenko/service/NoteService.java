@@ -16,4 +16,6 @@ public interface NoteService {
     void deleteNote(Long id);
 
     NotesDto getNotes();
+
+    NotesDto getNotesByUserId(Long userId);
 }

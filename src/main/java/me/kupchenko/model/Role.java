@@ -16,7 +16,6 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Role {
     @Id
-    @Column(name = "idRole")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;

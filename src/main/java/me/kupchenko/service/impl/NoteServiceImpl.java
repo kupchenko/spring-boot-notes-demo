@@ -3,10 +3,10 @@ package me.kupchenko.service.impl;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import me.kupchenko.dto.NoteDto;
+import me.kupchenko.dto.NotesDto;
 import me.kupchenko.exception.NoteNotFoundException;
 import me.kupchenko.mapper.NoteMapper;
 import me.kupchenko.model.Note;
-import me.kupchenko.dto.NotesDto;
 import me.kupchenko.repository.NoteRepository;
 import me.kupchenko.service.NoteService;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,6 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,9 +59,16 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public NotesDto getNotes() {
-        List<Note> all = noteRepository.findAll();
-        List<NoteDto> noteDtos = noteMapper.noteListToNoteDtoList(all);
+        List<Note> notes = noteRepository.findAll();
+        List<NoteDto> noteDtos = noteMapper.noteListToNoteDtoList(notes);
         return new NotesDto(noteDtos);
+    }
+
+    @Override
+    public NotesDto getNotesByUserId(Long userId) {
+        List<Note> userNotes = noteRepository.findAllByUserId(userId);
+        List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
+        return new NotesDto(userNotesDtos);
     }
 
     private Note replaceAllFields(Note note, NoteDto noteDto, String... excludeFields) {
