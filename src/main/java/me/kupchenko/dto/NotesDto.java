@@ -1,12 +1,14 @@
-package me.kupchenko.model;
+package me.kupchenko.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Notes {
-    private List<Note> notes;
+public class NotesDto {
+    private List<NoteDto> notes;
 }

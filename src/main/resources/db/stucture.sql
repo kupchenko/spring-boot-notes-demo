@@ -32,5 +32,7 @@ CREATE TABLE notes
     id integer identity primary key,
     title  varchar(128) not null,
     content  varchar(512),
-    owner integer not null
+    owner integer not null,
+    created_ts date not null,
+    updated_ts date not null
 );

@@ -2,7 +2,7 @@ package me.kupchenko.service;
 
 import me.kupchenko.dto.NoteDto;
 import me.kupchenko.model.Note;
-import me.kupchenko.model.Notes;
+import me.kupchenko.dto.NotesDto;
 
 public interface NoteService {
     Note getNote(Long id);
@@ -15,5 +15,5 @@ public interface NoteService {
 
     void deleteNote(Long id);
 
-    Notes getNotes();
+    NotesDto getNotes();
 }

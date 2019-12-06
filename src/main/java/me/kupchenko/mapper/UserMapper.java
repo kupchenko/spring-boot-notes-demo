@@ -6,6 +6,7 @@ import me.kupchenko.model.Role;
 import me.kupchenko.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import java.util.List;
 import java.util.Set;
@@ -18,7 +19,10 @@ public interface UserMapper {
     @Mapping(ignore = true, target = "id")
     User userDtoToUser(UserDto userDto);
 
-    @Mapping(ignore = true, target = "id")
+    @Mappings({
+            @Mapping(ignore = true, target = "id"),
+            @Mapping(ignore = true, target = "roles")
+    })
     User userDtoToUser(RequestUserDto userDto);
 
     Set<String> rolesSetToStringsSet(List<Role> roles);

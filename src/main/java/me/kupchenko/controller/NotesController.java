@@ -1,11 +1,13 @@
 package me.kupchenko.controller;
 
 import lombok.AllArgsConstructor;
-import me.kupchenko.model.Notes;
+import me.kupchenko.dto.NotesDto;
 import me.kupchenko.service.NoteService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @AllArgsConstructor
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotesController {
     private NoteService noteService;
 
-    @GetMapping
-    public Notes findNotes() {
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    public NotesDto findNotes() {
         return noteService.getNotes();
     }
 }
