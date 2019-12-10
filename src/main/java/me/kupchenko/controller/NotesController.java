@@ -2,6 +2,7 @@ package me.kupchenko.controller;
 
 import lombok.AllArgsConstructor;
 import me.kupchenko.dto.NotesDto;
+import me.kupchenko.dto.NotesSearchDto;
 import me.kupchenko.service.NoteService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,12 @@ public class NotesController {
         return noteService.getNotes();
     }
 
-    @GetMapping(value = "/user/{id:[0-9]}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/user/{id:[0-9]+}/search", produces = APPLICATION_JSON_VALUE)
+    public NotesDto searchUserNotes(@PathVariable Long id, NotesSearchDto searchDto) {
+        return noteService.searchUserNotes(id, searchDto);
+    }
+
+    @GetMapping(value = "/user/{id:[0-9]+}", produces = APPLICATION_JSON_VALUE)
     public NotesDto findUserNotes(@PathVariable Long id) {
         return noteService.getNotesByUserId(id);
     }

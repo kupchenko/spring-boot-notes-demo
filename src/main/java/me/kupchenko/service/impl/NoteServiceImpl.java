@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import me.kupchenko.dto.NoteDto;
 import me.kupchenko.dto.NotesDto;
+import me.kupchenko.dto.NotesSearchDto;
 import me.kupchenko.exception.NoteNotFoundException;
 import me.kupchenko.mapper.NoteMapper;
 import me.kupchenko.model.Note;
 import me.kupchenko.repository.NoteRepository;
 import me.kupchenko.service.NoteService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -67,6 +70,14 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public NotesDto getNotesByUserId(Long userId) {
         List<Note> userNotes = noteRepository.findAllByUserId(userId);
+        List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
+        return new NotesDto(userNotesDtos);
+    }
+
+    @Override
+    public NotesDto searchUserNotes(Long id, NotesSearchDto searchDto) {
+        Pageable pageable = PageRequest.of(searchDto.getPage(), searchDto.getRows());
+        List<Note> userNotes = noteRepository.findAllByContentLikeAndUserIdOrderByUpdatedTsDesc(searchDto.getText(), id, pageable);
         List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
         return new NotesDto(userNotesDtos);
     }

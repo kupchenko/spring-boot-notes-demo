@@ -1,6 +1,7 @@
 package me.kupchenko.service;
 
 import me.kupchenko.dto.NoteDto;
+import me.kupchenko.dto.NotesSearchDto;
 import me.kupchenko.model.Note;
 import me.kupchenko.dto.NotesDto;
 
@@ -18,4 +19,6 @@ public interface NoteService {
     NotesDto getNotes();
 
     NotesDto getNotesByUserId(Long userId);
+
+    NotesDto searchUserNotes(Long id, NotesSearchDto searchDto);
 }

@@ -1,6 +1,7 @@
 package me.kupchenko.repository;
 
 import me.kupchenko.model.Note;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,6 @@ public interface NoteRepository extends CrudRepository<Note, Long> {
     List<Note> findAll();
 
     List<Note> findAllByUserId(Long id);
+
+    List<Note> findAllByContentLikeAndUserIdOrderByUpdatedTsDesc(String content, Long id, Pageable pageable);
 }
