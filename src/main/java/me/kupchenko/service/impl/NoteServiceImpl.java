@@ -2,6 +2,7 @@ package me.kupchenko.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import me.kupchenko.dto.NoteDto;
 import me.kupchenko.dto.NotesDto;
 import me.kupchenko.dto.NotesSearchDto;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class NoteServiceImpl implements NoteService {
@@ -63,23 +65,28 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public NotesDto getNotes() {
         List<Note> notes = noteRepository.findAll();
+        long count = noteRepository.count();
         List<NoteDto> noteDtos = noteMapper.noteListToNoteDtoList(notes);
-        return new NotesDto(noteDtos);
+        return new NotesDto(noteDtos, count);
     }
 
     @Override
     public NotesDto getNotesByUserId(Long userId) {
         List<Note> userNotes = noteRepository.findAllByUserId(userId);
+        long count = noteRepository.countByUserId(userId);
         List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
-        return new NotesDto(userNotesDtos);
+        return new NotesDto(userNotesDtos, count);
     }
 
     @Override
-    public NotesDto searchUserNotes(Long id, NotesSearchDto searchDto) {
+    public NotesDto searchUserNotes(Long userId, NotesSearchDto searchDto) {
+        String content = "%" + searchDto.getText() + "%";
         Pageable pageable = PageRequest.of(searchDto.getPage(), searchDto.getRows());
-        List<Note> userNotes = noteRepository.findAllByContentLikeAndUserIdOrderByUpdatedTsDesc(searchDto.getText(), id, pageable);
+        List<Note> userNotes = noteRepository.searchNotes(content, userId, pageable);
+        long count = noteRepository.countTotalNotesByCriteria(content, userId);
         List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
-        return new NotesDto(userNotesDtos);
+        log.info("Total found: {}, returning: {}, for filter {}", count, userNotesDtos.size(), searchDto.getText());
+        return new NotesDto(userNotesDtos, count);
     }
 
     private Note replaceAllFields(Note note, NoteDto noteDto, String... excludeFields) {

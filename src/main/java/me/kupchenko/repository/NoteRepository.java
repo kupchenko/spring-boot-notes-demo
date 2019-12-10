@@ -2,6 +2,7 @@ package me.kupchenko.repository;
 
 import me.kupchenko.model.Note;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +15,11 @@ public interface NoteRepository extends CrudRepository<Note, Long> {
 
     List<Note> findAllByUserId(Long id);
 
-    List<Note> findAllByContentLikeAndUserIdOrderByUpdatedTsDesc(String content, Long id, Pageable pageable);
+    @Query(value = "from Note n where (n.content LIKE :content or n.title LIKE :content) and n.user.id = :id")
+    List<Note> searchNotes(String content, Long id, Pageable pageable);
+
+    long countByUserId(Long id);
+
+    @Query(value = "select count(n) from Note n where (n.content LIKE :content or n.title LIKE :content) and n.user.id = :id")
+    long countTotalNotesByCriteria(String content, Long id);
 }

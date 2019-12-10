@@ -15,17 +15,23 @@ export const actionRequestLoadFailure = (errors) => ({
     errors
 });
 
-export const actionDoRequest = (request) => {
+export const actionDoRequest = (content) => {
 
     return (dispatch) => {
         dispatch(actionRequestIsLoading(true));
 
         const options = {
             method: 'POST',
-            body: request.query
+            headers: {
+                'test': 'test',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'text': content
+            })
         };
 
-        fetch('/notes/user/0/search', options)
+        fetch('http://localhost:8080'+'/notes/user/0/search', options)
             .then((response) => response.json())
             .then((json) => {
                 dispatch(actionRequestLoadSuccess(json))

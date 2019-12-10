@@ -11,8 +11,7 @@ class NotesList extends PureComponent {
     }
     
     submitRequest(text) {
-        const request = Object.assign({}, text);
-        this.props.actionDoRequest(request)
+        this.props.actionDoRequest(text)
     }
 
     render() {
@@ -35,7 +34,7 @@ class NotesList extends PureComponent {
         return (
             <div className="col-lg-4 list-item">
                 <input className="form-control mr-sm-2 search-input" type="text"
-                       placeholder="Search" onChange={(e) => this.submitRequest(e)}/>
+                       placeholder="Search" onChange={(e) => this.submitRequest(e.target.value)}/>
 
                 {notesList}
                 {pagination}

@@ -11,4 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 public class NotesDto {
     private List<NoteDto> notes;
+    private Long count;
 }

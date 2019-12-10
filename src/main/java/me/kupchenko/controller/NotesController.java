@@ -1,16 +1,21 @@
 package me.kupchenko.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.kupchenko.dto.NotesDto;
 import me.kupchenko.dto.NotesSearchDto;
 import me.kupchenko.service.NoteService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/notes")
@@ -22,8 +27,9 @@ public class NotesController {
         return noteService.getNotes();
     }
 
-    @GetMapping(value = "/user/{id:[0-9]+}/search", produces = APPLICATION_JSON_VALUE)
-    public NotesDto searchUserNotes(@PathVariable Long id, NotesSearchDto searchDto) {
+    @CrossOrigin(origins = "http://localhost:9096")
+    @PostMapping(value = "/user/{id:[0-9]+}/search", produces = APPLICATION_JSON_VALUE/*, consumes = APPLICATION_JSON_VALUE*/)
+    public NotesDto searchUserNotes(@PathVariable Long id, @RequestBody NotesSearchDto searchDto) {
         return noteService.searchUserNotes(id, searchDto);
     }
 
