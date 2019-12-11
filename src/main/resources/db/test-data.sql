@@ -16,10 +16,10 @@ VALUES (0, 1);
 
 
 INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
-VALUES (0, 'My first note', 'Here is i can white my notes', 0, now(), now());
+VALUES (0, 'My first note', 'Here is i can white my notes. This text is long enough to show shorter.', 0, now(), now());
 
 INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
-VALUES (1, 'My second note', 'Some content here', 1, now(), now());
+VALUES (1, 'My second note', 'Some content here. Adding long text. Test test test test.', 1, now(), now());
 
 INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
-VALUES (2, 'My third note', 'Another content here', 0, now(), now());
+VALUES (2, 'My third note', 'Another content here. Another text is presented here.', 0, now(), now());

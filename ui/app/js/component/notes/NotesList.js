@@ -20,13 +20,13 @@ class NotesList extends PureComponent {
 
         let notesList;
         let pagination;
-        if (response && response.status === 'OK') {
+        if (response) {
             let i = 0;
-            notesList = response.data.notes.map(row => {
-                return <NotesListItem note={row} selected={(i++ === 0)}/>
+            notesList = response.notes.map(row => {
+                return <NotesListItem key={row.id} note={row} selected={(i++ === 0)}/>
             });
 
-            pagination = <NotesListPagination count={response.data.count}/>
+            pagination = <NotesListPagination count={response.count}/>
         } else {
             notesList = <p>No content!</p>
         }

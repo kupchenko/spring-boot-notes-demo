@@ -85,7 +85,7 @@ public class NoteServiceImpl implements NoteService {
         List<Note> userNotes = noteRepository.searchNotes(content, userId, pageable);
         long count = noteRepository.countTotalNotesByCriteria(content, userId);
         List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
-        log.info("Total found: {}, returning: {}, for filter {}", count, userNotesDtos.size(), searchDto.getText());
+        log.info("Total found: {}, returning: {}, for filter '{}'", count, userNotesDtos.size(), searchDto.getText());
         return new NotesDto(userNotesDtos, count);
     }
 
