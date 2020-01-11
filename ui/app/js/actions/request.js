@@ -15,7 +15,7 @@ export const actionRequestLoadFailure = (errors) => ({
     errors
 });
 
-export const actionDoRequest = (content) => {
+export const actionDoRequest = (content = '') => {
 
     return (dispatch) => {
         dispatch(actionRequestIsLoading(true));

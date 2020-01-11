@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
 
 class NoteContent extends PureComponent {
 
@@ -7,17 +8,29 @@ class NoteContent extends PureComponent {
     }
 
     render() {
+        let response = this.props.request.response;
+        if (!response || !response.notes) {
+            return (
+                <div className="col-lg-10 jumbotron">
+                    <div className="row">
+                        No content here yet!
+                    </div>
+                </div>
+            );
+        }
+
+        let first = response.notes[0];
+        console.log("Notes " + response.notes.length);
         return (
             <div className="col-lg-10 jumbotron">
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="page-header lead">
-                            <h1 id="forms">Forms</h1>
+                            <h1 id="forms">{first.title}</h1>
                         </div>
                         <hr className="my-4"/>
                         <div>
-                            Some quick example text <b>AND</b> some other text...<br/>
-                            Testing content output.
+                            {first.content}
                         </div>
                     </div>
                 </div>
@@ -26,4 +39,8 @@ class NoteContent extends PureComponent {
     }
 }
 
-export default NoteContent;
+const mapStateToProps = (state) => ({
+    request: state.request
+});
+
+export default connect(mapStateToProps)(NoteContent);

@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import me.kupchenko.dto.NoteDto;
-import me.kupchenko.dto.NotesDto;
+import me.kupchenko.dto.NotesResponseDto;
 import me.kupchenko.dto.NotesSearchDto;
+import me.kupchenko.dto.ResponsePagination;
 import me.kupchenko.exception.NoteNotFoundException;
 import me.kupchenko.mapper.NoteMapper;
 import me.kupchenko.model.Note;
@@ -19,6 +20,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -63,30 +65,47 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public NotesDto getNotes() {
+    public NotesResponseDto getNotes() {
         List<Note> notes = noteRepository.findAll();
-        long count = noteRepository.count();
         List<NoteDto> noteDtos = noteMapper.noteListToNoteDtoList(notes);
-        return new NotesDto(noteDtos, count);
+        ResponsePagination responsePagination = getDefaultResponsePagination(() -> noteRepository.count());
+        return new NotesResponseDto(noteDtos, responsePagination);
     }
 
     @Override
-    public NotesDto getNotesByUserId(Long userId) {
+    public NotesResponseDto getNotesByUserId(Long userId) {
         List<Note> userNotes = noteRepository.findAllByUserId(userId);
-        long count = noteRepository.countByUserId(userId);
         List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
-        return new NotesDto(userNotesDtos, count);
+        ResponsePagination responsePagination = getDefaultResponsePagination(() -> noteRepository.countByUserId(userId));
+        return new NotesResponseDto(userNotesDtos, responsePagination);
     }
 
     @Override
-    public NotesDto searchUserNotes(Long userId, NotesSearchDto searchDto) {
+    public NotesResponseDto searchUserNotes(Long userId, NotesSearchDto searchDto) {
         String content = "%" + searchDto.getText() + "%";
-        Pageable pageable = PageRequest.of(searchDto.getPage(), searchDto.getRows());
+        ResponsePagination pagination = getResponsePagination(searchDto, () -> noteRepository.countTotalNotesByCriteria(content, userId));
+
+        Pageable pageable = PageRequest.of(searchDto.getPageNumber(), searchDto.getRows().intValue());
         List<Note> userNotes = noteRepository.searchNotes(content, userId, pageable);
-        long count = noteRepository.countTotalNotesByCriteria(content, userId);
         List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
-        log.info("Total found: {}, returning: {}, for filter '{}'", count, userNotesDtos.size(), searchDto.getText());
-        return new NotesDto(userNotesDtos, count);
+//        log.info("Total found: {}, returning: {}, for filter '{}'", count, userNotesDtos.size(), searchDto.getText());
+        return new NotesResponseDto(userNotesDtos, pagination);
+    }
+
+    private ResponsePagination getResponsePagination(NotesSearchDto searchDto, Supplier<Long> countSupplier) {
+        ResponsePagination pagination = new ResponsePagination();
+        Long count = countSupplier.get();
+        pagination.setNumFound(count);
+        pagination.setRows(searchDto.getRows());
+        pagination.setStart(searchDto.getStart());
+        return pagination;
+    }
+
+    private ResponsePagination getDefaultResponsePagination(Supplier<Long> countSupplier) {
+        ResponsePagination pagination = new ResponsePagination();
+        Long count = countSupplier.get();
+        pagination.setNumFound(count);
+        return pagination;
     }
 
     private Note replaceAllFields(Note note, NoteDto noteDto, String... excludeFields) {

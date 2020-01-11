@@ -23,3 +23,12 @@ VALUES (1, 'My second note', 'Some content here. Adding long text. Test test tes
 
 INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
 VALUES (2, 'My third note', 'Another content here. Another text is presented here.', 0, now(), now());
+
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (3, 'My fourth note', 'Some tfgyhu jihugyfdf lhbdf sdhgf shdgf jdshgfjhsdgf jhsdgfjsdgf iuytwegifuyg isdugfiusydgfiuywegifuygw', 0, now(), now());
+
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (4, 'My fifth note', 'Fifth Some content here. Adding long text. Test test test test.', 0, now(), now());
+
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (5, 'My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());

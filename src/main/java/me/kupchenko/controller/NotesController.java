@@ -2,7 +2,7 @@ package me.kupchenko.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kupchenko.dto.NotesDto;
+import me.kupchenko.dto.NotesResponseDto;
 import me.kupchenko.dto.NotesSearchDto;
 import me.kupchenko.service.NoteService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,18 +23,18 @@ public class NotesController {
     private NoteService noteService;
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
-    public NotesDto findNotes() {
+    public NotesResponseDto findNotes() {
         return noteService.getNotes();
     }
 
     @CrossOrigin(origins = "http://localhost:9096")
     @PostMapping(value = "/user/{id:[0-9]+}/search", produces = APPLICATION_JSON_VALUE/*, consumes = APPLICATION_JSON_VALUE*/)
-    public NotesDto searchUserNotes(@PathVariable Long id, @RequestBody NotesSearchDto searchDto) {
+    public NotesResponseDto searchUserNotes(@PathVariable Long id, @RequestBody NotesSearchDto searchDto) {
         return noteService.searchUserNotes(id, searchDto);
     }
 
     @GetMapping(value = "/user/{id:[0-9]+}", produces = APPLICATION_JSON_VALUE)
-    public NotesDto findUserNotes(@PathVariable Long id) {
+    public NotesResponseDto findUserNotes(@PathVariable Long id) {
         return noteService.getNotesByUserId(id);
     }
 }

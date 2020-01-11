@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NotesDto {
+public class NotesResponseDto {
     private List<NoteDto> notes;
-    private Long count;
+    private ResponsePagination pagination;
 }
