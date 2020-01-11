@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import NotesListPagination from "./NotesListPagination";
 import NotesListItem from "./NotesListItem";
-import {actionDoRequest} from "../../actions/request";
+import {actionDoNotesSearch} from "../../actions/notesSearch";
 import {connect} from 'react-redux';
 
 class NotesList extends PureComponent {
@@ -15,15 +15,13 @@ class NotesList extends PureComponent {
     }
 
     render() {
-        let response = this.props.request.response;
-        const isLoading = this.props.request.isLoading;
+        let response = this.props.notesSearch.response;
 
         let notesList;
         let pagination;
         if (response) {
-            let i = 0;
             notesList = response.notes.map(row => {
-                return <NotesListItem key={row.id} note={row} selected={(i++ === 0)}/>
+                return <NotesListItem key={row.id} note={row}/>
             });
 
             pagination = <NotesListPagination count={response.count}/>
@@ -45,12 +43,12 @@ class NotesList extends PureComponent {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoRequest: (e) => dispatch(actionDoRequest(e)),
+        actionDoRequest: (e) => dispatch(actionDoNotesSearch(e)),
     };
 };
 
 const mapStateToProps = (state) => ({
-    request: state.request
+    notesSearch: state.notesSearch
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotesList);

@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import NavBar from './common/NavBar'
 import NotesPage from "./notes/NotesPage";
-import {actionDoRequest} from "../actions/request";
+import {actionDoNotesSearch} from "../actions/notesSearch";
 
 const Aux = props => props.children;
 
@@ -24,7 +24,7 @@ class Main extends PureComponent {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoRequest: (e) => dispatch(actionDoRequest(e)),
+        actionDoRequest: (e) => dispatch(actionDoNotesSearch(e)),
     };
 };
 

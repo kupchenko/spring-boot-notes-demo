@@ -1,6 +1,8 @@
-import { combineReducers } from 'redux';
-import {requestReducer} from "./request";
+import {combineReducers} from 'redux';
+import {notesSearchReducer} from "./notesSearchReducer";
+import {noteFetchReducer} from "./noteFetchReducer";
 
 export default combineReducers({
-    request: requestReducer
+    notesSearch: notesSearchReducer,
+    noteFetch: noteFetchReducer
 });

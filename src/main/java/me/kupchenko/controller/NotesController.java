@@ -30,6 +30,7 @@ public class NotesController {
     @CrossOrigin(origins = "http://localhost:9096")
     @PostMapping(value = "/user/{id:[0-9]+}/search", produces = APPLICATION_JSON_VALUE/*, consumes = APPLICATION_JSON_VALUE*/)
     public NotesResponseDto searchUserNotes(@PathVariable Long id, @RequestBody NotesSearchDto searchDto) {
+        log.info("Searching notes by search criteria: {}", searchDto);
         return noteService.searchUserNotes(id, searchDto);
     }
 

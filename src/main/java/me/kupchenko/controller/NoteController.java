@@ -1,9 +1,11 @@
 package me.kupchenko.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.kupchenko.dto.NoteDto;
 import me.kupchenko.model.Note;
 import me.kupchenko.service.NoteService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/note")
@@ -20,8 +23,10 @@ public class NoteController {
 
     private NoteService noteService;
 
+    @CrossOrigin(origins = "http://localhost:9096")
     @GetMapping("/{id:[0-9]}")
     public Note getNote(@PathVariable Long id) {
+        log.info("Fetching note for id: {}", id);
         return noteService.getNote(id);
     }
 
