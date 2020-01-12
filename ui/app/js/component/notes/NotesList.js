@@ -3,15 +3,17 @@ import NotesListPagination from "./NotesListPagination";
 import NotesListItem from "./NotesListItem";
 import {actionDoNotesSearch} from "../../actions/notesSearch";
 import {connect} from 'react-redux';
+import {actionDoSaveNotesSearchQuery} from "../../actions/notesSearchQuery";
 
 class NotesList extends PureComponent {
 
     constructor(props) {
         super(props);
     }
-    
+
     submitRequest(text) {
-        this.props.actionDoRequest(text)
+        this.props.actionDoNotesSearch(text);
+        this.props.actionDoSaveNotesSearchQuery(text);
     }
 
     render() {
@@ -43,7 +45,8 @@ class NotesList extends PureComponent {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoRequest: (e) => dispatch(actionDoNotesSearch(e)),
+        actionDoNotesSearch: (e) => dispatch(actionDoNotesSearch(e)),
+        actionDoSaveNotesSearchQuery: (e) => dispatch(actionDoSaveNotesSearchQuery(e))
     };
 };
 

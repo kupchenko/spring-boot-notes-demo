@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.web.bind.annotation.CrossOrigin.DEFAULT_ORIGINS;
+
 @Slf4j
 @RestController
 @AllArgsConstructor
@@ -24,7 +26,7 @@ public class NoteController {
     private NoteService noteService;
 
     @CrossOrigin(origins = "http://localhost:9096")
-    @GetMapping("/{id:[0-9]}")
+    @GetMapping("/{id:[0-9]+}")
     public Note getNote(@PathVariable Long id) {
         log.info("Fetching note for id: {}", id);
         return noteService.getNote(id);

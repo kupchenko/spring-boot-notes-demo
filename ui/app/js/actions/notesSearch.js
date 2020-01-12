@@ -20,7 +20,7 @@ export const actionNotesSearchFailure = (errors) => ({
     errors
 });
 
-export const actionDoNotesSearch = (content = '') => {
+export const actionDoNotesSearch = (content = '', start = 0, rows = 10) => {
 
     return (dispatch) => {
         dispatch(actionNotesSearchIsLoading(true));
@@ -28,11 +28,12 @@ export const actionDoNotesSearch = (content = '') => {
         const options = {
             method: 'POST',
             headers: {
-                'test': 'test',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'text': content
+                'text': content,
+                'start': start,
+                'rows': rows
             })
         };
 

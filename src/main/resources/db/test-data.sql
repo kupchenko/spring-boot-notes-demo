@@ -31,4 +31,26 @@ INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
 VALUES (4, 'My fifth note', 'Fifth Some content here. Adding long text. Test test test test.', 0, now(), now());
 
 INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
-VALUES (5, 'My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+VALUES (5, '1My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (6, '2My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (7, '3My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (8, '4My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (9, '5My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (10, '6My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (11, '7My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (12, '8My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (13, '9My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (14, '10My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (15, '11My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (16, '12My sixth note', 'Sixth Another content here. Another text is presented here.', 0, now(), now());

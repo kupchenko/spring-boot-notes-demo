@@ -14,8 +14,9 @@ export const noteFetchReducer = (state = noteFetchInitialState, action) => {
 
     switch (action.type) {
 
-        case C_NOTE_FETCH_IS_LOADING:
+        case C_NOTE_FETCH_IS_LOADING: {
             return {...state, isLoading: action.isLoading, hasErrors: false};
+        }
 
         case C_NOTE_FETCH_LOAD_SUCCESS: {
             return {...state, isSuccess: true, isLoading: false, hasErrors: false, note: action.response};
