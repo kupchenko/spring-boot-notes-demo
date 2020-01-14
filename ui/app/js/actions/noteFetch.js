@@ -1,4 +1,5 @@
 import {C_NOTE_FETCH_IS_LOADING, C_NOTE_FETCH_LOAD_SUCCESS, C_NOTE_FETCH_LOAD_FAILURE} from "../reducers/noteFetchReducer";
+import {actionDoUpdateSelectedItem} from "./selectNote";
 
 export const actionNoteFetchIsLoading = (bool) => ({
     type: C_NOTE_FETCH_IS_LOADING,
@@ -15,7 +16,7 @@ export const actionNoteFetchFailure = (errors) => ({
     errors
 });
 
-export const actionDoNoteFetch = (id) => {
+export const actionDoNoteFetch = (id, notesData) => {
 
     return (dispatch) => {
         dispatch(actionNoteFetchIsLoading(true));
@@ -28,6 +29,7 @@ export const actionDoNoteFetch = (id) => {
             .then((response) => response.json())
             .then((json) => {
                 dispatch(actionNoteFetchSuccess(json));
+                dispatch(actionDoUpdateSelectedItem(id, notesData))
             })
             .catch(() => {
                 dispatch(actionNoteFetchFailure())

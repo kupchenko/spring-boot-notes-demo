@@ -12,7 +12,7 @@ class NotesListItem extends PureComponent {
     }
 
     submitRequest(text) {
-        this.props.actionDoNoteFetch(text)
+        this.props.actionDoNoteFetch(text, this.props.notesSearch.response)
     }
 
     render() {
@@ -35,8 +35,12 @@ class NotesListItem extends PureComponent {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoNoteFetch: (e) => dispatch(actionDoNoteFetch(e)),
+        actionDoNoteFetch: (e, response) => dispatch(actionDoNoteFetch(e, response)),
     };
 };
 
-export default connect(null, mapDispatchToProps)(NotesListItem);
+const mapStateToProps = (state) => ({
+    notesSearch: state.notesSearch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotesListItem);

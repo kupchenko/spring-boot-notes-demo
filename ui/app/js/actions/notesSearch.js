@@ -53,10 +53,9 @@ export const actionDoNotesSearch = (content = '', start = 0, rows = 10) => {
                     notes: notes,
                     pagination: json.pagination
                 };
-                console.log(modifiedJson);
                 dispatch(actionNotesSearchSuccess(modifiedJson));
                 let id = json.notes[0].id;
-                dispatch(actionDoNoteFetch(id))
+                dispatch(actionDoNoteFetch(id, modifiedJson));
             })
             .catch(() => {
                 dispatch(actionNotesSearchFailure())
