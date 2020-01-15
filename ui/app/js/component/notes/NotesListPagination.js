@@ -15,31 +15,43 @@ class NotesListPagination extends PureComponent {
 
     render() {
         let response = this.props.notesSearch.response;
-        let {numFound, rows} = response.pagination;
+        let {numFound, rows, start} = response.pagination;
         let pages = (numFound) ? numFound / rows : 0;
+        let currentPage = (start) ? start / rows : 0;
         let paginationContent = [];
         if (response) {
+            let isDisabled = currentPage <= 0;
+            paginationContent.push(this.renderPaginationItem(isDisabled, false, (currentPage - 1) * rows, "<"));
             for (let i = 1; i <= pages + 1; i++) {
-                paginationContent.push(
-                    <li className="page-item active">
-                        <a className="page-link" onClick={() => this.submitRequest((i - 1) * rows)}>{i}</a>
-                    </li>
-                );
+                let isCurrentPage = currentPage === i - 1;
+                paginationContent.push(this.renderPaginationItem(false, isCurrentPage, (i - 1) * rows, i));
             }
+
+            isDisabled = currentPage >= pages - 1;
+            paginationContent.push(this.renderPaginationItem(isDisabled, false, (currentPage + 1) * rows, ">"));
+
         }
         return (
             <div className="pagination-body">
                 <ul className="pagination pagination-sm">
-                    <li className="page-item disabled">
-                        <a className="page-link" href="#">&laquo;</a>
-                    </li>
                     {paginationContent}
-                    <li className="page-item">
-                        <a className="page-link" href="#">&raquo;</a>
-                    </li>
                 </ul>
             </div>
         )
+    }
+
+    renderPaginationItem(shouldBeDisabled, isActive, start, symbol) {
+        let styles = "page-item";
+        if (shouldBeDisabled) {
+            styles += " disabled";
+        } else if (isActive) {
+            styles += " active";
+        }
+        return (
+            <li className={styles} key={symbol}>
+                <a className="page-link" onClick={() => this.submitRequest(start)}>{symbol}</a>
+            </li>
+        );
     }
 }
 
