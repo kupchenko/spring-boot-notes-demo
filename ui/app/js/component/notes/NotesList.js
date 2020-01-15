@@ -17,6 +17,7 @@ class NotesList extends PureComponent {
     }
 
     render() {
+        console.log('Rerendering list of notes...');
         let response = this.props.notesSearch.response;
 
         let notesList;

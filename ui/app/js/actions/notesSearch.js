@@ -40,22 +40,9 @@ export const actionDoNotesSearch = (content = '', start = 0, rows = 10) => {
         fetch('http://localhost:8080' + '/notes/user/0/search', options)
             .then((response) => response.json())
             .then((json) => {
-                let notes = json.notes.map((note, index) => {
-                    if (index) {
-                        return note;
-                    }
-                    return {
-                        ...note,
-                        selected: true
-                    }
-                });
-                let modifiedJson = {
-                    notes: notes,
-                    pagination: json.pagination
-                };
-                dispatch(actionNotesSearchSuccess(modifiedJson));
+                dispatch(actionNotesSearchSuccess(json));
                 let id = json.notes[0].id;
-                dispatch(actionDoNoteFetch(id, modifiedJson));
+                dispatch(actionDoNoteFetch(id));
             })
             .catch(() => {
                 dispatch(actionNotesSearchFailure())

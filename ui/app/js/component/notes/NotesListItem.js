@@ -11,8 +11,8 @@ class NotesListItem extends PureComponent {
         }
     }
 
-    submitRequest(text) {
-        this.props.actionDoNoteFetch(text, this.props.notesSearch.response)
+    submitRequest(id) {
+        this.props.actionDoNoteFetch(id)
     }
 
     render() {
@@ -39,8 +39,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-const mapStateToProps = (state) => ({
-    notesSearch: state.notesSearch
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(NotesListItem);
+export default connect(null, mapDispatchToProps)(NotesListItem);

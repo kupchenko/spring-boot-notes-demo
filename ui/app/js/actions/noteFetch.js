@@ -16,7 +16,7 @@ export const actionNoteFetchFailure = (errors) => ({
     errors
 });
 
-export const actionDoNoteFetch = (id, notesData) => {
+export const actionDoNoteFetch = (id) => {
 
     return (dispatch) => {
         dispatch(actionNoteFetchIsLoading(true));
@@ -29,7 +29,7 @@ export const actionDoNoteFetch = (id, notesData) => {
             .then((response) => response.json())
             .then((json) => {
                 dispatch(actionNoteFetchSuccess(json));
-                dispatch(actionDoUpdateSelectedItem(id, notesData))
+                dispatch(actionDoUpdateSelectedItem(id))
             })
             .catch(() => {
                 dispatch(actionNoteFetchFailure())
