@@ -31,7 +31,14 @@ public class NotesController {
     @PostMapping(value = "/user/{id:[0-9]+}/search", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public NotesResponseDto searchUserNotes(@PathVariable Long id, @RequestBody NotesSearchDto searchDto) {
         log.info("Searching notes by search criteria: {}", searchDto);
-        return noteService.searchUserNotes(id, searchDto);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        NotesResponseDto notesResponseDto = noteService.searchUserNotes(id, searchDto);
+        log.info("Note response {}", notesResponseDto.getPagination());
+        return notesResponseDto;
     }
 
     @GetMapping(value = "/user/{id:[0-9]+}", produces = APPLICATION_JSON_VALUE)

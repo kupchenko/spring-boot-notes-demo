@@ -19,7 +19,7 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
             return {...state, isLoading: action.isLoading, hasErrors: false};
 
         case C_NOTES_SEARCH_LOAD_SUCCESS: {
-            let newResponse = selectNote(action.response, 0);
+            let newResponse = selectNoteByIndex(action.response, 0);
             return {...state, isSuccess: true, isLoading: false, hasErrors: false, response: newResponse};
         }
 
@@ -30,7 +30,7 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
         case C_NOTE_SELECT: {
             let id = action.id;
             let notesData = state.response;
-            let newResponse = selectNote(notesData, id);
+            let newResponse = selectNoteById(notesData, id);
             return {...state, isSuccess: true, isLoading: false, hasErrors: false, response: newResponse};
         }
 
@@ -39,7 +39,7 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
     }
 };
 
-function selectNote(notesData, id) {
+function selectNoteById(notesData, id) {
     let notes = notesData.notes.map((note) => {
         if (note.id === id) {
             return {
@@ -56,4 +56,12 @@ function selectNote(notesData, id) {
         notes: notes,
         pagination: notesData.pagination
     };
+}
+
+function selectNoteByIndex(notesData) {
+    if (!notesData || !notesData.notes.length) {
+        return notesData;
+    }
+    let id = notesData.notes[0].id;
+    return selectNoteById(notesData, id)
 }

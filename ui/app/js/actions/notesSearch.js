@@ -3,7 +3,7 @@ import {
     C_NOTES_SEARCH_LOAD_FAILURE,
     C_NOTES_SEARCH_LOAD_SUCCESS
 } from "../reducers/notesSearchReducer";
-import {actionDoNoteFetch} from "./selectNote";
+import {actionDoNoteFetch, actionNoteFetchIsLoading, actionNoteFetchSuccessEmpty} from "./selectNote";
 
 export const actionNotesSearchIsLoading = (bool) => ({
     type: C_NOTES_SEARCH_IS_LOADING,
@@ -24,6 +24,7 @@ export const actionDoNotesSearch = (content = '', start = 0, rows = 10) => {
 
     return (dispatch) => {
         dispatch(actionNotesSearchIsLoading(true));
+        dispatch(actionNoteFetchIsLoading(true));
 
         const options = {
             method: 'POST',
@@ -41,8 +42,13 @@ export const actionDoNotesSearch = (content = '', start = 0, rows = 10) => {
             .then((response) => response.json())
             .then((json) => {
                 dispatch(actionNotesSearchSuccess(json));
-                let id = json.notes[0].id;
-                dispatch(actionDoNoteFetch(id));
+
+                if (json.notes.length) {
+                    let id = json.notes[0].id;
+                    dispatch(actionDoNoteFetch(id));
+                } else {
+                    dispatch(actionNoteFetchSuccessEmpty());
+                }
             })
             .catch(() => {
                 dispatch(actionNotesSearchFailure())

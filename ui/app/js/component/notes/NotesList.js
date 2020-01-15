@@ -4,6 +4,7 @@ import NotesListItem from "./NotesListItem";
 import {actionDoNotesSearch} from "../../actions/notesSearch";
 import {connect} from 'react-redux';
 import {actionDoSaveNotesSearchQuery} from "../../actions/notesSearchQuery";
+import {Spin} from 'antd';
 
 class NotesList extends PureComponent {
 
@@ -17,22 +18,39 @@ class NotesList extends PureComponent {
     }
 
     render() {
-        console.log('Rerendering list of notes...');
-        let response = this.props.notesSearch.response;
-
+        console.log('Rendering list of notes...');
+        let {response, isLoading} = this.props.notesSearch;
+        if (isLoading) {
+            return (
+                <div className="col-lg-4 list-item">
+                    <input className="form-control mr-sm-2 search-input" type="text"
+                           placeholder="Search" onChange={(e) => this.submitRequest(e.target.value)}/>
+                    <div className="spinner">
+                        <Spin size="large"/>
+                    </div>
+                </div>
+            );
+        }
         let notesList;
         let pagination;
-        if (response) {
-            notesList = response.notes.map(row => {
-                return <NotesListItem key={row.id} note={row}/>
-            });
+        if (response.notes.length) {
+            if (response) {
+                notesList = response.notes.map(row => {
+                    return <NotesListItem key={row.id} note={row}/>
+                });
 
-            pagination = <NotesListPagination count={response.count}/>
+                pagination = <NotesListPagination count={response.count}/>
+            } else {
+                notesList = <p>No content!</p>
+            }
         } else {
-            notesList = <p>No content!</p>
+            notesList = (
+                <p>Nothing found!</p>
+            )
         }
 
         return (
+
             <div className="col-lg-4 list-item">
                 <input className="form-control mr-sm-2 search-input" type="text"
                        placeholder="Search" onChange={(e) => this.submitRequest(e.target.value)}/>

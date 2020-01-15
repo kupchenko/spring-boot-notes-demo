@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
+import {Spin} from "antd";
 
 class NoteContent extends PureComponent {
 
@@ -8,15 +9,20 @@ class NoteContent extends PureComponent {
     }
 
     render() {
-        let noteToDisplay = this.props.noteFetch.note;
-        if (!noteToDisplay) {
+        let {note, isLoading} = this.props.noteFetch;
+
+        if (isLoading) {
             return (
-                <div className="col-lg-10 jumbotron">
-                    <div className="row">
-                        No content here yet!
+                <div className="col-lg-10">
+                    <div className="spinner">
+                        <Spin size="large"/>
                     </div>
                 </div>
             );
+        }
+
+        if (!note) {
+            return (<div className="col-lg-10"></div>)
         }
 
         return (
@@ -24,11 +30,11 @@ class NoteContent extends PureComponent {
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="page-header lead">
-                            <h1 id="forms">{noteToDisplay.title}</h1>
+                            <h1 id="forms">{note.title}</h1>
                         </div>
                         <hr className="my-4"/>
                         <div>
-                            {noteToDisplay.content}
+                            {note.content}
                         </div>
                     </div>
                 </div>

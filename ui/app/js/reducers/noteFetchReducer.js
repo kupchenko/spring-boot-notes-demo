@@ -1,6 +1,7 @@
 export const C_NOTE_FETCH_IS_LOADING = 'C_NOTE_FETCH_IS_LOADING';
 export const C_NOTE_FETCH_LOAD_SUCCESS = 'C_NOTE_FETCH_LOAD_SUCCESS';
 export const C_NOTE_FETCH_LOAD_FAILURE = 'C_NOTE_FETCH_LOAD_FAILURE';
+export const C_NOTE_FETCH_LOAD_SUCCESS_EMPTY = 'C_NOTE_FETCH_LOAD_SUCCESS_EMPTY';
 
 const noteFetchInitialState = {
     isLoading: false,
@@ -20,6 +21,10 @@ export const noteFetchReducer = (state = noteFetchInitialState, action) => {
 
         case C_NOTE_FETCH_LOAD_SUCCESS: {
             return {...state, isSuccess: true, isLoading: false, hasErrors: false, note: action.response};
+        }
+
+        case C_NOTE_FETCH_LOAD_SUCCESS_EMPTY: {
+            return {...state, isSuccess: true, isLoading: false, hasErrors: false, note: null};
         }
 
         case C_NOTE_FETCH_LOAD_FAILURE: {
