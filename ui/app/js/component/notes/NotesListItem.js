@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {actionDoNoteFetch} from "../../actions/noteFetch";
+import {actionDoNoteFetchWithSelect} from "../../actions/selectNote";
 import {connect} from "react-redux";
 
 class NotesListItem extends PureComponent {
@@ -12,7 +12,7 @@ class NotesListItem extends PureComponent {
     }
 
     submitRequest(id) {
-        this.props.actionDoNoteFetch(id)
+        this.props.actionDoNoteFetchWithSelect(id)
     }
 
     render() {
@@ -35,7 +35,7 @@ class NotesListItem extends PureComponent {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoNoteFetch: (e, response) => dispatch(actionDoNoteFetch(e, response)),
+        actionDoNoteFetchWithSelect: (id) => dispatch(actionDoNoteFetchWithSelect(id)),
     };
 };
 
