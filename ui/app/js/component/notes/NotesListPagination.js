@@ -13,9 +13,7 @@ class NotesListPagination extends PureComponent {
         this.props.actionDoRequest(notesSearchQuery, start)
     }
 
-    render() {
-        let response = this.props.notesSearch.response;
-        let {numFound, rows, start} = response.pagination;
+    getPaginationContent(response, numFound, rows, start) {
         let pages = (numFound) ? numFound / rows : 0;
         let currentPage = (start) ? start / rows : 0;
         let paginationContent = [];
@@ -29,15 +27,8 @@ class NotesListPagination extends PureComponent {
 
             isDisabled = currentPage >= pages - 1;
             paginationContent.push(this.renderPaginationItem(isDisabled, false, (currentPage + 1) * rows, ">"));
-
         }
-        return (
-            <div className="pagination-body">
-                <ul className="pagination pagination-sm">
-                    {paginationContent}
-                </ul>
-            </div>
-        )
+        return paginationContent;
     }
 
     renderPaginationItem(shouldBeDisabled, isActive, start, symbol) {
@@ -52,6 +43,18 @@ class NotesListPagination extends PureComponent {
                 <a className="page-link" onClick={() => this.submitRequest(start)}>{symbol}</a>
             </li>
         );
+    }
+
+    render() {
+        let response = this.props.notesSearch.response;
+        let {numFound, rows, start} = response.pagination;
+        return (
+            <div className="pagination-body">
+                <ul className="pagination pagination-sm">
+                    {this.getPaginationContent(response, numFound, rows, start)}
+                </ul>
+            </div>
+        )
     }
 }
 

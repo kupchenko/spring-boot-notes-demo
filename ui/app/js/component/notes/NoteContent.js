@@ -23,6 +23,10 @@ class NoteContent extends React.Component {
 
     handleTitleChange(e) {
         this.setState({...this.state, title: e.target.value});
+        this.props.noteFetch.note = {
+            ...this.props.noteFetch.note,
+            title: e.target.value
+        }
     }
 
     updateNote(id) {
@@ -36,28 +40,31 @@ class NoteContent extends React.Component {
         this.setState({...this.state, editableTitle: true});
     };
 
+    renderSpinner() {
+        return (
+            <div className="col-lg-10">
+                <div className="spinner">
+                    <Spin size="large"/>
+                </div>
+            </div>
+        );
+    }
+
     render() {
         const {TextArea} = Input;
         let {note, isLoading, isUpdateInProgress} = this.props.noteFetch;
 
         if (isLoading) {
-            return (
-                <div className="col-lg-10">
-                    <div className="spinner">
-                        <Spin size="large"/>
-                    </div>
-                </div>
-            );
+            return this.renderSpinner();
         }
 
         if (!note) {
             return (<div className="col-lg-10"></div>)
         }
 
-        let actualTitle = (this.state.title) ? this.state.title : this.props.noteFetch.note.title;
-        let title = (<h1 onClick={() => this.editTitle()}>{actualTitle}</h1>);
+        let title = (<h1 onClick={() => this.editTitle()}>{note.title}</h1>);
         if (this.state.editableTitle) {
-            title = (<Input size="large" defaultValue={actualTitle} onChange={this.handleTitleChange}/>);
+            title = (<Input size="large" defaultValue={note.title} onChange={this.handleTitleChange}/>);
         }
 
         return (
@@ -77,7 +84,7 @@ class NoteContent extends React.Component {
                         </div>
                         <hr className="my-4"/>
                         <div className="textarea">
-                            <TextArea rows={33} defaultValue={note.content} onChange={this.handleInputChange}/>
+                            <TextArea rows={31} defaultValue={note.content} onChange={this.handleInputChange}/>
                         </div>
                     </div>
                 </div>

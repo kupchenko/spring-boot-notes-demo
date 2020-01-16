@@ -15,21 +15,25 @@ class NotesListItem extends PureComponent {
         this.props.actionDoNoteFetchWithSelect(id)
     }
 
-    render() {
-        const note = this.props.note;
-        const selected = note.selected;
-
-        const listItemContent =
-            (<div className="card-body" onClick={() => this.submitRequest(note.id)}>
+    renderListItem(note, selected) {
+        const listItemContent = (
+            <div className="card-body" onClick={() => this.submitRequest(note.id)}>
                 <h4 className="card-title">{note.title}</h4>
                 <p className="card-text">{note.content}</p>
-            </div>);
+            </div>
+        );
 
         let content = <div className="card border-secondary mb-3 list-item">{listItemContent}</div>;
         if (selected) {
             content = <div className="card text-white bg-primary mb-3">{listItemContent}</div>
         }
-        return (content)
+        return content;
+    }
+
+    render() {
+        const note = this.props.note;
+        const selected = note.selected;
+        return this.renderListItem(note, selected);
     }
 }
 

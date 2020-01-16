@@ -17,46 +17,43 @@ class NotesList extends PureComponent {
         this.props.actionDoSaveNotesSearchQuery(text);
     }
 
-    render() {
-        console.log('Rendering list of notes...');
-        let {response, isLoading} = this.props.notesSearch;
-        if (isLoading) {
-            return (
-                <div className="col-lg-4 list-item">
-                    <input className="form-control mr-sm-2 search-input" type="text"
-                           placeholder="Search" onChange={(e) => this.submitRequest(e.target.value)}/>
-                    <div className="spinner">
-                        <Spin size="large"/>
-                    </div>
-                </div>
-            );
-        }
-        let notesList;
-        let pagination;
+    buildListContent(response) {
+        let content;
         if (response.notes.length) {
-            if (response) {
-                notesList = response.notes.map(row => {
-                    return <NotesListItem key={row.id} note={row}/>
-                });
-
-                pagination = <NotesListPagination count={response.count}/>
-            } else {
-                notesList = <p>No content!</p>
-            }
+            let items = response.notes.map(row => {
+                return <NotesListItem key={row.id} note={row}/>
+            });
+            content = (
+                <div>
+                    {items}
+                    <NotesListPagination count={response.count}/>
+                </div>
+            )
         } else {
-            notesList = (
+            content = (
                 <p>Nothing found!</p>
             )
         }
+        return content;
+    }
 
+    renderSpinner() {
         return (
+            <div className="spinner">
+                <Spin size="large"/>
+            </div>
+        );
+    }
 
+    render() {
+        let {response, isLoading} = this.props.notesSearch;
+        let content = (isLoading) ? this.renderSpinner() : this.buildListContent(response);
+        return (
             <div className="col-lg-4 list-item">
                 <input className="form-control mr-sm-2 search-input" type="text"
                        placeholder="Search" onChange={(e) => this.submitRequest(e.target.value)}/>
 
-                {notesList}
-                {pagination}
+                {content}
             </div>
         )
     }
