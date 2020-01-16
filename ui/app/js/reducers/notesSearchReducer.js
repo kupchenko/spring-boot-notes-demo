@@ -1,6 +1,7 @@
 export const C_NOTES_SEARCH_IS_LOADING = 'C_NOTES_SEARCH_IS_LOADING';
 export const C_NOTES_SEARCH_LOAD_SUCCESS = 'C_NOTES_SEARCH_LOAD_SUCCESS';
 export const C_NOTES_SEARCH_LOAD_FAILURE = 'C_NOTES_SEARCH_LOAD_FAILURE';
+export const C_NOTES_REFRESH_AFTER_UPDATE = 'C_NOTES_REFRESH_AFTER_UPDATE';
 export const C_NOTE_SELECT = 'C_NOTE_SELECT';
 
 const notesSearchInitialState = {
@@ -27,6 +28,12 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
             return {...state, isSuccess: false, isLoading: false, hasErrors: true, errors: action.errors};
         }
 
+        case C_NOTES_REFRESH_AFTER_UPDATE: {
+            let note = action.note;
+            let newResponse = refreshUpdatedNote(state.response, note);
+            return {...state, isSuccess: false, isLoading: false, hasErrors: false, response: newResponse};
+        }
+
         case C_NOTE_SELECT: {
             let id = action.id;
             let notesData = state.response;
@@ -38,6 +45,29 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
             return state
     }
 };
+
+function refreshUpdatedNote(response, newNote) {
+    let noteWithShortenContent = {
+        ...newNote,
+        content: newNote.content.substr(0, 20) + '...'
+    };
+    let notes = response.notes.map((note) => {
+        if (note.id === newNote.id) {
+            return {
+                ...noteWithShortenContent,
+                selected: true
+            }
+        }
+        return {
+            ...note,
+            selected: false
+        }
+    });
+    return {
+        notes: notes,
+        pagination: response.pagination
+    };
+}
 
 function selectNoteById(notesData, id) {
     let notes = notesData.notes.map((note) => {

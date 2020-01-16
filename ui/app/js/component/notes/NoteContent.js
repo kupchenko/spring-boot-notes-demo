@@ -9,19 +9,31 @@ class NoteContent extends React.Component {
         super(props);
         this.state = {
             title: '',
-            content: ''
+            content: '',
+            editableTitle: false
         };
         this.updateNote = this.updateNote.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this);
     }
 
     handleInputChange(e) {
         this.setState({...this.state, content: e.target.value});
     }
 
+    handleTitleChange(e) {
+        this.setState({...this.state, title: e.target.value});
+    }
+
     updateNote(id) {
         let newContent = (this.state.content) ? this.state.content : this.props.noteFetch.note.content;
-        this.props.actionDoNoteUpdate(id, this.props.noteFetch.note.title, newContent);
+        let newTitle = (this.state.title) ? this.state.title : this.props.noteFetch.note.title;
+        this.props.actionDoNoteUpdate(id, newTitle, newContent);
+        this.setState({...this.state, editableTitle: false});
+    };
+
+    editTitle() {
+        this.setState({...this.state, editableTitle: true});
     };
 
     render() {
@@ -42,13 +54,19 @@ class NoteContent extends React.Component {
             return (<div className="col-lg-10"></div>)
         }
 
+        let actualTitle = (this.state.title) ? this.state.title : this.props.noteFetch.note.title;
+        let title = (<h1 onClick={() => this.editTitle()}>{actualTitle}</h1>);
+        if (this.state.editableTitle) {
+            title = (<Input size="large" defaultValue={actualTitle} onChange={this.handleTitleChange}/>);
+        }
+
         return (
             <div className="col-lg-10 jumbotron">
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="page-header lead note-header-container">
                             <div className="linediv">
-                                <h1>{note.title}</h1>
+                                {title}
                             </div>
                             <div className="linediv">
                                 <Button type="primary" loading={isUpdateInProgress}

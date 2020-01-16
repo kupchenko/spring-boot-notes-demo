@@ -45,7 +45,9 @@ public class NoteController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return noteService.replaceNote(id, noteDto);
+        NoteDto response = noteService.replaceNote(id, noteDto);
+        log.info("response {}", response);
+        return response;
     }
 
     @PatchMapping("/{id:[0-9]}")
