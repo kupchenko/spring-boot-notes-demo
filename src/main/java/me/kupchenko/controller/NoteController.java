@@ -3,7 +3,6 @@ package me.kupchenko.controller;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kupchenko.dto.NoteDto;
-import me.kupchenko.model.Note;
 import me.kupchenko.service.NoteService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,38 +11,45 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.web.bind.annotation.CrossOrigin.DEFAULT_ORIGINS;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:9096")
 @RequestMapping("/note")
 public class NoteController {
 
     private NoteService noteService;
 
-    @CrossOrigin(origins = "http://localhost:9096")
     @GetMapping("/{id:[0-9]+}")
-    public Note getNote(@PathVariable Long id) {
+    public NoteDto getNote(@PathVariable Long id) {
         log.info("Fetching note for id: {}", id);
         return noteService.getNote(id);
     }
 
     @PostMapping
-    public Note createNote(NoteDto noteDto) {
+    public NoteDto createNote(NoteDto noteDto) {
         return noteService.createNote(noteDto);
     }
 
-    @PutMapping("/{id:[0-9]}")
-    public Note replaceNote(@PathVariable Long id, NoteDto noteDto) {
+    @PutMapping(value = "/{id:[0-9]}", consumes = APPLICATION_JSON_VALUE)
+    public NoteDto replaceNote(@PathVariable Long id, @RequestBody NoteDto noteDto) {
+        log.info("Updating note: {}", noteDto);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return noteService.replaceNote(id, noteDto);
     }
 
     @PatchMapping("/{id:[0-9]}")
-    public Note updateNote(@PathVariable Long id, NoteDto noteDto) {
+    public NoteDto updateNote(@PathVariable Long id, NoteDto noteDto) {
         return noteService.updateNote(id, noteDto);
     }
 

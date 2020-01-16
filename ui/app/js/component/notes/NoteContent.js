@@ -1,15 +1,32 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
-import {Spin} from "antd";
+import {Button, Input, Spin} from "antd";
+import {actionDoNoteUpdate} from "../../actions/noteUpdate";
 
-class NoteContent extends PureComponent {
+class NoteContent extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            title: '',
+            content: ''
+        };
+        this.updateNote = this.updateNote.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
+    handleInputChange(e) {
+        this.setState({...this.state, content: e.target.value});
+    }
+
+    updateNote(id) {
+        let newContent = (this.state.content) ? this.state.content : this.props.noteFetch.note.content;
+        this.props.actionDoNoteUpdate(id, this.props.noteFetch.note.title, newContent);
+    };
+
     render() {
-        let {note, isLoading} = this.props.noteFetch;
+        const {TextArea} = Input;
+        let {note, isLoading, isUpdateInProgress} = this.props.noteFetch;
 
         if (isLoading) {
             return (
@@ -29,12 +46,20 @@ class NoteContent extends PureComponent {
             <div className="col-lg-10 jumbotron">
                 <div className="row">
                     <div className="col-lg-12">
-                        <div className="page-header lead">
-                            <h1 id="forms">{note.title}</h1>
+                        <div className="page-header lead note-header-container">
+                            <div className="linediv">
+                                <h1>{note.title}</h1>
+                            </div>
+                            <div className="linediv">
+                                <Button type="primary" loading={isUpdateInProgress}
+                                        onClick={() => this.updateNote(note.id)}>
+                                    Save
+                                </Button>
+                            </div>
                         </div>
                         <hr className="my-4"/>
-                        <div>
-                            {note.content}
+                        <div className="textarea">
+                            <TextArea rows={33} defaultValue={note.content} onChange={this.handleInputChange}/>
                         </div>
                     </div>
                 </div>
@@ -43,8 +68,14 @@ class NoteContent extends PureComponent {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actionDoNoteUpdate: (id, newTitle, newContent) => dispatch(actionDoNoteUpdate(id, newTitle, newContent))
+    };
+};
+
 const mapStateToProps = (state) => ({
     noteFetch: state.noteFetch
 });
 
-export default connect(mapStateToProps)(NoteContent);
+export default connect(mapStateToProps, mapDispatchToProps)(NoteContent);

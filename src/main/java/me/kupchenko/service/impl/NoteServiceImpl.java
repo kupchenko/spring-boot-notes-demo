@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -32,31 +32,36 @@ public class NoteServiceImpl implements NoteService {
     private NoteMapper noteMapper;
 
     @Override
-    public Note getNote(Long id) {
+    public NoteDto getNote(Long id) {
         return noteRepository.findById(id)
+                .map(noteMapper::noteToNoteDto)
                 .orElseThrow(NoteNotFoundException::new);
     }
 
     @Override
-    public Note createNote(NoteDto noteDto) {
+    public NoteDto createNote(NoteDto noteDto) {
         Note note = null;//
-        return noteRepository.save(note);
+        Note newNote = noteRepository.save(note);
+        return noteMapper.noteToNoteDto(newNote);
     }
 
     @Override
-    public Note replaceNote(Long id, NoteDto noteDto) {
+    public NoteDto replaceNote(Long id, NoteDto noteDto) {
         Note note = noteRepository.findById(id)
-                .map(n -> replaceAllFields(n, noteDto, "id"))
+                .map(n -> replaceAllFields(n, noteDto, "id", "createdTs", "updatedTs"))
                 .orElseThrow(NoteNotFoundException::new);
-        return noteRepository.save(note);
+
+        Note newNote = noteRepository.save(note);
+        return noteMapper.noteToNoteDto(newNote);
     }
 
     @Override
-    public Note updateNote(Long id, NoteDto noteDto) {
+    public NoteDto updateNote(Long id, NoteDto noteDto) {
         Note note = noteRepository.findById(id)
                 .orElseThrow(NoteNotFoundException::new);
 //        replace fields
-        return noteRepository.save(note);
+        Note newNote = noteRepository.save(note);
+        return noteMapper.noteToNoteDto(newNote);
     }
 
     @Override
@@ -110,13 +115,13 @@ public class NoteServiceImpl implements NoteService {
 
     private Note replaceAllFields(Note note, NoteDto noteDto, String... excludeFields) {
         List<String> excludeFieldsList = Arrays.asList(excludeFields);
-        Map<String, Object> collect = Arrays.stream(noteDto.getClass().getDeclaredFields())
-                .collect(Collectors.toMap(Field::getName, field -> getObjectFieldValue(noteDto, field)));
+        Map<String, Object> clazzFields = Arrays.stream(noteDto.getClass().getDeclaredFields())
+                .collect(HashMap::new, (m, v) -> m.put(v.getName(), getObjectFieldValue(noteDto, v)), HashMap::putAll);
 
         Arrays.stream(note.getClass().getDeclaredFields())
                 .filter(field -> !excludeFieldsList.contains(field.getName()))
                 .forEach(field -> {
-                    setObjectFieldValue(note, collect, field);
+                    setObjectFieldValue(note, clazzFields, field);
                 });
         return note;
     }
@@ -125,7 +130,9 @@ public class NoteServiceImpl implements NoteService {
     private void setObjectFieldValue(Note note, Map<String, Object> collect, Field field) {
         field.setAccessible(true);
         String name = field.getName();
-        field.set(note, collect.get(name));
+        if (collect.containsKey(name)) {
+            field.set(note, collect.get(name));
+        }
     }
 
     @SneakyThrows

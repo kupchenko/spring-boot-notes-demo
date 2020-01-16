@@ -32,7 +32,7 @@ public class NotesController {
     public NotesResponseDto searchUserNotes(@PathVariable Long id, @RequestBody NotesSearchDto searchDto) {
         log.info("Searching notes by search criteria: {}", searchDto);
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

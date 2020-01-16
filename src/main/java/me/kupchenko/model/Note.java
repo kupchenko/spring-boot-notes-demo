@@ -25,7 +25,6 @@ public class Note {
     private String title;
     private String content;
     @ManyToOne
-//    @Column(name = "owner")
     @JoinColumn(name = "owner")
     private User user;
     @Column(name = "created_ts")

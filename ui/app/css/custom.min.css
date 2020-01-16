@@ -329,3 +329,18 @@ pre {
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color: white;
 }
+
+.textarea {
+    max-width: 98%;
+    max-height: 98%;
+}
+
+.linediv {
+    display: inline-block;
+}
+
+.note-header-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 98%;
+}
