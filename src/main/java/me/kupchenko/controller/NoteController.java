@@ -28,7 +28,6 @@ public class NoteController {
 
     @GetMapping("/{id:[0-9]+}")
     public NoteDto getNote(@PathVariable Long id) {
-        log.info("Fetching note for id: {}", id);
         return noteService.getNote(id);
     }
 
@@ -45,9 +44,7 @@ public class NoteController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        NoteDto response = noteService.replaceNote(id, noteDto);
-        log.info("response {}", response);
-        return response;
+        return noteService.replaceNote(id, noteDto);
     }
 
     @PatchMapping("/{id:[0-9]}")

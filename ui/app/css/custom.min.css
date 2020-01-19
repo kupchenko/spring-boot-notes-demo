@@ -1,5 +1,5 @@
 body {
-    padding-top: 60px
+    padding-top: 0px
 }
 
 pre {
@@ -342,5 +342,19 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .note-header-container {
     display: flex;
     justify-content: space-between;
-    max-width: 98%;
+    max-width: 99%;
+}
+
+.note-header-container-max-width {
+    display: flex;
+    justify-content: space-between;
+    max-width: 100%;
+}
+
+.no-body-padding {
+    padding-top: 0;
+}
+
+.note-content-top-padding {
+    margin-top: 5px;
 }

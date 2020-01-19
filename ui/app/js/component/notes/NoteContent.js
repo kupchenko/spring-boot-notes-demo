@@ -68,7 +68,7 @@ class NoteContent extends React.Component {
         }
 
         return (
-            <div className="col-lg-10 jumbotron">
+            <div className="col-lg-10 jumbotron note-content-top-padding">
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="page-header lead note-header-container">
