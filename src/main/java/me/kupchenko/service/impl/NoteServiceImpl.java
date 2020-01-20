@@ -3,6 +3,7 @@ package me.kupchenko.service.impl;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import me.kupchenko.dto.CreateNoteDto;
 import me.kupchenko.dto.NoteDto;
 import me.kupchenko.dto.NotesResponseDto;
 import me.kupchenko.dto.NotesSearchDto;
@@ -10,13 +11,16 @@ import me.kupchenko.dto.ResponsePagination;
 import me.kupchenko.exception.NoteNotFoundException;
 import me.kupchenko.mapper.NoteMapper;
 import me.kupchenko.model.Note;
+import me.kupchenko.model.User;
 import me.kupchenko.repository.NoteRepository;
+import me.kupchenko.repository.UserRepository;
 import me.kupchenko.service.NoteService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +33,7 @@ import java.util.function.Supplier;
 public class NoteServiceImpl implements NoteService {
 
     private NoteRepository noteRepository;
+    private UserRepository userRepository;
     private NoteMapper noteMapper;
 
     @Override
@@ -39,8 +44,18 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public NoteDto createNote(NoteDto noteDto) {
-        Note note = null;//
+    public NoteDto createNote(CreateNoteDto noteDto) {
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+
+        }
+        Note note = noteMapper.noteDtoToNote(noteDto);
+        User user = userRepository.findById(noteDto.getUserId())
+                .orElseThrow(IllegalArgumentException::new);
+        note.setUser(user);
+        note.setUpdatedTs(LocalDateTime.now());
+        note.setCreatedTs(LocalDateTime.now());
         Note newNote = noteRepository.save(note);
         return noteMapper.noteToNoteDto(newNote);
     }

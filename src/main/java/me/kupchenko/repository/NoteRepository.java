@@ -16,7 +16,7 @@ public interface NoteRepository extends CrudRepository<Note, Long> {
     List<Note> findAllByUserId(Long id);
 
     @Query(value = "select new Note(n.id, n.title, concat(substring(n.content, 1, 20), '...'), n.user, n.createdTs, n.updatedTs)  " +
-            "from Note n where (n.content LIKE :content or n.title LIKE :content) and n.user.id = :id")
+            "from Note n where (n.content LIKE :content or n.title LIKE :content) and n.user.id = :id order by n.updatedTs desc")
     List<Note> searchNotes(String content, Long id, Pageable pageable);
 
     long countByUserId(Long id);

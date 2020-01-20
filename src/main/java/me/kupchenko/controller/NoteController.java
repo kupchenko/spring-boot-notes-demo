@@ -2,6 +2,7 @@ package me.kupchenko.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.kupchenko.dto.CreateNoteDto;
 import me.kupchenko.dto.NoteDto;
 import me.kupchenko.service.NoteService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,8 +32,8 @@ public class NoteController {
         return noteService.getNote(id);
     }
 
-    @PostMapping
-    public NoteDto createNote(NoteDto noteDto) {
+    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public NoteDto createNote(@RequestBody CreateNoteDto noteDto) {
         return noteService.createNote(noteDto);
     }
 
