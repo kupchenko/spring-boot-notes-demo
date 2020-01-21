@@ -20,7 +20,7 @@ export const actionNotesSearchFailure = (errors) => ({
     errors
 });
 
-export const actionDoNotesSearch = (content = '', start = 0, rows = 10) => {
+export const actionDoNotesSearch = (content = '', page = 0, rows = 10) => {
 
     return (dispatch) => {
         dispatch(actionNotesSearchIsLoading(true));
@@ -33,7 +33,7 @@ export const actionDoNotesSearch = (content = '', start = 0, rows = 10) => {
             },
             body: JSON.stringify({
                 'text': content,
-                'start': start,
+                'page': page,
                 'rows': rows
             })
         };

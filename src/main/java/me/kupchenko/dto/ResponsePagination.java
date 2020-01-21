@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ResponsePagination {
     private Long numFound;
-    private Long start;
-    private Long rows;
+    private Integer page;
+    private Integer rows;
 }

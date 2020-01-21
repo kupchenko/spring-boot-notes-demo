@@ -105,7 +105,7 @@ public class NoteServiceImpl implements NoteService {
         String content = "%" + searchDto.getText() + "%";
         ResponsePagination pagination = getResponsePagination(searchDto, () -> noteRepository.countTotalNotesByCriteria(content, userId));
 
-        Pageable pageable = PageRequest.of(searchDto.getPageNumber(), searchDto.getRows().intValue());
+        Pageable pageable = PageRequest.of(searchDto.getPage(), searchDto.getRows());
         List<Note> userNotes = noteRepository.searchNotes(content, userId, pageable);
         List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
 //        log.info("Total found: {}, returning: {}, for filter '{}'", count, userNotesDtos.size(), searchDto.getText());
@@ -117,7 +117,7 @@ public class NoteServiceImpl implements NoteService {
         Long count = countSupplier.get();
         pagination.setNumFound(count);
         pagination.setRows(searchDto.getRows());
-        pagination.setStart(searchDto.getStart());
+        pagination.setPage(searchDto.getPage());
         return pagination;
     }
 

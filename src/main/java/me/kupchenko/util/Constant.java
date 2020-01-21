@@ -2,11 +2,11 @@ package me.kupchenko.util;
 
 public class Constant {
 
+    public static final Integer DEFAULT_ROWS_NUMBER = 10;
+    public static final Integer DEFAULT_START_PAGE = 0;
+
     private Constant() {
     }
-
-    public static final Long DEFAULT_ROWS_NUMBER = 10L;
-    public static final Long DEFAULT_START_INDEX = 0L;
 
     public static final class Endpoint {
 

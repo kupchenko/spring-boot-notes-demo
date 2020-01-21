@@ -8,30 +8,28 @@ class NotesListPagination extends PureComponent {
         super(props);
     }
 
-    submitRequest(start) {
+    loadPage(page) {
         let notesSearchQuery = this.props.notesSearchQuery.query;
-        this.props.actionDoRequest(notesSearchQuery, start)
+        this.props.actionDoNotesSearch(notesSearchQuery, page)
     }
 
-    getPaginationContent(response, numFound, rows, start) {
+    getPaginationContent(response, numFound, rows, page) {
         let pages = (numFound) ? numFound / rows : 0;
-        let currentPage = (start) ? start / rows : 0;
         let paginationContent = [];
         if (response) {
-            let isDisabled = currentPage <= 0;
-            paginationContent.push(this.renderPaginationItem(isDisabled, false, (currentPage - 1) * rows, "<"));
-            for (let i = 1; i <= pages + 1; i++) {
-                let isCurrentPage = currentPage === i - 1;
-                paginationContent.push(this.renderPaginationItem(false, isCurrentPage, (i - 1) * rows, i));
+            let isDisabled = page <= 0;
+            paginationContent.push(this.renderPaginationItem(isDisabled, false, page - 1, "<"));
+            for (let i = 1; i < pages + 1; i++) {
+                let isCurrentPage = page === i - 1;
+                paginationContent.push(this.renderPaginationItem(false, isCurrentPage, i - 1, i));
             }
-
-            isDisabled = currentPage >= pages - 1;
-            paginationContent.push(this.renderPaginationItem(isDisabled, false, (currentPage + 1) * rows, ">"));
+            isDisabled = page >= pages - 1;
+            paginationContent.push(this.renderPaginationItem(isDisabled, false, page + 1, ">"));
         }
         return paginationContent;
     }
 
-    renderPaginationItem(shouldBeDisabled, isActive, start, symbol) {
+    renderPaginationItem(shouldBeDisabled, isActive, page, symbol) {
         let styles = "page-item";
         if (shouldBeDisabled) {
             styles += " disabled";
@@ -40,18 +38,18 @@ class NotesListPagination extends PureComponent {
         }
         return (
             <li className={styles} key={symbol}>
-                <a className="page-link" onClick={() => this.submitRequest(start)}>{symbol}</a>
+                <a className="page-link" onClick={() => this.loadPage(page)}>{symbol}</a>
             </li>
         );
     }
 
     render() {
         let response = this.props.notesSearch.response;
-        let {numFound, rows, start} = response.pagination;
+        let {numFound, page, rows} = response.pagination;
         return (
             <div className="pagination-body">
                 <ul className="pagination pagination-sm">
-                    {this.getPaginationContent(response, numFound, rows, start)}
+                    {this.getPaginationContent(response, numFound, rows, page)}
                 </ul>
             </div>
         )
@@ -60,7 +58,7 @@ class NotesListPagination extends PureComponent {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoRequest: (content, start) => dispatch(actionDoNotesSearch(content, start)),
+        actionDoNotesSearch: (content, page) => dispatch(actionDoNotesSearch(content, page)),
     };
 };
 

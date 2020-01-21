@@ -5,6 +5,7 @@ import me.kupchenko.dto.NoteDto;
 import me.kupchenko.model.Note;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import java.util.List;
 
@@ -14,7 +15,12 @@ public interface NoteMapper {
     @Mapping(ignore = true, target = "user")
     Note noteDtoToNote(NoteDto noteDto);
 
-    @Mapping(ignore = true, target = "user")
+    @Mappings({
+            @Mapping(ignore = true, target = "id"),
+            @Mapping(ignore = true, target = "user"),
+            @Mapping(ignore = true, target = "createdTs"),
+            @Mapping(ignore = true, target = "updatedTs"),
+    })
     Note noteDtoToNote(CreateNoteDto noteDto);
 
     NoteDto noteToNoteDto(Note note);
