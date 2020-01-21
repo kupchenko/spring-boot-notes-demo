@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Button, Input, Spin} from "antd";
+import {Button, Input, message, Spin} from "antd";
 import {actionDoNoteUpdate} from "../../actions/noteUpdate";
 
 class NoteContent extends React.Component {
@@ -52,14 +52,14 @@ class NoteContent extends React.Component {
 
     render() {
         const {TextArea} = Input;
-        let {note, isLoading, isUpdateInProgress} = this.props.noteFetch;
+        let {note, isLoading, isUpdateInProgress, hasErrors} = this.props.noteFetch;
 
         if (isLoading) {
             return this.renderSpinner();
         }
 
-        if (!note) {
-            return (<div className="col-lg-10"></div>)
+        if (!note || hasErrors) {
+            return (<div className="col-lg-10"/>)
         }
 
         let title = (<h1 onClick={() => this.editTitle()}>{note.title}</h1>);

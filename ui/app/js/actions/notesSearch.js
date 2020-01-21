@@ -3,7 +3,12 @@ import {
     C_NOTES_SEARCH_LOAD_FAILURE,
     C_NOTES_SEARCH_LOAD_SUCCESS
 } from "../reducers/notesSearchReducer";
-import {actionDoNoteFetch, actionNoteFetchIsLoading, actionNoteFetchSuccessEmpty} from "./selectNote";
+import {
+    actionDoNoteFetch,
+    actionNoteFetchFailure,
+    actionNoteFetchIsLoading,
+    actionNoteFetchSuccessEmpty
+} from "./selectNote";
 
 export const actionNotesSearchIsLoading = (bool) => ({
     type: C_NOTES_SEARCH_IS_LOADING,
@@ -39,7 +44,7 @@ export const actionDoNotesSearch = (content = '', page = 0, rows = 10) => {
         };
 
         fetch('http://localhost:8080' + '/notes/user/0/search', options)
-            .then((response) => response.json())
+            .then(handleErrors)
             .then((json) => {
                 dispatch(actionNotesSearchSuccess(json));
 
@@ -50,9 +55,17 @@ export const actionDoNotesSearch = (content = '', page = 0, rows = 10) => {
                     dispatch(actionNoteFetchSuccessEmpty());
                 }
             })
-            .catch(() => {
-                dispatch(actionNotesSearchFailure())
+            .catch((errors) => {
+                console.log('[search] Error occurred...\n' + errors);
+                dispatch(actionNotesSearchFailure(errors));
+                dispatch(actionNoteFetchFailure());
             });
     }
 };
 
+function handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response.json();
+}

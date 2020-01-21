@@ -18,11 +18,6 @@ class NoteCreateDialog extends React.Component {
         this.handleTitleChange = this.handleTitleChange.bind(this);
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const {isSuccess, isLoading, hasErrors} = this.props.noteCreate;
-        this.showResponsePopup(isLoading, isSuccess, hasErrors);
-    }
-
     showModal() {
         this.setState({
             title: '',
@@ -82,19 +77,6 @@ class NoteCreateDialog extends React.Component {
                 </Modal>
             </div>
         );
-    }
-
-    showResponsePopup(isLoading, isSuccess, hasErrors) {
-        const key = 'notecreate';
-        if (isLoading) {
-            message.loading({content: 'Loading...', key});
-        }
-        if (isSuccess) {
-            message.success({content: 'Loaded!', key, duration: 2});
-        }
-        if (hasErrors) {
-            message.error({content: 'Failure!', key, duration: 2});
-        }
     }
 }
 

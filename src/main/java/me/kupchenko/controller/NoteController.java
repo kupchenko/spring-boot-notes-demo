@@ -27,19 +27,16 @@ public class NoteController {
     private NoteService noteService;
 
     @GetMapping("/{id:[0-9]+}")
-    @CrossOrigin(origins = "*")
     public NoteDto getNote(@PathVariable Long id) {
         return noteService.getNote(id);
     }
 
-    @CrossOrigin(origins = "*")
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public NoteDto createNote(@RequestBody CreateNoteDto noteDto) {
         return noteService.createNote(noteDto);
     }
 
-    @CrossOrigin(origins = "*")
-    @PutMapping(value = "/{id:[0-9]}", consumes = APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id:[0-9]+}", consumes = APPLICATION_JSON_VALUE)
     public NoteDto replaceNote(@PathVariable Long id, @RequestBody NoteDto noteDto) {
         log.info("Updating note: {}", noteDto);
         try {
@@ -50,12 +47,12 @@ public class NoteController {
         return noteService.replaceNote(id, noteDto);
     }
 
-    @PatchMapping("/{id:[0-9]}")
+    @PatchMapping("/{id:[0-9]+}")
     public NoteDto updateNote(@PathVariable Long id, NoteDto noteDto) {
         return noteService.updateNote(id, noteDto);
     }
 
-    @DeleteMapping("/{id:[0-9]}")
+    @DeleteMapping("/{id:[0-9]+}")
     public void deleteNote(@PathVariable Long id) {
         noteService.deleteNote(id);
     }

@@ -46,8 +46,11 @@ class NotesListContainer extends PureComponent {
     }
 
     render() {
-        let {response, isLoading} = this.props.notesSearch;
-        let content = (isLoading) ? this.renderSpinner() : this.buildListContent(response);
+        let {response, isLoading, hasErrors} = this.props.notesSearch;
+        let content = 'Error fetching records...';
+        if (!hasErrors) {
+            content = (isLoading) ? this.renderSpinner() : this.buildListContent(response);
+        }
         return (
             <div className="col-lg-4 list-item">
                 <input className="form-control mr-sm-2 search-input" type="text"

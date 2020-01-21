@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import NavBar from './common/NavBar'
 import NotesPage from "./notes/NotesPage";
 import {actionDoNotesSearch} from "../actions/notesSearch";
+import PopUp from "./common/PopUp";
 
 const Aux = props => props.children;
 
@@ -15,6 +16,7 @@ class Main extends PureComponent {
     render() {
         return (
             <Aux>
+                <PopUp/>
                 <NavBar/>
                 <NotesPage/>
             </Aux>

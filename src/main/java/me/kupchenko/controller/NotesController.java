@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import me.kupchenko.dto.NotesResponseDto;
 import me.kupchenko.dto.NotesSearchDto;
 import me.kupchenko.service.NoteService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +26,6 @@ public class NotesController {
         return noteService.getNotes();
     }
 
-    @CrossOrigin(origins = "http://localhost:9096")
     @PostMapping(value = "/user/{id:[0-9]+}/search", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
     public NotesResponseDto searchUserNotes(@PathVariable Long id, @RequestBody NotesSearchDto searchDto) {
         log.info("Searching notes by search criteria: {}", searchDto);

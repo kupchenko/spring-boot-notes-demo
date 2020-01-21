@@ -12,3 +12,9 @@
 * Start the application by executing: 
 
 ```./gradlew clean bootRun```
+
+* DEV: Start the application by executing: 
+
+```
+    ./gradlew bootRun --args='--spring.profiles.active=dev' 
+```

@@ -1,6 +1,10 @@
 import {actionNoteFetchFailure, actionNoteFetchSuccess} from "../actions/selectNote";
-import {C_NOTE_UPDATE_IS_IN_PROGRESS} from "../reducers/noteFetchReducer";
 import {C_NOTES_REFRESH_AFTER_UPDATE} from "../reducers/notesSearchReducer";
+import {
+    C_NOTE_UPDATE_FAILURE,
+    C_NOTE_UPDATE_SUCCESS,
+    C_NOTE_UPDATE_IS_IN_PROGRESS
+} from "../reducers/noteUpdateReducer";
 
 export const actionNoteUpdateInProgress = (bool) => ({
     type: C_NOTE_UPDATE_IS_IN_PROGRESS,
@@ -10,6 +14,16 @@ export const actionNoteUpdateInProgress = (bool) => ({
 export const actionRefreshNotesAfterUpdate = (note) => ({
     type: C_NOTES_REFRESH_AFTER_UPDATE,
     note
+});
+
+export const actionNoteUpdateSuccess = (note) => ({
+    type: C_NOTE_UPDATE_SUCCESS,
+    note
+});
+
+export const actionNoteUpdateFailure = (errors) => ({
+    type: C_NOTE_UPDATE_FAILURE,
+    errors
 });
 
 export const actionDoNoteUpdate = (noteId, newTitle, newContent) => {
@@ -31,10 +45,12 @@ export const actionDoNoteUpdate = (noteId, newTitle, newContent) => {
             .then((response) => response.json())
             .then((json) => {
                 dispatch(actionNoteFetchSuccess(json));
+                dispatch(actionNoteUpdateSuccess());
                 dispatch(actionRefreshNotesAfterUpdate(json));
             })
             .catch(() => {
-                dispatch(actionNoteFetchFailure())
+                dispatch(actionNoteFetchFailure());
+                dispatch(actionNoteUpdateFailure());
             });
     }
 };
