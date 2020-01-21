@@ -18,6 +18,11 @@ class NoteCreateDialog extends React.Component {
         this.handleTitleChange = this.handleTitleChange.bind(this);
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {isSuccess, isLoading, hasErrors} = this.props.noteCreate;
+        this.showResponsePopup(isLoading, isSuccess, hasErrors);
+    }
+
     showModal() {
         this.setState({
             title: '',
@@ -49,8 +54,7 @@ class NoteCreateDialog extends React.Component {
 
     render() {
         const {TextArea} = Input;
-        const {isSuccess, isLoading, hasErrors, modalVisible} = this.props.noteCreate;
-        this.showResponsePopup(isLoading, isSuccess, hasErrors);
+        const {isLoading, modalVisible} = this.props.noteCreate;
 
         return (
             <div>

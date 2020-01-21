@@ -21,22 +21,24 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:9096")
 @RequestMapping("/note")
 public class NoteController {
 
     private NoteService noteService;
 
     @GetMapping("/{id:[0-9]+}")
+    @CrossOrigin(origins = "*")
     public NoteDto getNote(@PathVariable Long id) {
         return noteService.getNote(id);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public NoteDto createNote(@RequestBody CreateNoteDto noteDto) {
         return noteService.createNote(noteDto);
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping(value = "/{id:[0-9]}", consumes = APPLICATION_JSON_VALUE)
     public NoteDto replaceNote(@PathVariable Long id, @RequestBody NoteDto noteDto) {
         log.info("Updating note: {}", noteDto);
