@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {actionDoSaveNotesSearchQuery} from "../../actions/notesSearchQuery";
 import {Spin} from 'antd';
 
-class NotesList extends PureComponent {
+class NotesListContainer extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -70,4 +70,4 @@ const mapStateToProps = (state) => ({
     notesSearch: state.notesSearch
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotesList);
+export default connect(mapStateToProps, mapDispatchToProps)(NotesListContainer);

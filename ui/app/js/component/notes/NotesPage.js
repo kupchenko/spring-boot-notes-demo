@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import NotesList from "./NotesList";
+import NotesListContainer from "./NotesListContainer";
 import NoteContent from "./NoteContent";
 
 class NotesPage extends PureComponent {
@@ -11,7 +11,7 @@ class NotesPage extends PureComponent {
     render() {
         return (
             <div className="row">
-                <NotesList/>
+                <NotesListContainer/>
                 <NoteContent/>
             </div>
         )
