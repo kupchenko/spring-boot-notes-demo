@@ -1,6 +1,8 @@
 import {
     C_NOTE_CREATE_FAILURE,
     C_NOTE_CREATE_IS_IN_PROGRESS,
+    C_NOTE_CREATE_MODAL_HIDE,
+    C_NOTE_CREATE_MODAL_SHOW,
     C_NOTE_CREATE_SUCCESS
 } from "../reducers/noteCreateReducer";
 import {actionNoteFetchSuccess} from "./selectNote";
@@ -18,6 +20,14 @@ export const actionNoteCreateSuccess = (note) => ({
 
 export const actionNoteCreateFailure = () => ({
     type: C_NOTE_CREATE_FAILURE
+});
+
+export const actionShowNoteCreateModal = () => ({
+    type: C_NOTE_CREATE_MODAL_SHOW
+});
+
+export const actionShowNoteCreateHide = () => ({
+    type: C_NOTE_CREATE_MODAL_HIDE
 });
 
 export const actionDoNoteCreate = (newTitle, newContent) => {
@@ -39,7 +49,7 @@ export const actionDoNoteCreate = (newTitle, newContent) => {
         fetch('http://localhost:8080' + '/note', options)
             .then(handleErrors)
             .then((json) => {
-                dispatch(actionNoteCreateSuccess(json));
+                dispatch(actionNoteCreateSuccess());
                 dispatch(actionNoteFetchSuccess(json));
                 dispatch(actionDoNotesSearch())
             })

@@ -1,6 +1,6 @@
 import {Button, Input, message, Modal} from 'antd';
 import React from "react";
-import {actionDoNoteCreate} from "../../actions/noteCreate";
+import {actionDoNoteCreate, actionShowNoteCreateHide, actionShowNoteCreateModal} from "../../actions/noteCreate";
 import {connect} from "react-redux";
 
 class NoteCreateDialog extends React.Component {
@@ -8,33 +8,34 @@ class NoteCreateDialog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: false,
             content: '',
             title: ''
         };
-        this.showModal = this.showModal.bind(this);
         this.handleOk = this.handleOk.bind(this);
-        this.handleCancel = this.handleCancel.bind(this);
+        this.showModal = this.showModal.bind(this);
+        this.hideModal = this.hideModal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
     }
 
     showModal() {
         this.setState({
-            visible: true,
+            title: '',
+            content: ''
         });
+        this.props.actionShowNoteCreateModal();
     };
 
     handleOk() {
         let {title, content} = this.state;
-        console.log('Title ' + title);
-        console.log('content ' + content);
         this.props.actionDoNoteCreate(title, content)
     };
 
-    handleCancel() {
+    hideModal() {
+        this.props.actionShowNoteCreateHide();
         this.setState({
-            visible: false
+            title: '',
+            content: ''
         });
     };
 
@@ -48,19 +49,8 @@ class NoteCreateDialog extends React.Component {
 
     render() {
         const {TextArea} = Input;
-        let visible = this.state.visible;
-        const key = 'updatable';
-        const {isSuccess, isLoading, hasErrors} = this.props.noteCreate;
-        if (isLoading) {
-            message.loading({content: 'Loading...', key});
-        }
-        if (isSuccess) {
-            visible = false;
-            message.success({content: 'Loaded!', key, duration: 2});
-        }
-        if (hasErrors) {
-            message.error({content: 'Failure!', key, duration: 2});
-        }
+        const {isSuccess, isLoading, hasErrors, modalVisible} = this.props.noteCreate;
+        this.showResponsePopup(isLoading, isSuccess, hasErrors);
 
         return (
             <div>
@@ -69,24 +59,46 @@ class NoteCreateDialog extends React.Component {
                 </Button>
                 <Modal
                     title="Creating new note"
-                    visible={visible}
+                    visible={modalVisible}
                     onOk={this.handleOk}
                     confirmLoading={isLoading}
-                    onCancel={this.handleCancel}
+                    onCancel={this.hideModal}
                 >
-                    <Input onChange={this.handleTitleChange} placeholder="Title"/>
+                    <Input onChange={this.handleTitleChange}
+                           value={this.state.title}
+                           allowClear={true}
+                           placeholder="Title"/>
                     <br/>
                     <br/>
-                    <TextArea rows={4} onChange={this.handleInputChange} placeholder="Note content"/>
+                    <TextArea rows={4}
+                              onChange={this.handleInputChange}
+                              value={this.state.content}
+                              allowClear={true}
+                              placeholder="Note content"/>
                 </Modal>
             </div>
         );
+    }
+
+    showResponsePopup(isLoading, isSuccess, hasErrors) {
+        const key = 'notecreate';
+        if (isLoading) {
+            message.loading({content: 'Loading...', key});
+        }
+        if (isSuccess) {
+            message.success({content: 'Loaded!', key, duration: 2});
+        }
+        if (hasErrors) {
+            message.error({content: 'Failure!', key, duration: 2});
+        }
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoNoteCreate: (newTitle, newContent) => dispatch(actionDoNoteCreate(newTitle, newContent))
+        actionDoNoteCreate: (newTitle, newContent) => dispatch(actionDoNoteCreate(newTitle, newContent)),
+        actionShowNoteCreateModal: () => dispatch(actionShowNoteCreateModal()),
+        actionShowNoteCreateHide: () => dispatch(actionShowNoteCreateHide())
     };
 };
 
