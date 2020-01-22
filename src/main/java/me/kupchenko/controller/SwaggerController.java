@@ -15,6 +15,6 @@ public class SwaggerController {
 
     @GetMapping("/")
     public String stdRedirect() {
-        return "forward:/index.html";
+        return "index";
     }
 }

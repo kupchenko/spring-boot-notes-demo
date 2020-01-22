@@ -26,6 +26,9 @@ dependencies {
     implementation 'mysql:mysql-connector-java'
     implementation 'org.hsqldb:hsqldb'
 
+    implementation 'jstl:jstl:1.2'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
     implementation 'org.mapstruct:mapstruct:1.2.0.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.2.0.Final'
 
