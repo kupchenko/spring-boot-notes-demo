@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import me.kupchenko.dto.CreateNoteDto;
 import me.kupchenko.dto.NoteDto;
 import me.kupchenko.service.NoteService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;

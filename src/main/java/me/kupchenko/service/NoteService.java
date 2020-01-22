@@ -2,8 +2,8 @@ package me.kupchenko.service;
 
 import me.kupchenko.dto.CreateNoteDto;
 import me.kupchenko.dto.NoteDto;
-import me.kupchenko.dto.NotesSearchDto;
 import me.kupchenko.dto.NotesResponseDto;
+import me.kupchenko.dto.NotesSearchDto;
 
 public interface NoteService {
     NoteDto getNote(Long id);
