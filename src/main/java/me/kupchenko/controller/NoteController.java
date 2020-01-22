@@ -39,11 +39,6 @@ public class NoteController {
     @PutMapping(value = "/{id:[0-9]+}", consumes = APPLICATION_JSON_VALUE)
     public NoteDto replaceNote(@PathVariable Long id, @RequestBody NoteDto noteDto) {
         log.info("Updating note: {}", noteDto);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return noteService.replaceNote(id, noteDto);
     }
 

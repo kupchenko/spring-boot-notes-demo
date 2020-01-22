@@ -45,11 +45,6 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public NoteDto createNote(CreateNoteDto noteDto) {
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-
-        }
         Note note = noteMapper.noteDtoToNote(noteDto);
         User user = userRepository.findById(noteDto.getUserId())
                 .orElseThrow(IllegalArgumentException::new);
