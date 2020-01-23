@@ -47,7 +47,7 @@ public class DatabaseConfig {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         return builder
                 .setType(EmbeddedDatabaseType.HSQL)
-                .addScript("classpath:db/stucture.sql")
+                .addScript("classpath:db/structure.sql")
                 .addScript("classpath:db/test-data.sql")
                 .build();
     }
