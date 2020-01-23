@@ -12,9 +12,4 @@ public class SwaggerController {
     public String swaggerForward() {
         return "redirect:" + SWAGGER_URL;
     }
-
-    @GetMapping("/")
-    public String stdRedirect() {
-        return "index";
-    }
 }

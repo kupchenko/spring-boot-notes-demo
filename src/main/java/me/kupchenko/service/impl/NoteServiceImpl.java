@@ -27,6 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import static me.kupchenko.util.Constant.DEFAULT_ROWS_NUMBER;
+import static me.kupchenko.util.Constant.DEFAULT_START_PAGE;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -120,6 +123,8 @@ public class NoteServiceImpl implements NoteService {
         ResponsePagination pagination = new ResponsePagination();
         Long count = countSupplier.get();
         pagination.setNumFound(count);
+        pagination.setPage(DEFAULT_START_PAGE);
+        pagination.setRows(DEFAULT_ROWS_NUMBER);
         return pagination;
     }
 
