@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {actionDoNoteFetchWithSelect} from "../../actions/selectNote";
+import {actionDoNoteFetchWithSelect} from "../../actions/note-select";
 import {connect} from "react-redux";
 
 class NotesListItem extends PureComponent {

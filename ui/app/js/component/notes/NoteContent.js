@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Button, Input, message, Spin} from "antd";
-import {actionDoNoteUpdate} from "../../actions/noteUpdate";
+import {Button, Input, Spin} from "antd";
+import {actionDoNoteUpdate} from "../../actions/note-update";
 
 class NoteContent extends React.Component {
 
@@ -18,26 +18,23 @@ class NoteContent extends React.Component {
     }
 
     handleInputChange(e) {
-        this.setState({...this.state, content: e.target.value});
+        this.setState({content: e.target.value});
     }
 
     handleTitleChange(e) {
-        this.setState({...this.state, title: e.target.value});
-        this.props.noteFetch.note = {
-            ...this.props.noteFetch.note,
-            title: e.target.value
-        }
+        this.setState({title: e.target.value});
+        // this.props.changeNoteFetch(e.target.value);
     }
 
     updateNote(id) {
         let newContent = (this.state.content) ? this.state.content : this.props.noteFetch.note.content;
         let newTitle = (this.state.title) ? this.state.title : this.props.noteFetch.note.title;
         this.props.actionDoNoteUpdate(id, newTitle, newContent);
-        this.setState({...this.state, editableTitle: false});
+        this.setState({editableTitle: false});
     };
 
     editTitle() {
-        this.setState({...this.state, editableTitle: true});
+        this.setState({editableTitle: true});
     };
 
     renderSpinner() {
@@ -50,9 +47,23 @@ class NoteContent extends React.Component {
         );
     }
 
+    getButtonSave(id) {
+        const {isUpdateInProgress} = this.props.noteFetch;
+        const onButtonSaveHandler = () => this.updateNote(id);
+        return (
+            <Button
+                type="primary"
+                loading={isUpdateInProgress}
+                onClick={onButtonSaveHandler}
+            >
+                Save
+            </Button>
+        );
+    }
+
     render() {
         const {TextArea} = Input;
-        let {note, isLoading, isUpdateInProgress, hasErrors} = this.props.noteFetch;
+        let {note, isLoading, hasErrors} = this.props.noteFetch;
 
         if (isLoading) {
             return this.renderSpinner();
@@ -67,6 +78,7 @@ class NoteContent extends React.Component {
             title = (<Input size="large" defaultValue={note.title} onChange={this.handleTitleChange}/>);
         }
 
+
         return (
             <div className="col-lg-10 jumbotron note-content-top-padding">
                 <div className="row">
@@ -76,10 +88,7 @@ class NoteContent extends React.Component {
                                 {title}
                             </div>
                             <div className="linediv">
-                                <Button type="primary" loading={isUpdateInProgress}
-                                        onClick={() => this.updateNote(note.id)}>
-                                    Save
-                                </Button>
+                                {this.getButtonSave(note.id)}
                             </div>
                         </div>
                         <hr className="my-4"/>

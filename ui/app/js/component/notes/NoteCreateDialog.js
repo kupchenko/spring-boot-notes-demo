@@ -1,6 +1,6 @@
-import {Button, Input, message, Modal} from 'antd';
+import {Button, Input, Modal} from 'antd';
 import React from "react";
-import {actionDoNoteCreate, actionShowNoteCreateHide, actionShowNoteCreateModal} from "../../actions/noteCreate";
+import {actionDoNoteCreate, actionShowNoteCreateHide, actionShowNoteCreateModal} from "../../actions/note-create";
 import {connect} from "react-redux";
 
 class NoteCreateDialog extends React.Component {
@@ -27,7 +27,7 @@ class NoteCreateDialog extends React.Component {
     };
 
     handleOk() {
-        let {title, content} = this.state;
+        const {title, content} = this.state;
         this.props.actionDoNoteCreate(title, content)
     };
 
@@ -40,11 +40,11 @@ class NoteCreateDialog extends React.Component {
     };
 
     handleInputChange(e) {
-        this.setState({...this.state, content: e.target.value});
+        this.setState({content: e.target.value});
     }
 
     handleTitleChange(e) {
-        this.setState({...this.state, title: e.target.value});
+        this.setState({title: e.target.value});
     }
 
     render() {

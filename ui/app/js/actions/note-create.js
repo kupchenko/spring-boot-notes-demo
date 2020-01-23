@@ -5,8 +5,8 @@ import {
     C_NOTE_CREATE_MODAL_SHOW,
     C_NOTE_CREATE_SUCCESS
 } from "../reducers/noteCreateReducer";
-import {actionNoteFetchSuccess} from "./selectNote";
-import {actionDoNotesSearch} from "./notesSearch";
+import {actionNoteFetchSuccess} from "./note-select";
+import {actionDoNotesSearch} from "./notes-search";
 
 export const actionNoteCreateInProgress = (bool) => ({
     type: C_NOTE_CREATE_IS_IN_PROGRESS,

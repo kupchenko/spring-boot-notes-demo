@@ -1,4 +1,4 @@
-import {actionNoteFetchFailure, actionNoteFetchSuccess} from "../actions/selectNote";
+import {actionNoteFetchFailure, actionNoteFetchSuccess} from "./note-select";
 import {C_NOTES_REFRESH_AFTER_UPDATE} from "../reducers/notesSearchReducer";
 import {
     C_NOTE_UPDATE_FAILURE,

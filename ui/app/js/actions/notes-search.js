@@ -8,7 +8,7 @@ import {
     actionNoteFetchFailure,
     actionNoteFetchIsLoading,
     actionNoteFetchSuccessEmpty
-} from "./selectNote";
+} from "./note-select";
 
 export const actionNotesSearchIsLoading = (bool) => ({
     type: C_NOTES_SEARCH_IS_LOADING,

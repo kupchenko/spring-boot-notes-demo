@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
 import NotesListPagination from "./NotesListPagination";
 import NotesListItem from "./NotesListItem";
-import {actionDoNotesSearch} from "../../actions/notesSearch";
+import {actionDoNotesSearch} from "../../actions/notes-search";
 import {connect} from 'react-redux';
-import {actionDoSaveNotesSearchQuery} from "../../actions/notesSearchQuery";
+import {actionDoSaveNotesSearchQuery} from "../../actions/notes-save-search-query";
 import {Spin} from 'antd';
 
 class NotesListContainer extends PureComponent {
@@ -26,7 +26,7 @@ class NotesListContainer extends PureComponent {
             content = (
                 <div>
                     {items}
-                    <NotesListPagination count={response.count}/>
+                    <NotesListPagination />
                 </div>
             )
         } else {

@@ -9,7 +9,7 @@ class NoteUpdatePopUp extends PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        this.showNoteUpdateResponsePopup(this.props.noteCreate);
+        this.showNoteUpdateResponsePopup(this.props.noteUpdate);
     }
 
     showNoteUpdateResponsePopup(noteUpdate) {
@@ -33,7 +33,7 @@ class NoteUpdatePopUp extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-    noteCreate: state.noteCreate
+    noteUpdate: state.noteUpdate
 });
 
 export default connect(mapStateToProps)(NoteUpdatePopUp);
