@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import NavBar from './common/nav-bar'
-import NotesPage from "./notes/NotesPage";
+import NotesPage from "./notes/notes-page";
 import {actionDoNotesSearch} from "../actions/notes-search";
 import PopUp from "./common/pop-up";
 

@@ -3,7 +3,7 @@ import React from "react";
 import {actionDoNoteCreate, actionShowNoteCreateHide, actionShowNoteCreateModal} from "../../actions/note-create";
 import {connect} from "react-redux";
 
-class NoteCreateDialog extends React.Component {
+class NoteCreateModal extends React.Component {
 
     constructor(props) {
         super(props);
@@ -93,4 +93,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(NoteCreateDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(NoteCreateModal);

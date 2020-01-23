@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import NoteCreateDialog from '../notes/NoteCreateDialog'
+import NoteCreateDialog from '../notes/note-create-modal'
 
 class NavBar extends PureComponent {
 

@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {actionDoNotesSearch} from "../../actions/notes-search";
 import {Pagination} from "antd";
 
-class NotesListPagination extends PureComponent {
+class NotesPagination extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -40,4 +40,4 @@ const mapStateToProps = (state) => ({
     notesSearchQuery: state.notesSearchQuery
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotesListPagination);
+export default connect(mapStateToProps, mapDispatchToProps)(NotesPagination);

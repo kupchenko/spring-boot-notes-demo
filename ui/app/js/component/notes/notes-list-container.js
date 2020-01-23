@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
-import NotesListPagination from "./NotesListPagination";
-import NotesListItem from "./NotesListItem";
+import NotesListPagination from "./notes-pagination";
+import NotesListItem from "./notes-list-item";
 import {actionDoNotesSearch} from "../../actions/notes-search";
 import {connect} from 'react-redux';
 import {actionDoSaveNotesSearchQuery} from "../../actions/notes-save-search-query";

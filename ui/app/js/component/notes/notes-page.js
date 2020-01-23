@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
-import NotesListContainer from "./NotesListContainer";
-import NoteContent from "./NoteContent";
+import NotesListContainer from "./notes-list-container";
+import NoteContent from "./note-content";
 
 class NotesPage extends PureComponent {
 
