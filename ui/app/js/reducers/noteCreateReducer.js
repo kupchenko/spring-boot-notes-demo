@@ -1,8 +1,10 @@
-export const C_NOTE_CREATE_IS_IN_PROGRESS = 'C_NOTE_CREATE_IS_IN_PROGRESS';
-export const C_NOTE_CREATE_SUCCESS = 'C_NOTE_CREATE_SUCCESS';
-export const C_NOTE_CREATE_FAILURE = 'C_NOTE_CREATE_FAILURE';
-export const C_NOTE_CREATE_MODAL_SHOW = 'C_NOTE_CREATE_MODAL_SHOW';
-export const C_NOTE_CREATE_MODAL_HIDE = 'C_NOTE_CREATE_MODAL_HIDE';
+import {
+    C_NOTE_CREATE_FAILURE,
+    C_NOTE_CREATE_IS_IN_PROGRESS,
+    C_NOTE_CREATE_MODAL_HIDE,
+    C_NOTE_CREATE_MODAL_SHOW,
+    C_NOTE_CREATE_SUCCESS
+} from "../actions/action-type";
 
 const noteCreateInitialState = {
     isLoading: false,

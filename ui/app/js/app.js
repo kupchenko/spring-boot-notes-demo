@@ -9,6 +9,7 @@ import Main from "./component/main";
 import 'antd/dist/antd.css';
 import '../css/bootstrap.css'
 import '../css/custom.min.css'
+
 const store = configureStore();
 
 ReactDOM.render(

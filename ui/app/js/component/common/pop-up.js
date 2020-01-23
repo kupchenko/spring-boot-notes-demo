@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
-import NoteCreatePopUp from "./notification/NoteCreatePopUp";
-import NoteUpdatePopUp from "./notification/NoteUpdatePopUp";
+import NoteCreatePopUp from "./notification/pop-up-note-create";
+import NoteUpdatePopUp from "./notification/pop-up-note-update";
 
 class PopUp extends PureComponent {
 

@@ -2,7 +2,7 @@ import {
     C_NOTES_SEARCH_IS_LOADING,
     C_NOTES_SEARCH_LOAD_FAILURE,
     C_NOTES_SEARCH_LOAD_SUCCESS
-} from "../reducers/notesSearchReducer";
+} from "./action-type";
 import {
     actionDoNoteFetch,
     actionNoteFetchFailure,

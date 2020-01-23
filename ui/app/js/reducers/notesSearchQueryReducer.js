@@ -1,4 +1,4 @@
-export const C_NOTES_SEARCH_QUERY = 'C_NOTES_SEARCH_QUERY'
+import {C_NOTES_SEARCH_QUERY} from "../actions/action-type";
 
 const notesSearchQueryInitialState = {
     query: ''

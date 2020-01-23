@@ -1,10 +1,10 @@
 import {actionNoteFetchFailure, actionNoteFetchSuccess} from "./note-select";
-import {C_NOTES_REFRESH_AFTER_UPDATE} from "../reducers/notesSearchReducer";
+
 import {
     C_NOTE_UPDATE_FAILURE,
     C_NOTE_UPDATE_SUCCESS,
     C_NOTE_UPDATE_IS_IN_PROGRESS
-} from "../reducers/noteUpdateReducer";
+} from "./action-type";
 
 export const actionNoteUpdateInProgress = (bool) => ({
     type: C_NOTE_UPDATE_IS_IN_PROGRESS,

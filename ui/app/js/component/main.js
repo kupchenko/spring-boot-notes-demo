@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
-import NavBar from './common/NavBar'
+import NavBar from './common/nav-bar'
 import NotesPage from "./notes/NotesPage";
 import {actionDoNotesSearch} from "../actions/notes-search";
-import PopUp from "./common/PopUp";
+import PopUp from "./common/pop-up";
 
 const Aux = props => props.children;
 

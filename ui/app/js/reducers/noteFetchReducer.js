@@ -1,9 +1,10 @@
-import {C_NOTE_UPDATE_IS_IN_PROGRESS} from "./noteUpdateReducer";
-
-export const C_NOTE_FETCH_IS_LOADING = 'C_NOTE_FETCH_IS_LOADING';
-export const C_NOTE_FETCH_LOAD_SUCCESS = 'C_NOTE_FETCH_LOAD_SUCCESS';
-export const C_NOTE_FETCH_LOAD_FAILURE = 'C_NOTE_FETCH_LOAD_FAILURE';
-export const C_NOTE_FETCH_LOAD_SUCCESS_EMPTY = 'C_NOTE_FETCH_LOAD_SUCCESS_EMPTY';
+import {
+    C_NOTE_FETCH_IS_LOADING,
+    C_NOTE_FETCH_LOAD_FAILURE,
+    C_NOTE_FETCH_LOAD_SUCCESS,
+    C_NOTE_FETCH_LOAD_SUCCESS_EMPTY,
+    C_NOTE_UPDATE_IS_IN_PROGRESS
+} from "../actions/action-type";
 
 const noteFetchInitialState = {
     isLoading: false,

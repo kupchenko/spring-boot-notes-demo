@@ -65,14 +65,14 @@ class NoteCreateDialog extends React.Component {
                 >
                     <Input onChange={this.handleTitleChange}
                            value={this.state.title}
-                           allowClear={true}
+                           allowClear
                            placeholder="Title"/>
                     <br/>
                     <br/>
                     <TextArea rows={4}
                               onChange={this.handleInputChange}
                               value={this.state.content}
-                              allowClear={true}
+                              allowClear
                               placeholder="Note content"/>
                 </Modal>
             </div>

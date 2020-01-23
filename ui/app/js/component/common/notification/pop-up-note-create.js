@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
 import {message} from "antd";
 
-class NoteCreatePopUp extends PureComponent {
+class PopUpNoteCreate extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -36,4 +36,4 @@ const mapStateToProps = (state) => ({
     noteCreate: state.noteCreate
 });
 
-export default connect(mapStateToProps)(NoteCreatePopUp);
+export default connect(mapStateToProps)(PopUpNoteCreate);

@@ -3,7 +3,7 @@ import {
     C_NOTE_FETCH_LOAD_FAILURE,
     C_NOTE_FETCH_LOAD_SUCCESS,
     C_NOTE_FETCH_LOAD_SUCCESS_EMPTY
-} from "../reducers/noteFetchReducer";
+} from "./action-type";
 import {C_NOTE_SELECT} from "../reducers/notesSearchReducer";
 
 export const actionNoteFetchIsLoading = (bool) => ({

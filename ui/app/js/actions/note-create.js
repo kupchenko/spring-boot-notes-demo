@@ -4,7 +4,7 @@ import {
     C_NOTE_CREATE_MODAL_HIDE,
     C_NOTE_CREATE_MODAL_SHOW,
     C_NOTE_CREATE_SUCCESS
-} from "../reducers/noteCreateReducer";
+} from "./action-type";
 import {actionNoteFetchSuccess} from "./note-select";
 import {actionDoNotesSearch} from "./notes-search";
 

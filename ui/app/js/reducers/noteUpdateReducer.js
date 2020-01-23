@@ -1,6 +1,8 @@
-export const C_NOTE_UPDATE_SUCCESS = 'C_NOTE_UPDATE_SUCCESS';
-export const C_NOTE_UPDATE_FAILURE = 'C_NOTE_UPDATE_FAILURE';
-export const C_NOTE_UPDATE_IS_IN_PROGRESS = 'C_NOTE_UPDATE_IS_IN_PROGRESS';
+import {
+    C_NOTE_UPDATE_FAILURE,
+    C_NOTE_UPDATE_IS_IN_PROGRESS,
+    C_NOTE_UPDATE_SUCCESS
+} from "../actions/action-type";
 
 const noteUpdateInitialState = {
     isLoading: false,
