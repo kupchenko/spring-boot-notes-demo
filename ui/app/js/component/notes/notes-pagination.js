@@ -11,16 +11,17 @@ class NotesPagination extends PureComponent {
 
     handlePageChange(page) {
         let notesSearchQuery = this.props.notesSearchQuery.query;
-        this.props.actionDoNotesSearch(notesSearchQuery, page)
+        let pageIndex = page - 1;
+        this.props.actionDoNotesSearch(notesSearchQuery, pageIndex)
     }
 
     render() {
-        let response = this.props.notesSearch.response;
-        let {numFound, page, rows} = response.pagination;
+        let {numFound, page, rows} = this.props.notesSearch.response.pagination;
         const onButtonChangePageHandler = (page) => this.handlePageChange(page);
+        let pageIndex = page + 1;
         return (
             <Pagination
-                defaultCurrent={page}
+                defaultCurrent={pageIndex}
                 total={numFound}
                 pageSize={rows}
                 onChange={onButtonChangePageHandler}
