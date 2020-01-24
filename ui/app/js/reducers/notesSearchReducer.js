@@ -19,15 +19,34 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
     switch (action.type) {
 
         case C_NOTES_SEARCH_IS_LOADING:
-            return {...state, isLoading: action.isLoading, hasErrors: false};
+            return {
+                ...state,
+                isLoading: action.isLoading,
+                hasErrors: false,
+                query: action.searchQuery
+            };
 
         case C_NOTES_SEARCH_LOAD_SUCCESS: {
             let newResponse = selectNoteByIndex(action.response, 0);
-            return {...state, isSuccess: true, isLoading: false, hasErrors: false, response: newResponse};
+            return {
+                ...state,
+                isSuccess: true,
+                isLoading: false,
+                hasErrors: false,
+                response: newResponse,
+                query: action.searchQuery
+            };
         }
 
         case C_NOTES_SEARCH_LOAD_FAILURE: {
-            return {...state, isSuccess: false, isLoading: false, hasErrors: true, errors: action.errors};
+            return {
+                ...state,
+                isSuccess: false,
+                isLoading: false,
+                hasErrors: true,
+                errors: action.errors,
+                query: action.searchQuery
+            };
         }
 
         case C_NOTES_REFRESH_AFTER_UPDATE: {

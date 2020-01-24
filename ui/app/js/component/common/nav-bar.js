@@ -1,11 +1,18 @@
 import React, {PureComponent} from 'react';
-import NoteCreateDialog from '../notes/note-create-modal'
+import {Button} from "antd";
+import {actionShowNoteCreateModal} from "../../actions/note-create";
+import {connect} from "react-redux";
 
 class NavBar extends PureComponent {
 
     constructor(props) {
         super(props);
+        this.showModal = this.showModal.bind(this);
     }
+
+    showModal() {
+        this.props.actionShowNoteCreateModal();
+    };
 
     render() {
         return (
@@ -15,7 +22,9 @@ class NavBar extends PureComponent {
                         <a href="../" className="navbar-brand">Notes</a>
                     </div>
                     <div className="navbar-size linediv">
-                        <NoteCreateDialog/>
+                        <Button type="primary" onClick={this.showModal}>
+                            Create note
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -23,4 +32,10 @@ class NavBar extends PureComponent {
     }
 }
 
-export default NavBar;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actionShowNoteCreateModal: () => dispatch(actionShowNoteCreateModal())
+    };
+};
+
+export default connect(null, mapDispatchToProps)(NavBar);

@@ -4,6 +4,7 @@ import NavBar from './common/nav-bar'
 import NotesPage from "./notes/notes-page";
 import {actionDoNotesSearch} from "../actions/notes-search";
 import PopUp from "./common/pop-up";
+import NoteCreateModal from "./notes/note-create-modal";
 
 const Aux = props => props.children;
 
@@ -19,6 +20,7 @@ class Main extends PureComponent {
                 <PopUp/>
                 <NavBar/>
                 <NotesPage/>
+                <NoteCreateModal/>
             </Aux>
         )
     }

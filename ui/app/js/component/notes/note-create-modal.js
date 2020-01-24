@@ -12,19 +12,10 @@ class NoteCreateModal extends React.Component {
             title: ''
         };
         this.handleOk = this.handleOk.bind(this);
-        this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
     }
-
-    showModal() {
-        this.setState({
-            title: '',
-            content: ''
-        });
-        this.props.actionShowNoteCreateModal();
-    };
 
     handleOk() {
         const {title, content} = this.state;
@@ -33,10 +24,6 @@ class NoteCreateModal extends React.Component {
 
     hideModal() {
         this.props.actionShowNoteCreateHide();
-        this.setState({
-            title: '',
-            content: ''
-        });
     };
 
     handleInputChange(e) {
@@ -52,30 +39,25 @@ class NoteCreateModal extends React.Component {
         const {isLoading, modalVisible} = this.props.noteCreate;
 
         return (
-            <div>
-                <Button type="primary" onClick={this.showModal}>
-                    Create note
-                </Button>
-                <Modal
-                    title="Creating new note"
-                    visible={modalVisible}
-                    onOk={this.handleOk}
-                    confirmLoading={isLoading}
-                    onCancel={this.hideModal}
-                >
-                    <Input onChange={this.handleTitleChange}
-                           value={this.state.title}
-                           allowClear
-                           placeholder="Title"/>
-                    <br/>
-                    <br/>
-                    <TextArea rows={4}
-                              onChange={this.handleInputChange}
-                              value={this.state.content}
-                              allowClear
-                              placeholder="Note content"/>
-                </Modal>
-            </div>
+            <Modal
+                title="Creating new note"
+                visible={modalVisible}
+                onOk={this.handleOk}
+                confirmLoading={isLoading}
+                onCancel={this.hideModal}
+            >
+                <Input onChange={this.handleTitleChange}
+                       value={this.state.title}
+                       allowClear
+                       placeholder="Title"/>
+                <br/>
+                <br/>
+                <TextArea rows={4}
+                          onChange={this.handleInputChange}
+                          value={this.state.content}
+                          allowClear
+                          placeholder="Note content"/>
+            </Modal>
         );
     }
 }

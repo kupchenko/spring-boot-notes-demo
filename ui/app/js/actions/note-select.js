@@ -2,9 +2,9 @@ import {
     C_NOTE_FETCH_IS_LOADING,
     C_NOTE_FETCH_LOAD_FAILURE,
     C_NOTE_FETCH_LOAD_SUCCESS,
-    C_NOTE_FETCH_LOAD_SUCCESS_EMPTY
+    C_NOTE_FETCH_LOAD_SUCCESS_EMPTY,
+    C_NOTE_SELECT
 } from "./action-type";
-import {C_NOTE_SELECT} from "../reducers/notesSearchReducer";
 
 export const actionNoteFetchIsLoading = (bool) => ({
     type: C_NOTE_FETCH_IS_LOADING,

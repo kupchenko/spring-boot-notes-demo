@@ -10,14 +10,16 @@ import {
     actionNoteFetchSuccessEmpty
 } from "./note-select";
 
-export const actionNotesSearchIsLoading = (bool) => ({
+export const actionNotesSearchIsLoading = (bool, searchQuery) => ({
     type: C_NOTES_SEARCH_IS_LOADING,
-    isLoading: bool
+    isLoading: bool,
+    searchQuery
 });
 
-export const actionNotesSearchSuccess = (response) => ({
+export const actionNotesSearchSuccess = (response, searchQuery) => ({
     type: C_NOTES_SEARCH_LOAD_SUCCESS,
-    response
+    response,
+    searchQuery
 });
 
 export const actionNotesSearchFailure = (errors) => ({
@@ -25,10 +27,10 @@ export const actionNotesSearchFailure = (errors) => ({
     errors
 });
 
-export const actionDoNotesSearch = (content = '', page = 0, rows = 10) => {
+export const actionDoNotesSearch = (searchQuery = '', page = 0, rows = 10) => {
 
     return (dispatch) => {
-        dispatch(actionNotesSearchIsLoading(true));
+        dispatch(actionNotesSearchIsLoading(true, searchQuery));
         dispatch(actionNoteFetchIsLoading(true));
 
         const options = {
@@ -37,7 +39,7 @@ export const actionDoNotesSearch = (content = '', page = 0, rows = 10) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'text': content,
+                'text': searchQuery,
                 'page': page,
                 'rows': rows
             })
@@ -46,7 +48,7 @@ export const actionDoNotesSearch = (content = '', page = 0, rows = 10) => {
         fetch('http://localhost:8080' + '/notes/user/0/search', options)
             .then(handleErrors)
             .then((json) => {
-                dispatch(actionNotesSearchSuccess(json));
+                dispatch(actionNotesSearchSuccess(json, searchQuery));
 
                 if (json.notes.length) {
                     let id = json.notes[0].id;

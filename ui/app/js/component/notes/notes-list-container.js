@@ -3,8 +3,7 @@ import NotesListPagination from "./notes-pagination";
 import NotesListItem from "./notes-list-item";
 import {actionDoNotesSearch} from "../../actions/notes-search";
 import {connect} from 'react-redux';
-import {actionDoSaveNotesSearchQuery} from "../../actions/notes-save-search-query";
-import {Spin} from 'antd';
+import Spinner from "../common/spinner";
 
 class NotesListContainer extends PureComponent {
 
@@ -12,23 +11,22 @@ class NotesListContainer extends PureComponent {
         super(props);
     }
 
-    submitRequest(text) {
+    searchNotes(e) {
+        const text = e.target.value;
         this.props.actionDoNotesSearch(text);
-        this.props.actionDoSaveNotesSearchQuery(text);
     }
 
     buildListContent(response) {
         let content;
         if (response.notes.length) {
-            let items = response.notes.map(row => {
-                return <NotesListItem key={row.id} note={row}/>
+            content = response.notes.map(row => {
+                return (
+                    <NotesListItem
+                        key={row.id}
+                        note={row}
+                    />
+                )
             });
-            content = (
-                <div>
-                    {items}
-                    <NotesListPagination />
-                </div>
-            )
         } else {
             content = (
                 <p>Nothing found!</p>
@@ -37,26 +35,21 @@ class NotesListContainer extends PureComponent {
         return content;
     }
 
-    renderSpinner() {
-        return (
-            <div className="spinner">
-                <Spin size="large"/>
-            </div>
-        );
-    }
-
     render() {
         let {response, isLoading, hasErrors} = this.props.notesSearch;
         let content = 'Error fetching records...';
         if (!hasErrors) {
-            content = (isLoading) ? this.renderSpinner() : this.buildListContent(response);
+            content = (isLoading) ? <Spinner/> : this.buildListContent(response);
         }
         return (
             <div className="col-lg-4 list-item">
-                <input className="form-control mr-sm-2 search-input" type="text"
-                       placeholder="Search" onChange={(e) => this.submitRequest(e.target.value)}/>
-
+                <input className="form-control mr-sm-2 search-input"
+                       type="text"
+                       placeholder="Search"
+                       onChange={this.searchNotes}
+                />
                 {content}
+                {(response) ? <NotesListPagination pagination={response.pagination}/> : ''}
             </div>
         )
     }
@@ -64,8 +57,7 @@ class NotesListContainer extends PureComponent {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoNotesSearch: (e) => dispatch(actionDoNotesSearch(e)),
-        actionDoSaveNotesSearchQuery: (e) => dispatch(actionDoSaveNotesSearchQuery(e))
+        actionDoNotesSearch: (e) => dispatch(actionDoNotesSearch(e)) // put search query here
     };
 };
 
