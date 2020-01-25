@@ -10,11 +10,6 @@ class NoteContent extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            title: '',
-            content: '',
-            editableTitle: false
-        };
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 

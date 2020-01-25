@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Button, Input, Spin} from "antd";
+import {Button} from "antd";
 import {actionDoNoteUpdate} from "../../actions/note-update";
 
 class NoteContentSaveBtn extends React.Component {
@@ -12,12 +12,12 @@ class NoteContentSaveBtn extends React.Component {
 
     updateNote(id, newTitle, newContent) {
         this.props.actionDoNoteUpdate(id, newTitle, newContent);
-        this.setState({editableTitle: false});
     };
 
     render() {
-        const {id, newTitle, newContent, isUpdateInProgress} = this.props;
-        const onButtonSaveHandler = () => this.updateNote(id, newTitle, newContent);
+        const {id, isUpdateInProgress} = this.props;
+        const {title, content} = this.props.newNoteValues;
+        const onButtonSaveHandler = () => this.updateNote(id, title, content);
         return (
             <Button
                 type="primary"

@@ -15,13 +15,11 @@ class NoteContentHeader extends React.Component {
                 <div className="linediv">
                     <NoteContentTitle
                         title={title}
-                        isUpdateInProgress={isUpdateInProgress}
                     />
                 </div>
                 <div className="linediv">
                     <NoteContentSaveBtn
                         id={id}
-                        isUpdateInProgress={isUpdateInProgress}
                     />
                 </div>
             </div>

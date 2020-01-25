@@ -7,6 +7,11 @@ class NoteContentTitle extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            editableTitle: false
+        };
+        this.editTitle = this.editTitle.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this);
     }
 
     handleTitleChange(e) {
@@ -18,7 +23,8 @@ class NoteContentTitle extends React.Component {
     };
 
     render() {
-        let {title, editableTitle} = this.props;
+        let {title} = this.props;
+        let {editableTitle} = this.state;
         let titleContent = (
             <h1 onClick={this.editTitle}>{title}</h1>
         );
