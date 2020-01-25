@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Input, Spin} from "antd";
+import {Input} from "antd";
 import {actionDoNoteUpdate} from "../../actions/note-update";
 import NoteContentHeader from "./note-content-header";
 import Spinner from "../common/spinner";

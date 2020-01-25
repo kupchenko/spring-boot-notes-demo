@@ -1,4 +1,4 @@
-import {Button, Input, Modal} from 'antd';
+import {Input, Modal} from 'antd';
 import React from "react";
 import {actionDoNoteCreate, actionShowNoteCreateHide, actionShowNoteCreateModal} from "../../actions/note-create";
 import {connect} from "react-redux";
