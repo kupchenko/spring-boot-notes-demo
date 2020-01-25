@@ -13,7 +13,7 @@ public class DelayInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        WebUtils.waitSeconds(1);
+//        WebUtils.waitSeconds(1);
         return true;
     }
 
