@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
@@ -27,7 +29,7 @@ public class NotesController {
     }
 
     @PostMapping(value = "/user/{id:[0-9]+}/search", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
-    public NotesResponseDto searchUserNotes(@PathVariable Long id, @RequestBody NotesSearchDto searchDto) {
+    public NotesResponseDto searchUserNotes(@PathVariable Long id, @Valid @RequestBody NotesSearchDto searchDto) {
         log.info("Searching notes by search criteria: {}", searchDto);
         return noteService.searchUserNotes(id, searchDto);
     }
