@@ -9,11 +9,11 @@ class NotesListContainer extends PureComponent {
 
     constructor(props) {
         super(props);
+        this.searchNotes = this.searchNotes.bind(this);
     }
 
     searchNotes(e) {
-        const text = e.target.value;
-        this.props.actionDoNotesSearch(text);
+        this.props.actionDoNotesSearch(e.target.value);
     }
 
     buildListContent(response) {
@@ -41,6 +41,7 @@ class NotesListContainer extends PureComponent {
         if (!hasErrors) {
             content = (isLoading) ? <Spinner/> : this.buildListContent(response);
         }
+        const pagination = (response) ? <NotesListPagination pagination={response.pagination}/> : '';
         return (
             <div className="col-lg-4 list-item">
                 <input className="form-control mr-sm-2 search-input"
@@ -49,7 +50,7 @@ class NotesListContainer extends PureComponent {
                        onChange={this.searchNotes}
                 />
                 {content}
-                {(response) ? <NotesListPagination pagination={response.pagination}/> : ''}
+                {pagination}
             </div>
         )
     }
@@ -57,7 +58,7 @@ class NotesListContainer extends PureComponent {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoNotesSearch: (e) => dispatch(actionDoNotesSearch(e)) // put search query here
+        actionDoNotesSearch: (e) => dispatch(actionDoNotesSearch(e))
     };
 };
 

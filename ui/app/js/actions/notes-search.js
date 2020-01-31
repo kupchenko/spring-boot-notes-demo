@@ -4,7 +4,7 @@ import {
     C_NOTES_SEARCH_LOAD_SUCCESS
 } from "./action-type";
 import {
-    actionDoNoteFetch,
+    actionDoNoteFetchWithSelect,
     actionNoteFetchFailure,
     actionNoteFetchIsLoading,
     actionNoteFetchSuccessEmpty
@@ -52,7 +52,7 @@ export const actionDoNotesSearch = (searchQuery = '', page = 0, rows = 10) => {
 
                 if (json.notes.length) {
                     let id = json.notes[0].id;
-                    dispatch(actionDoNoteFetch(id));
+                    dispatch(actionDoNoteFetchWithSelect(id));
                 } else {
                     dispatch(actionNoteFetchSuccessEmpty());
                 }

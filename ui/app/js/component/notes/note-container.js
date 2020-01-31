@@ -1,23 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Input} from "antd";
-import NoteContentHeader from "./note-content-header";
+import NoteContainerHeader from "./note-container-header";
 import Spinner from "../common/spinner";
 import {actionDoUpdateNoteContent} from "../../actions/note-new-values";
+import NoteContainerContent from "./note-container-content";
 
-class NoteContent extends React.Component {
+class NoteContainer extends React.Component {
 
     constructor(props) {
         super(props);
-        this.handleInputChange = this.handleInputChange.bind(this);
-    }
-
-    handleInputChange(e) {
-        this.props.actionDoUpdateNoteContent(e.target.value)
     }
 
     render() {
-        const {TextArea} = Input;
         let {note, isLoading, hasErrors} = this.props.noteFetch;
 
         if (isLoading) {
@@ -32,21 +27,13 @@ class NoteContent extends React.Component {
             return (<div className="col-lg-10"/>)
         }
 
-        let {id, title, content} = this.props.noteFetch.note;
-
         return (
             <div className="col-lg-10 jumbotron note-content-top-padding">
                 <div className="row">
                     <div className="col-lg-12">
-                        <NoteContentHeader id={id} title={title}/>
+                        <NoteContainerHeader/>
                         <hr className="my-4"/>
-                        <div className="textarea">
-                            <TextArea
-                                rows={31}
-                                defaultValue={content}
-                                onChange={this.handleInputChange}
-                            />
-                        </div>
+                        <NoteContainerContent/>
                     </div>
                 </div>
             </div>
@@ -54,14 +41,8 @@ class NoteContent extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        actionDoUpdateNoteContent: (content) => dispatch(actionDoUpdateNoteContent(content))
-    };
-};
-
 const mapStateToProps = (state) => ({
     noteFetch: state.noteFetch
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NoteContent);
+export default connect(mapStateToProps)(NoteContainer);

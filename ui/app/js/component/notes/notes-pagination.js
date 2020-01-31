@@ -10,7 +10,7 @@ class NotesPagination extends PureComponent {
     }
 
     handlePageChange(page) {
-        let {query} = this.props;
+        let {query} = this.props.notesSearch;
         let pageIndex = page - 1;
         this.props.actionDoNotesSearch(query, pageIndex)
     }
@@ -39,4 +39,8 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(NotesPagination);
+const mapStateToProps = (state) => ({
+    notesSearch: state.notesSearch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotesPagination);

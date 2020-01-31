@@ -2,11 +2,15 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Input} from "antd";
 import {actionDoUpdateNoteTitle} from "../../actions/note-new-values";
+import {isEqual} from "lodash";
 
-class NoteContentTitle extends React.Component {
+class NoteContainerTitle extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            editableTitle: false
+        };
         this.editTitle = this.editTitle.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
     }
@@ -16,10 +20,19 @@ class NoteContentTitle extends React.Component {
     }
 
     editTitle() {
+        this.setState({
+            editableTitle: true
+        });
     };
 
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return isEqual(nextProps.newNoteValues, this.props.newNoteValues);
+    }
+
     render() {
-        let {title, editableTitle} = this.props;
+        console.log("Title rerender");
+        let {title} = this.props.noteFetch.note;
+        let {editableTitle} = this.state;
         let titleContent = (
             <h1 onClick={this.editTitle}>{title}</h1>
         );
@@ -44,7 +57,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => ({
-    newNoteValues: state.newNoteValues
+    newNoteValues: state.newNoteValues,
+    noteFetch: state.noteFetch
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NoteContentTitle);
+export default connect(mapStateToProps, mapDispatchToProps)(NoteContainerTitle);
