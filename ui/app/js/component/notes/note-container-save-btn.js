@@ -16,7 +16,7 @@ class NoteContainerSaveBtn extends React.Component {
     };
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return isEqual(nextProps.newNoteValues, this.props.newNoteValues);
+        return isEqual(nextProps.noteEditing, this.props.noteEditing);
     }
 
     calculateNewNoteValues(fetchedNote, editedValues) {
@@ -28,8 +28,9 @@ class NoteContainerSaveBtn extends React.Component {
 
     render() {
         console.log("Btn rerender");
-        const {id, isUpdateInProgress} = this.props;
-        const {title, content} = this.calculateNewNoteValues(this.props.noteFetch.note, this.props.newNoteValues);
+        const {id} = this.props.noteFetch.note;
+        const {isUpdateInProgress} = this.props.noteUpdate;
+        const {title, content} = this.calculateNewNoteValues(this.props.noteFetch.note, this.props.noteEditing);
         const onButtonSaveHandler = () => this.updateNote(id, title, content);
         return (
             <Button
@@ -50,8 +51,9 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => ({
-    newNoteValues: state.newNoteValues,
-    noteFetch: state.noteFetch
+    noteEditing: state.noteEditing,
+    noteFetch: state.noteFetch,
+    noteUpdate: state.noteUpdate
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteContainerSaveBtn);

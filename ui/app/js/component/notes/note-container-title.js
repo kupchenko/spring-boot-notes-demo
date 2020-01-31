@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Input} from "antd";
-import {actionDoUpdateNoteTitle} from "../../actions/note-new-values";
+import {actionDoUpdateNoteTitle} from "../../actions/note-editing";
 import {isEqual} from "lodash";
 
 class NoteContainerTitle extends React.Component {
@@ -26,7 +26,7 @@ class NoteContainerTitle extends React.Component {
     };
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return isEqual(nextProps.newNoteValues, this.props.newNoteValues);
+        return isEqual(nextProps.noteEditing, this.props.noteEditing);
     }
 
     render() {
@@ -57,7 +57,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => ({
-    newNoteValues: state.newNoteValues,
+    noteEditing: state.noteEditing,
     noteFetch: state.noteFetch
 });
 

@@ -1,6 +1,6 @@
 import {
     C_NOTE_NEW_VALUE_TITLE,
-    C_NOTE_NEW_VALUE_CONTENT
+    C_NOTE_NEW_VALUE_CONTENT, C_NOTE_NEW_VALUES_RESTORE
 } from "./action-type";
 
 export const actionSetTitle = (title) => ({
@@ -11,6 +11,9 @@ export const actionSetTitle = (title) => ({
 export const actionSetContent = (content) => ({
     type: C_NOTE_NEW_VALUE_CONTENT,
     content
+});
+export const actionRestoreNewValues = () => ({
+    type: C_NOTE_NEW_VALUES_RESTORE
 });
 
 export const actionDoUpdateNoteTitle = (newTitle) => {

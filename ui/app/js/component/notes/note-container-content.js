@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Input} from "antd";
 import NoteContainerHeader from "./note-container-header";
 import Spinner from "../common/spinner";
-import {actionDoUpdateNoteContent} from "../../actions/note-new-values";
+import {actionDoUpdateNoteContent} from "../../actions/note-editing";
 
 class NoteContainerContent extends React.Component {
 
