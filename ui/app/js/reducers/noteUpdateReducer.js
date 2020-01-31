@@ -9,7 +9,7 @@ const noteUpdateInitialState = {
     isUpdateInProgress: false,
     hasErrors: false,
     isSuccess: false,
-    errors: null,
+    errors: null
 };
 
 export const noteUpdateReducer = (state = noteUpdateInitialState, action) => {

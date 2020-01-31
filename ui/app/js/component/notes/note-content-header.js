@@ -9,7 +9,7 @@ class NoteContentHeader extends React.Component {
     }
 
     render() {
-        let {id, title, isUpdateInProgress} = this.props;
+        let {id, title} = this.props;
         return (
             <div className="page-header lead note-header-container">
                 <div className="linediv">

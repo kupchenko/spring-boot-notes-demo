@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Input} from "antd";
-import {actionDoNoteUpdate} from "../../actions/note-update";
 import NoteContentHeader from "./note-content-header";
 import Spinner from "../common/spinner";
 import {actionDoUpdateNoteContent} from "../../actions/note-new-values";
@@ -57,8 +56,7 @@ class NoteContent extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoUpdateNoteContent: (content) => dispatch(actionDoUpdateNoteContent(content)),
-        actionDoNoteUpdate: (id, newTitle, newContent) => dispatch(actionDoNoteUpdate(id, newTitle, newContent))
+        actionDoUpdateNoteContent: (content) => dispatch(actionDoUpdateNoteContent(content))
     };
 };
 
