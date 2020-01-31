@@ -1,19 +1,31 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {actionDoNoteFetchWithSelect} from "../../actions/note-select";
 import {connect} from "react-redux";
 
-class NotesListItem extends PureComponent {
+class NotesListItem extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            note: {},
-        }
     }
 
     submitRequest(id) {
         this.props.actionDoNoteFetchWithSelect(id)
     }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if (this.props.note.id === this.props.selectedNote.id
+            && this.props.note.id !== nextProps.selectedNote.id) { // If this was selected before (deselect item)
+            return true;
+        }
+
+        if (this.props.note.id !== this.props.selectedNote.id
+            && this.props.note.id === nextProps.selectedNote.id) { // If this wasn't selected before (selecting item)
+            return true;
+        }
+
+        return false;
+    }
+
 
     renderListItem(note, selected) {
         const listItemContent = (
@@ -32,7 +44,8 @@ class NotesListItem extends PureComponent {
 
     render() {
         const note = this.props.note;
-        const selected = note.selected;
+        console.log("RERENDER " + note.id);
+        const selected = this.props.note.id === this.props.selectedNote.id;
         return this.renderListItem(note, selected);
     }
 }
@@ -43,4 +56,8 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(NotesListItem);
+const mapStateToProps = (state) => ({
+    selectedNote: state.selectedNote
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotesListItem);

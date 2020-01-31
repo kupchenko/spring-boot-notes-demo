@@ -1,5 +1,4 @@
 import {
-    C_NOTE_SELECT,
     C_NOTES_REFRESH_AFTER_UPDATE,
     C_NOTES_SEARCH_IS_LOADING,
     C_NOTES_SEARCH_LOAD_FAILURE,
@@ -27,13 +26,12 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
             };
 
         case C_NOTES_SEARCH_LOAD_SUCCESS: {
-            let newResponse = selectNoteByIndex(action.response, 0);
             return {
                 ...state,
                 isSuccess: true,
                 isLoading: false,
                 hasErrors: false,
-                response: newResponse,
+                response: action.response,
                 query: action.searchQuery
             };
         }
@@ -52,14 +50,13 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
         case C_NOTES_REFRESH_AFTER_UPDATE: {
             let note = action.note;
             let newResponse = refreshUpdatedNote(state.response, note);
-            return {...state, isSuccess: false, isLoading: false, hasErrors: false, response: newResponse};
-        }
-
-        case C_NOTE_SELECT: {
-            let id = action.id;
-            let notesData = state.response;
-            let newResponse = selectNoteById(notesData, id);
-            return {...state, isSuccess: true, isLoading: false, hasErrors: false, response: newResponse};
+            return {
+                ...state,
+                isSuccess: false,
+                isLoading: false,
+                hasErrors: false,
+                response: newResponse
+            };
         }
 
         default:
@@ -76,43 +73,14 @@ function refreshUpdatedNote(response, newNote) {
         if (note.id === newNote.id) {
             return {
                 ...noteWithShortenContent,
-                selected: true
             }
         }
         return {
-            ...note,
-            selected: false
+            ...note
         }
     });
     return {
-        notes: notes,
-        pagination: response.pagination
+        ...response,
+        notes: notes
     };
-}
-
-function selectNoteById(notesData, id) {
-    let notes = notesData.notes.map((note) => {
-        if (note.id === id) {
-            return {
-                ...note,
-                selected: true
-            }
-        }
-        return {
-            ...note,
-            selected: false
-        }
-    });
-    return {
-        notes: notes,
-        pagination: notesData.pagination
-    };
-}
-
-function selectNoteByIndex(notesData) {
-    if (!notesData || !notesData.notes.length) {
-        return notesData;
-    }
-    let id = notesData.notes[0].id;
-    return selectNoteById(notesData, id)
 }

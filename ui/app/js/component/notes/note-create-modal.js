@@ -23,6 +23,10 @@ class NoteCreateModal extends React.Component {
     };
 
     hideModal() {
+        this.setState({
+            content: '',
+            title: ''
+        });
         this.props.actionShowNoteCreateHide();
     };
 
@@ -45,6 +49,7 @@ class NoteCreateModal extends React.Component {
                 onOk={this.handleOk}
                 confirmLoading={isLoading}
                 onCancel={this.hideModal}
+                destroyOnClose
             >
                 <Input onChange={this.handleTitleChange}
                        value={this.state.title}
@@ -71,8 +76,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => ({
-    noteCreate: state.noteCreate
+    noteCreate: state.noteCreate,
+    showModal: state.showModal || false
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteCreateModal);
