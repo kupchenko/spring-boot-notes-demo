@@ -11,8 +11,10 @@ class NoteContainerSaveBtn extends React.Component {
         this.updateNote = this.updateNote.bind(this);
     }
 
-    updateNote(id, newTitle, newContent) {
-        this.props.actionDoNoteUpdate(id, newTitle, newContent);
+    updateNote() {
+        const {id} = this.props.noteFetch.note;
+        const {title, content} = this.calculateNewNoteValues(this.props.noteFetch.note, this.props.noteEditing);
+        this.props.actionDoNoteUpdate(id, title, content);
     };
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -28,15 +30,12 @@ class NoteContainerSaveBtn extends React.Component {
 
     render() {
         console.log("Btn rerender");
-        const {id} = this.props.noteFetch.note;
         const {isUpdateInProgress} = this.props.noteUpdate;
-        const {title, content} = this.calculateNewNoteValues(this.props.noteFetch.note, this.props.noteEditing);
-        const onButtonSaveHandler = () => this.updateNote(id, title, content);
         return (
             <Button
                 type="primary"
                 loading={isUpdateInProgress}
-                onClick={onButtonSaveHandler}
+                onClick={this.updateNote}
             >
                 Save
             </Button>

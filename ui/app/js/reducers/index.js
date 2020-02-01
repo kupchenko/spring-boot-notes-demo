@@ -3,7 +3,7 @@ import {notesSearchReducer} from "./notes-search-reducer";
 import {noteFetchReducer} from "./note-fetch-reducer";
 import {noteCreateReducer} from "./note-create-reducer";
 import {noteUpdateReducer} from "./note-update-reducer";
-import {noteEditingReducer} from "./new-note-values-reducer";
+import {noteEditingReducer} from "./note-editing-reducer";
 import {notesSelectReducer} from "./notes-select-reducer";
 
 export default combineReducers({

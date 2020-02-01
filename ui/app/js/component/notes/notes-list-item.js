@@ -26,7 +26,6 @@ class NotesListItem extends Component {
         return false;
     }
 
-
     renderListItem(note, selected) {
         const listItemContent = (
             <div className="card-body" onClick={() => this.submitRequest(note.id)}>
@@ -44,8 +43,7 @@ class NotesListItem extends Component {
 
     render() {
         const note = this.props.note;
-        console.log("RERENDER " + note.id);
-        const selected = this.props.note.id === this.props.selectedNote.id;
+        const selected = note.id === this.props.selectedNote.id;
         return this.renderListItem(note, selected);
     }
 }

@@ -7,6 +7,7 @@ import {
     C_NOTES_REFRESH_AFTER_UPDATE
 } from "./action-type";
 import {actionRestoreNewValues} from "./note-editing";
+import {actionDoNotesSearch} from "./notes-search";
 
 export const actionNoteUpdateInProgress = (bool) => ({
     type: C_NOTE_UPDATE_IS_IN_PROGRESS,
@@ -48,7 +49,7 @@ export const actionDoNoteUpdate = (noteId, newTitle, newContent) => {
             .then((json) => {
                 dispatch(actionNoteFetchSuccess(json));
                 dispatch(actionNoteUpdateSuccess());
-                dispatch(actionRefreshNotesAfterUpdate(json));
+                dispatch(actionDoNotesSearch());
                 dispatch(actionRestoreNewValues());
             })
             .catch(() => {
