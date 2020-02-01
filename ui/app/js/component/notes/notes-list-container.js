@@ -4,6 +4,7 @@ import NotesListItem from "./notes-list-item";
 import {actionDoNotesSearch} from "../../actions/notes-search";
 import {connect} from 'react-redux';
 import Spinner from "../common/spinner";
+import NotesListContainerSearch from "./notes-list-container-search";
 
 class NotesListContainer extends PureComponent {
 
@@ -12,27 +13,15 @@ class NotesListContainer extends PureComponent {
         this.searchNotes = this.searchNotes.bind(this);
     }
 
-    searchNotes(e) {
-        this.props.actionDoNotesSearch(e.target.value);
+    searchNotes(text) {
+        this.props.actionDoNotesSearch(text);
     }
 
     buildListContent(response) {
-        let content;
-        if (response.notes.length) {
-            content = response.notes.map(row => {
-                return (
-                    <NotesListItem
-                        key={row.id}
-                        note={row}
-                    />
-                )
-            });
-        } else {
-            content = (
-                <p>Nothing found!</p>
-            )
+        if (!response.notes.length) {
+            return (<p>Nothing found!</p>);
         }
-        return content;
+        return response.notes.map(row => (<NotesListItem key={row.id} note={row}/>));
     }
 
     render() {
@@ -44,11 +33,7 @@ class NotesListContainer extends PureComponent {
         const pagination = (response) ? <NotesListPagination pagination={response.pagination}/> : '';
         return (
             <div className="col-lg-4 list-item">
-                <input className="form-control mr-sm-2 search-input"
-                       type="text"
-                       placeholder="Search"
-                       onChange={this.searchNotes}
-                />
+                <NotesListContainerSearch/>
                 {content}
                 {pagination}
             </div>
