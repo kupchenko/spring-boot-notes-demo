@@ -2,8 +2,8 @@ import {actionNoteFetchFailure, actionNoteFetchSuccess} from "./note-select";
 
 import {
     C_NOTE_UPDATE_FAILURE,
-    C_NOTE_UPDATE_SUCCESS,
     C_NOTE_UPDATE_IS_IN_PROGRESS,
+    C_NOTE_UPDATE_SUCCESS,
     C_NOTES_REFRESH_AFTER_UPDATE
 } from "./action-type";
 import {actionRestoreNewValues} from "./note-editing";

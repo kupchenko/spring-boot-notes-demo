@@ -1,26 +1,22 @@
-import {Input, Modal} from 'antd';
+import {Input} from 'antd';
 import React from "react";
-import {actionDoNoteCreate, actionShowNoteCreateHide, actionShowNoteCreateModal} from "../../actions/note-create";
 import {connect} from "react-redux";
+import {actionDoUpdateNoteContent, actionDoUpdateNoteTitle} from "../../actions/note-creating";
 
 class NoteCreateModalBody extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            content: '',
-            title: ''
-        };
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleContentChange = this.handleContentChange.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
     }
 
-    handleInputChange(e) {
-        this.setState({content: e.target.value});
+    handleContentChange(e) {
+        this.props.actionDoUpdateNoteContent(e.target.value);
     }
 
     handleTitleChange(e) {
-        this.setState({title: e.target.value});
+        this.props.actionDoUpdateNoteTitle(e.target.value);
     }
 
     render() {
@@ -29,12 +25,10 @@ class NoteCreateModalBody extends React.Component {
         return (
             <div>
                 <Input onChange={this.handleTitleChange}
-                       value={this.state.title}
                        allowClear
                        placeholder="Title"/>
                 <TextArea rows={4}
-                          onChange={this.handleInputChange}
-                          value={this.state.content}
+                          onChange={this.handleContentChange}
                           allowClear
                           placeholder="Note content"/>
             </div>
@@ -44,14 +38,9 @@ class NoteCreateModalBody extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoNoteCreate: (newTitle, newContent) => dispatch(actionDoNoteCreate(newTitle, newContent)),
-        actionShowNoteCreateModal: () => dispatch(actionShowNoteCreateModal()),
-        actionShowNoteCreateHide: () => dispatch(actionShowNoteCreateHide())
+        actionDoUpdateNoteTitle: (newTitle) => dispatch(actionDoUpdateNoteTitle(newTitle)),
+        actionDoUpdateNoteContent: (newContent) => dispatch(actionDoUpdateNoteContent(newContent)),
     };
 };
 
-const mapStateToProps = (state) => ({
-    noteCreating: state.noteCreating
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(NoteCreateModalBody);
+export default connect(null, mapDispatchToProps)(NoteCreateModalBody);

@@ -1,24 +1,19 @@
-import {Input, Modal} from 'antd';
+import {Button, Modal} from 'antd';
 import React from "react";
-import {actionDoNoteCreate, actionShowNoteCreateHide, actionShowNoteCreateModal} from "../../actions/note-create";
+import {actionHideNoteCreateModal} from "../../actions/note-create";
 import {connect} from "react-redux";
 import NoteCreateModalBody from "./note-create-modal-body";
+import NoteCreateModalSubmit from "./note-create-modal-submit";
 
 class NoteCreateModal extends React.Component {
 
     constructor(props) {
         super(props);
-        this.handleOk = this.handleOk.bind(this);
         this.hideModal = this.hideModal.bind(this);
     }
 
-    handleOk() {
-        const {title, content} = this.state;
-        this.props.actionDoNoteCreate(title, content)
-    };
-
     hideModal() {
-        this.props.actionShowNoteCreateHide();
+        this.props.actionHideNoteCreateModal();
     };
 
     render() {
@@ -28,9 +23,14 @@ class NoteCreateModal extends React.Component {
             <Modal
                 title="Creating new note"
                 visible={modalVisible}
-                onOk={this.handleOk}
                 confirmLoading={isLoading}
                 onCancel={this.hideModal}
+                footer={[
+                    <Button key="back" onClick={this.hideModal}>
+                        Cancel
+                    </Button>,
+                    <NoteCreateModalSubmit isLoading={isLoading}/>
+                ]}
             >
                 <NoteCreateModalBody/>
             </Modal>
@@ -40,9 +40,7 @@ class NoteCreateModal extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoNoteCreate: (newTitle, newContent) => dispatch(actionDoNoteCreate(newTitle, newContent)),
-        actionShowNoteCreateModal: () => dispatch(actionShowNoteCreateModal()),
-        actionShowNoteCreateHide: () => dispatch(actionShowNoteCreateHide())
+        actionHideNoteCreateModal: () => dispatch(actionHideNoteCreateModal())
     };
 };
 

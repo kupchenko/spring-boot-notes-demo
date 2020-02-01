@@ -1,8 +1,4 @@
-import {
-    C_NOTE_UPDATE_FAILURE,
-    C_NOTE_UPDATE_IS_IN_PROGRESS,
-    C_NOTE_UPDATE_SUCCESS
-} from "../actions/action-type";
+import {C_NOTE_UPDATE_FAILURE, C_NOTE_UPDATE_IS_IN_PROGRESS, C_NOTE_UPDATE_SUCCESS} from "../actions/action-type";
 
 const noteUpdateInitialState = {
     isLoading: false,

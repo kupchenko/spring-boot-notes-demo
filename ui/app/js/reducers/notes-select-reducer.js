@@ -1,6 +1,4 @@
-import {
-    C_NOTE_SELECT,
-} from "../actions/action-type";
+import {C_NOTE_SELECT,} from "../actions/action-type";
 
 const notesSelectInitialState = {
     id: 0
