@@ -19,12 +19,12 @@ class NoteContainerContent extends React.Component {
         let {content} = this.props.noteFetch.note;
         return (
             <TextArea
-                rows={60}
                 defaultValue={content}
                 onChange={this.handleInputChange}
                 style={{
                     overflow: 'hidden',
-                    position: 'static'
+                    position: 'static',
+                    height: '82vh'
                 }}
             />
         )
