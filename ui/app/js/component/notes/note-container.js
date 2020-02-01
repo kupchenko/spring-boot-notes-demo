@@ -14,26 +14,18 @@ class NoteContainer extends React.Component {
         let {note, isLoading, hasErrors} = this.props.noteFetch;
 
         if (isLoading) {
-            return (
-                <div className="col-lg-10">
-                    <Spinner/>
-                </div>
-            );
+            return (<Spinner/>);
         }
 
         if (!note || hasErrors) {
-            return (<div className="col-lg-10"/>)
+            return '';
         }
 
         return (
-            <div className="col-lg-10 jumbotron note-content-top-padding">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <NoteContainerHeader/>
-                        <hr className="my-4"/>
-                        <NoteContainerContent/>
-                    </div>
-                </div>
+            <div>
+                <NoteContainerHeader/>
+                <hr/>
+                <NoteContainerContent/>
             </div>
         )
     }

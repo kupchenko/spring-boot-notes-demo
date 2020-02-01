@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Input} from "antd";
+import {Button, Input} from "antd";
 import {actionDoUpdateNoteContent} from "../../actions/note-editing";
 
 class NoteContainerContent extends React.Component {
@@ -16,17 +16,17 @@ class NoteContainerContent extends React.Component {
 
     render() {
         const {TextArea} = Input;
-
         let {content} = this.props.noteFetch.note;
-
         return (
-            <div className="textarea">
-                <TextArea
-                    rows={31}
-                    defaultValue={content}
-                    onChange={this.handleInputChange}
-                />
-            </div>
+            <TextArea
+                rows={60}
+                defaultValue={content}
+                onChange={this.handleInputChange}
+                style={{
+                    overflow: 'hidden',
+                    position: 'static'
+                }}
+            />
         )
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Input} from "antd";
+import {Button, Input} from "antd";
 import {actionDoUpdateNoteTitle, actionEnableTitleEditing} from "../../actions/note-editing";
 
 class NoteContainerTitle extends React.PureComponent {
@@ -20,23 +20,26 @@ class NoteContainerTitle extends React.PureComponent {
     };
 
     render() {
-        console.log("Title rerender");
         let {title} = this.props.noteFetch.note;
         let {titleEditable} = this.props.noteEditing;
-        let titleContent = (
-            <h1 onClick={this.editTitle}>{title}</h1>
-        );
-        if (titleEditable) {
-            titleContent = (
-                <Input
-                    size="large"
-                    defaultValue={title}
-                    onChange={this.handleTitleChange}
-                />
+        if (!titleEditable) {
+            return (
+                <h1 onClick={this.editTitle}>
+                    {title}
+                </h1>
             );
         }
-        return titleContent;
-
+        return (
+            <Input
+                size="large"
+                defaultValue={title}
+                onChange={this.handleTitleChange}
+                style={{
+                    overflow: 'hidden',
+                    position: 'static'
+                }}
+            />
+        );
     }
 }
 

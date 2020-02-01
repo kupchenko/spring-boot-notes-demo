@@ -29,13 +29,16 @@ class NoteContainerSaveBtn extends React.Component {
     };
 
     render() {
-        console.log("Btn rerender");
         const {isUpdateInProgress} = this.props.noteUpdate;
         return (
             <Button
                 type="primary"
                 loading={isUpdateInProgress}
                 onClick={this.updateNote}
+                style={{
+                    overflow: 'hidden',
+                    position: 'static'
+                }}
             >
                 Save
             </Button>

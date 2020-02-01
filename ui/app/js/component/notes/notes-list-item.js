@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {actionDoNoteFetchWithSelect} from "../../actions/note-select";
 import {connect} from "react-redux";
+import {List} from "antd";
 
 class NotesListItem extends Component {
 
@@ -8,7 +9,7 @@ class NotesListItem extends Component {
         super(props);
     }
 
-    submitRequest(id) {
+    openNote(id) {
         this.props.actionDoNoteFetchWithSelect(id)
     }
 
@@ -26,25 +27,20 @@ class NotesListItem extends Component {
         return false;
     }
 
-    renderListItem(note, selected) {
-        const listItemContent = (
-            <div className="card-body" onClick={() => this.submitRequest(note.id)}>
-                <h4 className="card-title">{note.title}</h4>
-                <p className="card-text">{note.content}</p>
-            </div>
-        );
-
-        let content = <div className="card border-secondary mb-3 list-item">{listItemContent}</div>;
-        if (selected) {
-            content = <div className="card text-white bg-primary mb-3">{listItemContent}</div>
-        }
-        return content;
+    getSelectedStyles(selected) {
+        const defaultStyles = {paddingLeft: '5px'};
+        return (selected) ? {...defaultStyles, background: '#cdcdcd'} : defaultStyles
     }
 
     render() {
         const note = this.props.note;
         const selected = note.id === this.props.selectedNote.id;
-        return this.renderListItem(note, selected);
+        return (
+            <List.Item onClick={() => this.openNote(note.id)} className="list-item"
+                       style={this.getSelectedStyles(selected)}>
+                <List.Item.Meta title={note.title} description={note.content}/>
+            </List.Item>
+        )
     }
 }
 

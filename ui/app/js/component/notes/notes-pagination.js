@@ -28,6 +28,11 @@ class NotesPagination extends PureComponent {
                 total={numFound}
                 pageSize={rows}
                 onChange={onButtonChangePageHandler}
+                className="pagination"
+                style={{
+                    paddingTop: 10,
+                    textAlign: 'center'
+                }}
             />
         )
     }

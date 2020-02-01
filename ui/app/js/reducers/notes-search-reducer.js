@@ -10,7 +10,8 @@ const notesSearchInitialState = {
     hasErrors: false,
     isSuccess: false,
     errors: null,
-    response: null
+    notes: [],
+    pagination: null
 };
 
 export const notesSearchReducer = (state = notesSearchInitialState, action) => {
@@ -31,7 +32,8 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
                 isSuccess: true,
                 isLoading: false,
                 hasErrors: false,
-                response: action.response,
+                notes: action.response.notes,
+                pagination: action.response.pagination,
                 query: action.searchQuery
             };
         }

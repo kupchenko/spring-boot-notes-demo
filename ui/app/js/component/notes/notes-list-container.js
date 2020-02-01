@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react';
-import NotesListPagination from "./notes-pagination";
-import NotesListItem from "./notes-list-item";
 import {actionDoNotesSearch} from "../../actions/notes-search";
 import {connect} from 'react-redux';
-import Spinner from "../common/spinner";
 import NotesListContainerSearch from "./notes-list-container-search";
+import {List} from "antd";
+import NotesListItem from "./notes-list-item";
+import NotesPagination from "./notes-pagination";
 
 class NotesListContainer extends PureComponent {
 
@@ -17,25 +17,21 @@ class NotesListContainer extends PureComponent {
         this.props.actionDoNotesSearch(text);
     }
 
-    buildListContent(response) {
-        if (!response.notes.length) {
-            return (<p>Nothing found!</p>);
-        }
-        return response.notes.map(row => (<NotesListItem key={row.id} note={row}/>));
-    }
-
     render() {
-        let {response, isLoading, hasErrors} = this.props.notesSearch;
-        let content = 'Error fetching records...';
-        if (!hasErrors) {
-            content = (isLoading) ? <Spinner/> : this.buildListContent(response);
-        }
-        const pagination = (response) ? <NotesListPagination pagination={response.pagination}/> : '';
+        let {notes, pagination, isLoading} = this.props.notesSearch;
         return (
-            <div className="col-lg-4 list-item">
+            <div>
                 <NotesListContainerSearch/>
-                {content}
-                {pagination}
+                <List
+                    itemLayout="horizontal"
+                    loading={isLoading}
+                    dataSource={notes}
+                    style={{padding: '5px 0px 0px'}}
+                    renderItem={item => (
+                        <NotesListItem note={item}/>
+                    )}
+                />
+                <NotesPagination pagination={pagination}/>
             </div>
         )
     }

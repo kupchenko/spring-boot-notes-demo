@@ -10,13 +10,9 @@ class NoteContainerHeader extends React.Component {
 
     render() {
         return (
-            <div className="page-header lead note-header-container">
-                <div className="linediv">
-                    <NoteContentTitle/>
-                </div>
-                <div className="linediv">
-                    <NoteContentSaveBtn/>
-                </div>
+            <div className="note-header-container">
+                <NoteContentTitle/>
+                <NoteContentSaveBtn/>
             </div>
         );
 
