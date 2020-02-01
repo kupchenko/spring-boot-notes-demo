@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Button, Input} from "antd";
+import {Input} from "antd";
 import {actionDoUpdateNoteTitle, actionEnableTitleEditing} from "../../actions/note-editing";
 
 class NoteContainerTitle extends React.PureComponent {
@@ -34,10 +34,6 @@ class NoteContainerTitle extends React.PureComponent {
                 size="large"
                 defaultValue={title}
                 onChange={this.handleTitleChange}
-                style={{
-                    overflow: 'hidden',
-                    position: 'static'
-                }}
             />
         );
     }

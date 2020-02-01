@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Button, Input} from "antd";
+import {Input} from "antd";
 import {actionDoUpdateNoteContent} from "../../actions/note-editing";
 
 class NoteContainerContent extends React.Component {
@@ -21,11 +21,6 @@ class NoteContainerContent extends React.Component {
             <TextArea
                 defaultValue={content}
                 onChange={this.handleInputChange}
-                style={{
-                    overflow: 'hidden',
-                    position: 'static',
-                    height: '82vh'
-                }}
             />
         )
     }

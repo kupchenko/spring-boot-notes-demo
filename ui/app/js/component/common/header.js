@@ -17,11 +17,7 @@ class NoteHeader extends PureComponent {
     render() {
         const {Header} = Layout;
         return (
-            <Header className="header" style={{
-                overflow: 'auto',
-                position: 'fixed',
-                width: '100%'
-            }}>
+            <Header className="header">
                 <Menu
                     theme="dark"
                     mode="horizontal"
@@ -29,7 +25,7 @@ class NoteHeader extends PureComponent {
                         lineHeight: '64px',
                     }}
                 >
-                    <Menu.Item key="1" onClick={this.showModal}>Create note</Menu.Item>
+                    <Menu.Item key="1" onSelect={this.showModal}>Create note</Menu.Item>
                 </Menu>
             </Header>
         )

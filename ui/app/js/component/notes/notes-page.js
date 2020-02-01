@@ -12,27 +12,22 @@ class NotesPage extends PureComponent {
     render() {
         const {Content, Sider} = Layout;
         return (
-            <Layout style={{marginTop: 70}}>
+            <Layout style={{marginTop: 5}}>
                 <Sider width={300} style={{
                     background: '#fff',
-                    height: '100%',
+                    height: '100vh',
                     padding: 5,
-                    overflow: 'auto',
-                    position: 'fixed',
                 }}>
                     <NotesListContainer/>
                 </Sider>
                 <Layout style={{
                     padding: '0px 5px 0px',
-                    overflow: 'initial',
-                    marginLeft: 300
+                    height: '100vh'
                 }}>
                     <Content
                         style={{
                             background: '#fff',
                             padding: 24,
-                            margin: 0,
-                            minHeight: 280,
                         }}
                     >
                         <NoteContent/>

@@ -35,10 +35,6 @@ class NoteContainerSaveBtn extends React.Component {
                 type="primary"
                 loading={isUpdateInProgress}
                 onClick={this.updateNote}
-                style={{
-                    overflow: 'hidden',
-                    position: 'static'
-                }}
             >
                 Save
             </Button>
