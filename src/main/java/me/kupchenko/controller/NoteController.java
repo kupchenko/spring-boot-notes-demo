@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
@@ -31,7 +33,7 @@ public class NoteController {
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public NoteDto createNote(@RequestBody CreateNoteDto noteDto) {
+    public NoteDto createNote(@Valid @RequestBody CreateNoteDto noteDto) {
         return noteService.createNote(noteDto);
     }
 
