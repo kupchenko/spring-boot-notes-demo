@@ -33,6 +33,6 @@ CREATE TABLE notes
     title  varchar(128) not null,
     content  varchar(512),
     owner integer not null,
-    created_ts date not null,
-    updated_ts date not null
+    created_ts datetime not null,
+    updated_ts datetime not null
 );
