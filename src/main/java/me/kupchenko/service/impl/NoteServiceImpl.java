@@ -130,9 +130,8 @@ public class NoteServiceImpl implements NoteService {
 
         Arrays.stream(note.getClass().getDeclaredFields())
                 .filter(field -> !excludeFieldsList.contains(field.getName()))
-                .forEach(field -> {
-                    setObjectFieldValue(note, clazzFields, field);
-                });
+                .forEach(field -> setObjectFieldValue(note, clazzFields, field));
+        note.setUpdatedTs(LocalDateTime.now());
         return note;
     }
 

@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 public class WebUtils {
     public static void waitSeconds(int seconds) {
         try {
-            TimeUnit.SECONDS.sleep(seconds);
+            TimeUnit.MILLISECONDS.sleep(seconds);
         } catch (InterruptedException e) {
             log.error(e.getMessage());
         }
