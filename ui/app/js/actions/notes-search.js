@@ -30,7 +30,7 @@ export const actionDoNotesSearch = (searchQuery = '', page = 0, rows = 10) => {
         dispatch(actionNotesSearchIsLoading(true, searchQuery));
         dispatch(actionNoteFetchIsLoading(true));
 
-        ApiService.fetch('http://localhost:8080/notes/user/0/search', {
+        ApiService.fetch('http://localhost:8080/notes/user/0', {
             'text': searchQuery,
             'page': page,
             'rows': rows
