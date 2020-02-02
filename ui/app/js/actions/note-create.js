@@ -9,6 +9,7 @@ import {actionNoteFetchSuccess} from "./note-select";
 import {actionDoNotesSearch} from "./notes-search";
 import {actionRestoreCreateValues} from "./note-creating";
 import ApiService from "../service/api.service";
+import appConfig from "../config/config-app";
 
 export const actionNoteCreateInProgress = (bool) => ({
     type: C_NOTE_CREATE_IS_IN_PROGRESS,
@@ -36,7 +37,7 @@ export const actionDoNoteCreate = (newTitle, newContent) => {
 
     return (dispatch) => {
         dispatch(actionNoteCreateInProgress(true));
-        ApiService.create('http://localhost:8080/note', {
+        ApiService.create(`${appConfig.API_URL_BASE}/note`, {
             'userId': 0,
             'title': newTitle,
             'content': newContent
@@ -45,6 +46,8 @@ export const actionDoNoteCreate = (newTitle, newContent) => {
             dispatch(actionNoteFetchSuccess(json));
             dispatch(actionDoNotesSearch());
             dispatch(actionRestoreCreateValues())
-        })
+        }).catch(() => {
+            dispatch(actionNoteCreateFailure())
+        });
     }
 };

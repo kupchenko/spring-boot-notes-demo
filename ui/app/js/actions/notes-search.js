@@ -1,11 +1,13 @@
 import {C_NOTES_SEARCH_IS_LOADING, C_NOTES_SEARCH_LOAD_FAILURE, C_NOTES_SEARCH_LOAD_SUCCESS} from "./action-type";
 import {
     actionDoNoteFetchWithSelect,
+    actionNoteFetchFailure,
     actionNoteFetchIsLoading,
     actionNoteFetchSuccess,
     actionNoteFetchSuccessEmpty
 } from "./note-select";
 import ApiService from "../service/api.service";
+import appConfig from "../config/config-app";
 
 export const actionNotesSearchIsLoading = (bool, searchQuery) => ({
     type: C_NOTES_SEARCH_IS_LOADING,
@@ -30,7 +32,7 @@ export const actionDoNotesSearch = (searchQuery = '', page = 0, rows = 10) => {
         dispatch(actionNotesSearchIsLoading(true, searchQuery));
         dispatch(actionNoteFetchIsLoading(true));
 
-        ApiService.fetch('http://localhost:8080/notes/user/0', {
+        ApiService.fetch(`${appConfig.API_URL_BASE}/notes/user/0`, {
             'text': searchQuery,
             'page': page,
             'rows': rows
@@ -43,6 +45,10 @@ export const actionDoNotesSearch = (searchQuery = '', page = 0, rows = 10) => {
             } else {
                 dispatch(actionNoteFetchSuccessEmpty());
             }
-        })
+        }).catch((errors) => {
+            console.log('[search] Error occurred...\n' + errors);
+            dispatch(actionNotesSearchFailure(errors));
+            dispatch(actionNoteFetchFailure());
+        });
     }
 };

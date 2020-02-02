@@ -1,4 +1,4 @@
-import {actionNoteFetchSuccess} from "./note-select";
+import {actionNoteFetchFailure, actionNoteFetchSuccess} from "./note-select";
 
 import {
     C_NOTE_UPDATE_FAILURE,
@@ -9,6 +9,7 @@ import {
 import {actionRestoreNewValues} from "./note-editing";
 import {actionDoNotesSearch} from "./notes-search";
 import ApiService from "../service/api.service";
+import appConfig from "../config/config-app";
 
 export const actionNoteUpdateInProgress = (bool) => ({
     type: C_NOTE_UPDATE_IS_IN_PROGRESS,
@@ -34,7 +35,7 @@ export const actionDoNoteUpdate = (id, newTitle, newContent) => {
 
     return (dispatch) => {
         dispatch(actionNoteUpdateInProgress(true));
-        ApiService.update('http://localhost:8080/note/' + id, {
+        ApiService.update(`${appConfig.API_URL_BASE}/note/${id}`, {
             'title': newTitle,
             'content': newContent
         }).then((json) => {
@@ -42,7 +43,10 @@ export const actionDoNoteUpdate = (id, newTitle, newContent) => {
             dispatch(actionNoteUpdateSuccess());
             dispatch(actionDoNotesSearch());
             dispatch(actionRestoreNewValues());
-        })
+        }).catch(() => {
+            dispatch(actionNoteFetchFailure());
+            dispatch(actionNoteUpdateFailure());
+        });
     }
 };
 
