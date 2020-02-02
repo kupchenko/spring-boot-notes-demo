@@ -24,7 +24,6 @@ export default class ExceptionHandlerService {
             if (requestType === HTTP_METHOD_POST) {
                 ExceptionHandlerService.dispatchSuccessMessage('Request proceeded', response.url);
             } else if (requestType === HTTP_METHOD_PUT) {
-                console.log('Success response');
                 ExceptionHandlerService.dispatchSuccessMessage('Updated', response.url);
             } else if (requestType === HTTP_METHOD_DELETE) {
                 ExceptionHandlerService.dispatchSuccessMessage('Deleted', response.url);
