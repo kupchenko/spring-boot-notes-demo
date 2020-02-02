@@ -7,8 +7,6 @@ import me.kupchenko.dto.NotesSearchDto;
 import me.kupchenko.service.NoteService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,14 +26,9 @@ public class NotesController {
         return noteService.getNotes();
     }
 
-    @PostMapping(value = "/user/{id:[0-9]+}/search", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
-    public NotesResponseDto searchUserNotes(@PathVariable Long id, @Valid @RequestBody NotesSearchDto searchDto) {
+    @GetMapping(value = "/user/{id:[0-9]+}", produces = APPLICATION_JSON_VALUE)
+    public NotesResponseDto searchUserNotes(@PathVariable Long id, @Valid NotesSearchDto searchDto) {
         log.info("Searching notes by search criteria: {}", searchDto);
         return noteService.searchUserNotes(id, searchDto);
-    }
-
-    @GetMapping(value = "/user/{id:[0-9]+}", produces = APPLICATION_JSON_VALUE)
-    public NotesResponseDto findUserNotes(@PathVariable Long id) {
-        return noteService.getNotesByUserId(id);
     }
 }
