@@ -21,13 +21,16 @@ class NoteCreateModalBody extends React.Component {
 
     render() {
         const {TextArea} = Input;
+        const {title, content} = this.props.noteCreating;
 
         return (
             <div>
                 <Input onChange={this.handleTitleChange}
+                       value={title}
                        allowClear
                        placeholder="Title"/>
-                <TextArea rows={4}
+                <TextArea rows={7}
+                          value={content}
                           onChange={this.handleContentChange}
                           allowClear
                           placeholder="Note content"/>
@@ -43,4 +46,8 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(NoteCreateModalBody);
+const mapStateToProps = (state) => ({
+    noteCreating: state.noteCreating
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NoteCreateModalBody);

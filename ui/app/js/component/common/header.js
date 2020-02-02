@@ -24,8 +24,10 @@ class NoteHeader extends PureComponent {
                     style={{
                         lineHeight: '64px',
                     }}
+                    selectable={false}
+
                 >
-                    <Menu.Item key="1" onClick={this.showModal}>Create note</Menu.Item>
+                    <Menu.Item onClick={this.showModal}>Create note</Menu.Item>
                 </Menu>
             </Header>
         )
