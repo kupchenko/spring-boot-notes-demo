@@ -5,7 +5,6 @@ import {
     C_NOTE_CREATE_MODAL_SHOW,
     C_NOTE_CREATE_SUCCESS
 } from "./action-type";
-import {actionNoteFetchSuccess} from "./note-select";
 import {actionDoNotesSearch} from "./notes-search";
 import {actionRestoreCreateValues} from "./note-creating";
 import ApiService from "../service/api.service";
@@ -43,9 +42,8 @@ export const actionDoNoteCreate = (newTitle, newContent) => {
             'content': newContent
         }).then((json) => {
             dispatch(actionNoteCreateSuccess());
-            dispatch(actionNoteFetchSuccess(json));
+            dispatch(actionRestoreCreateValues());
             dispatch(actionDoNotesSearch());
-            dispatch(actionRestoreCreateValues())
         }).catch(() => {
             dispatch(actionNoteCreateFailure())
         });

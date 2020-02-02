@@ -1,5 +1,4 @@
 import {
-    C_NOTES_REFRESH_AFTER_UPDATE,
     C_NOTES_SEARCH_IS_LOADING,
     C_NOTES_SEARCH_LOAD_FAILURE,
     C_NOTES_SEARCH_LOAD_SUCCESS
@@ -22,8 +21,7 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
             return {
                 ...state,
                 isLoading: action.isLoading,
-                hasErrors: false,
-                query: action.searchQuery
+                hasErrors: false
             };
 
         case C_NOTES_SEARCH_LOAD_SUCCESS: {
@@ -49,40 +47,7 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
             };
         }
 
-        case C_NOTES_REFRESH_AFTER_UPDATE: {
-            let note = action.note;
-            let newResponse = refreshUpdatedNote(state.response, note);
-            return {
-                ...state,
-                isSuccess: false,
-                isLoading: false,
-                hasErrors: false,
-                response: newResponse
-            };
-        }
-
         default:
             return state
     }
 };
-
-function refreshUpdatedNote(response, newNote) {
-    let noteWithShortenContent = {
-        ...newNote,
-        content: newNote.content.substr(0, 20) + '...'
-    };
-    let notes = response.notes.map((note) => {
-        if (note.id === newNote.id) {
-            return {
-                ...noteWithShortenContent,
-            }
-        }
-        return {
-            ...note
-        }
-    });
-    return {
-        ...response,
-        notes: notes
-    };
-}

@@ -9,10 +9,9 @@ import {
 import ApiService from "../service/api.service";
 import appConfig from "../config/config-app";
 
-export const actionNotesSearchIsLoading = (bool, searchQuery) => ({
+export const actionNotesSearchIsLoading = (bool) => ({
     type: C_NOTES_SEARCH_IS_LOADING,
-    isLoading: bool,
-    searchQuery
+    isLoading: bool
 });
 
 export const actionNotesSearchSuccess = (response, searchQuery) => ({
@@ -29,7 +28,7 @@ export const actionNotesSearchFailure = (errors) => ({
 export const actionDoNotesSearch = (searchQuery = '', page = 0, rows = 10) => {
 
     return (dispatch) => {
-        dispatch(actionNotesSearchIsLoading(true, searchQuery));
+        dispatch(actionNotesSearchIsLoading(true));
         dispatch(actionNoteFetchIsLoading(true));
 
         ApiService.fetch(`${appConfig.API_URL_BASE}/notes/user/0`, {
@@ -37,7 +36,6 @@ export const actionDoNotesSearch = (searchQuery = '', page = 0, rows = 10) => {
             'page': page,
             'rows': rows
         }).then((json) => {
-            dispatch(actionNoteFetchSuccess(json));
             dispatch(actionNotesSearchSuccess(json, searchQuery));
             if (json.notes.length) {
                 let id = json.notes[0].id;

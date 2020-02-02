@@ -24,7 +24,7 @@ class NotesListItem extends Component {
             return true;
         }
 
-        return false;
+        return this.props.note !== nextProps.note;
     }
 
     getSelectedStyles(selected) {

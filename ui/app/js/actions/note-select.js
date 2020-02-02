@@ -44,7 +44,6 @@ export const actionDoNoteFetch = (id) => {
 };
 
 export const actionDoNoteFetchWithSelect = (id) => {
-
     return (dispatch) => {
         dispatch(actionDoNoteFetch(id));
         dispatch(actionNotesSelect(id))
