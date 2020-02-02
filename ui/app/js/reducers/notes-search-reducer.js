@@ -9,6 +9,7 @@ const notesSearchInitialState = {
     hasErrors: false,
     isSuccess: false,
     errors: null,
+    query: '',
     notes: [],
     pagination: null
 };

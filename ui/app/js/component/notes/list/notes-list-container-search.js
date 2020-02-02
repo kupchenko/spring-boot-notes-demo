@@ -15,7 +15,7 @@ class NotesListContainerSearch extends PureComponent {
     }
 
     render() {
-        let {isLoading} = this.props;
+        const {isLoading} = this.props;
         const {Search} = Input;
         return (
             <Search
@@ -35,6 +35,8 @@ const mapDispatchToProps = (dispatch) => {
         actionDoNotesSearch: (e) => dispatch(actionDoNotesSearch(e))
     };
 };
+const mapStateToProps = (state) => ({
+    notesSearch: state.notesSearch
+});
 
-
-export default connect(null, mapDispatchToProps)(NotesListContainerSearch);
+export default connect(mapStateToProps, mapDispatchToProps)(NotesListContainerSearch);

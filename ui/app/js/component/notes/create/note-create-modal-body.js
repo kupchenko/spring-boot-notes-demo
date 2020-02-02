@@ -28,12 +28,17 @@ class NoteCreateModalBody extends React.Component {
                 <Input onChange={this.handleTitleChange}
                        value={title}
                        allowClear
-                       placeholder="Title"/>
+                       placeholder="Title"
+                />
                 <TextArea rows={7}
                           value={content}
                           onChange={this.handleContentChange}
                           allowClear
-                          placeholder="Note content"/>
+                          placeholder="Note content"
+                          style={{
+                              paddingTop: '20'
+                          }}
+                />
             </div>
         );
     }
