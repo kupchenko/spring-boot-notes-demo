@@ -53,7 +53,6 @@ export const actionDoNotesSearch = (searchQuery = '', page = 0, rows = 10) => {
                 dispatch(actionNoteFetchSuccessEmpty());
             }
         }).catch((errors) => {
-            console.log('[search] Error occurred...\n' + errors);
             dispatch(actionNotesSearchFailure(errors));
             dispatch(actionNoteFetchFailure());
         });

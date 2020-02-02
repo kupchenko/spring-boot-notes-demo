@@ -12,8 +12,8 @@ class NoteContainerSaveBtn extends React.Component {
     }
 
     updateNote() {
-        const {id} = this.props.noteFetch.note;
-        const {title, content} = this.calculateNewNoteValues(this.props.noteFetch.note, this.props.noteEditing);
+        const {id} = this.props.note;
+        const {title, content} = this.calculateNewNoteValues(this.props.note, this.props.noteEditing);
         this.props.actionDoNoteUpdate(id, title, content);
     };
 
@@ -29,7 +29,7 @@ class NoteContainerSaveBtn extends React.Component {
     };
 
     render() {
-        const {isUpdateInProgress} = this.props.noteUpdate;
+        const {isUpdateInProgress} = this.props;
         return (
             <Button
                 type="primary"
@@ -50,8 +50,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({
     noteEditing: state.noteEditing,
-    noteFetch: state.noteFetch,
-    noteUpdate: state.noteUpdate
+    note: state.noteFetch.note,
+    isUpdateInProgress: state.noteUpdate.isUpdateInProgress
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteContainerSaveBtn);

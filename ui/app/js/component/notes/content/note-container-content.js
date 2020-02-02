@@ -16,7 +16,7 @@ class NoteContainerContent extends React.Component {
 
     render() {
         const {TextArea} = Input;
-        let {content} = this.props.noteFetch.note;
+        let {content} = this.props;
         return (
             <TextArea
                 defaultValue={content}
@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => ({
-    noteFetch: state.noteFetch
+    content: state.noteFetch.note.content
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteContainerContent);

@@ -50,8 +50,6 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
         }
 
         case C_NOTES_SEARCH_UPDATE_QUERY: {
-            console.log("asdasd");
-            console.log(action.searchQuery);
             return {
                 ...state,
                 query: action.searchQuery

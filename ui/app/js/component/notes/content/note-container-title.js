@@ -20,8 +20,8 @@ class NoteContainerTitle extends React.PureComponent {
     };
 
     render() {
-        let {title} = this.props.noteFetch.note;
-        let {titleEditable} = this.props.noteEditing;
+        let {title} = this.props.note;
+        let {titleEditable} = this.props;
         if (!titleEditable) {
             return (
                 <h1 onClick={this.editTitle}>
@@ -50,8 +50,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => ({
-    noteEditing: state.noteEditing,
-    noteFetch: state.noteFetch
+    titleEditable: state.noteEditing.titleEditable,
+    note: state.noteFetch.note
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteContainerTitle);
