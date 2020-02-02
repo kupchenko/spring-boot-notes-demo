@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {actionDoNotesSearch} from "../../../actions/notes-search";
+import {actionDoNotesSearch, actionUpdateSearchQuery} from "../../../actions/notes-search";
 import {connect} from 'react-redux';
 import {Input} from "antd";
 
@@ -8,15 +8,21 @@ class NotesListContainerSearch extends PureComponent {
     constructor(props) {
         super(props);
         this.searchNotes = this.searchNotes.bind(this);
+        this.updateQuery = this.updateQuery.bind(this);
     }
 
     searchNotes(text) {
         this.props.actionDoNotesSearch(text);
     }
 
+    updateQuery(e) {
+        this.props.actionUpdateSearchQuery(e.target.value);
+    }
+
     render() {
         const {isLoading} = this.props;
         const {Search} = Input;
+        const query = this.props.notesSearch.query;
         return (
             <Search
                 className="search-input"
@@ -24,6 +30,8 @@ class NotesListContainerSearch extends PureComponent {
                 enterButton
                 size="large"
                 loading={isLoading}
+                value={query}
+                onChange={this.updateQuery}
                 onSearch={this.searchNotes}
             />
         )
@@ -32,7 +40,8 @@ class NotesListContainerSearch extends PureComponent {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actionDoNotesSearch: (e) => dispatch(actionDoNotesSearch(e))
+        actionDoNotesSearch: (e) => dispatch(actionDoNotesSearch(e)),
+        actionUpdateSearchQuery: (e) => dispatch(actionUpdateSearchQuery(e))
     };
 };
 const mapStateToProps = (state) => ({

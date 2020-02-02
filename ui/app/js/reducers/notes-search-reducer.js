@@ -1,7 +1,8 @@
 import {
     C_NOTES_SEARCH_IS_LOADING,
     C_NOTES_SEARCH_LOAD_FAILURE,
-    C_NOTES_SEARCH_LOAD_SUCCESS
+    C_NOTES_SEARCH_LOAD_SUCCESS,
+    C_NOTES_SEARCH_UPDATE_QUERY
 } from "../actions/action-type";
 
 const notesSearchInitialState = {
@@ -44,6 +45,15 @@ export const notesSearchReducer = (state = notesSearchInitialState, action) => {
                 isLoading: false,
                 hasErrors: true,
                 errors: action.errors,
+                query: action.searchQuery
+            };
+        }
+
+        case C_NOTES_SEARCH_UPDATE_QUERY: {
+            console.log("asdasd");
+            console.log(action.searchQuery);
+            return {
+                ...state,
                 query: action.searchQuery
             };
         }

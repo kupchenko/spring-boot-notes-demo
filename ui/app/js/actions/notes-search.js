@@ -1,9 +1,13 @@
-import {C_NOTES_SEARCH_IS_LOADING, C_NOTES_SEARCH_LOAD_FAILURE, C_NOTES_SEARCH_LOAD_SUCCESS} from "./action-type";
+import {
+    C_NOTES_SEARCH_IS_LOADING,
+    C_NOTES_SEARCH_LOAD_FAILURE,
+    C_NOTES_SEARCH_LOAD_SUCCESS,
+    C_NOTES_SEARCH_UPDATE_QUERY
+} from "./action-type";
 import {
     actionDoNoteFetchWithSelect,
     actionNoteFetchFailure,
     actionNoteFetchIsLoading,
-    actionNoteFetchSuccess,
     actionNoteFetchSuccessEmpty
 } from "./note-select";
 import ApiService from "../service/api.service";
@@ -23,6 +27,11 @@ export const actionNotesSearchSuccess = (response, searchQuery) => ({
 export const actionNotesSearchFailure = (errors) => ({
     type: C_NOTES_SEARCH_LOAD_FAILURE,
     errors
+});
+
+export const actionUpdateSearchQuery = (searchQuery) => ({
+    type: C_NOTES_SEARCH_UPDATE_QUERY,
+    searchQuery
 });
 
 export const actionDoNotesSearch = (searchQuery = '', page = 0, rows = 10) => {

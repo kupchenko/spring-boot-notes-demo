@@ -1,17 +1,17 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {connect} from "react-redux";
 import {actionDoNotesSearch} from "../../../actions/notes-search";
 import {Pagination} from "antd";
 
-class NotesPagination extends PureComponent {
+class NotesPagination extends React.Component {
 
     constructor(props) {
         super(props);
     }
 
     handlePageChange(page) {
-        let {query} = this.props.notesSearch;
-        let pageIndex = page - 1;
+        const {query} = this.props;
+        const pageIndex = page - 1;
         this.props.actionDoNotesSearch(query, pageIndex)
     }
 
@@ -19,9 +19,9 @@ class NotesPagination extends PureComponent {
         if (!this.props.pagination) {
             return '';
         }
-        let {numFound, page, rows} = this.props.pagination;
+        const {numFound, page, rows} = this.props.pagination;
         const onButtonChangePageHandler = (page) => this.handlePageChange(page);
-        let pageIndex = page + 1;
+        const pageIndex = page + 1;
         return (
             <Pagination
                 defaultCurrent={pageIndex}
@@ -45,7 +45,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => ({
-    notesSearch: state.notesSearch
+    query: state.notesSearch.query,
+    pagination: state.notesSearch.pagination
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotesPagination);
