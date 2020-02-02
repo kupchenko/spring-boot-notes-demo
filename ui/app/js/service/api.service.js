@@ -47,7 +47,7 @@ export default class ApiService {
     }
 
     static buildUrl(url, params = {}) {
-        if (!params) return url;
+        if (!params || Object.entries(params).length === 0) return url;
         const uri = url.indexOf('?') === -1 ? `${url}?` : url;
 
         return uri + ApiService.buildParams(params);
