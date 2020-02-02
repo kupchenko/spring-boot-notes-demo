@@ -5,7 +5,6 @@ import {Layout} from "antd";
 import NoteHeader from "./common/header";
 import NoteCreateModal from "./notes/note-create-modal";
 import NotesPage from "./notes/notes-page";
-import PopUp from "./common/pop-up";
 
 const Aux = props => props.children;
 
@@ -18,7 +17,6 @@ class Main extends PureComponent {
     render() {
         return (
             <Aux>
-                <PopUp/>
                 <NoteCreateModal/>
                 <Layout>
                     <NoteHeader/>

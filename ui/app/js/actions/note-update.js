@@ -1,4 +1,4 @@
-import {actionNoteFetchFailure, actionNoteFetchSuccess} from "./note-select";
+import {actionNoteFetchSuccess} from "./note-select";
 
 import {
     C_NOTE_UPDATE_FAILURE,
@@ -8,6 +8,7 @@ import {
 } from "./action-type";
 import {actionRestoreNewValues} from "./note-editing";
 import {actionDoNotesSearch} from "./notes-search";
+import ApiService from "../service/api.service";
 
 export const actionNoteUpdateInProgress = (bool) => ({
     type: C_NOTE_UPDATE_IS_IN_PROGRESS,
@@ -29,33 +30,19 @@ export const actionNoteUpdateFailure = (errors) => ({
     errors
 });
 
-export const actionDoNoteUpdate = (noteId, newTitle, newContent) => {
+export const actionDoNoteUpdate = (id, newTitle, newContent) => {
 
     return (dispatch) => {
         dispatch(actionNoteUpdateInProgress(true));
-        const options = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'title': newTitle,
-                'content': newContent
-            })
-        };
-
-        fetch('http://localhost:8080' + '/note/' + noteId, options)
-            .then((response) => response.json())
-            .then((json) => {
-                dispatch(actionNoteFetchSuccess(json));
-                dispatch(actionNoteUpdateSuccess());
-                dispatch(actionDoNotesSearch());
-                dispatch(actionRestoreNewValues());
-            })
-            .catch(() => {
-                dispatch(actionNoteFetchFailure());
-                dispatch(actionNoteUpdateFailure());
-            });
+        ApiService.update('http://localhost:8080/note/' + id, {
+            'title': newTitle,
+            'content': newContent
+        }).then((json) => {
+            dispatch(actionNoteFetchSuccess(json));
+            dispatch(actionNoteUpdateSuccess());
+            dispatch(actionDoNotesSearch());
+            dispatch(actionRestoreNewValues());
+        })
     }
 };
 

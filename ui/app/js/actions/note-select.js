@@ -5,6 +5,7 @@ import {
     C_NOTE_FETCH_LOAD_SUCCESS_EMPTY,
     C_NOTE_SELECT
 } from "./action-type";
+import ApiService from "../service/api.service";
 
 export const actionNoteFetchIsLoading = (bool) => ({
     type: C_NOTE_FETCH_IS_LOADING,
@@ -31,22 +32,12 @@ export const actionNotesSelect = (id) => ({
 });
 
 export const actionDoNoteFetch = (id) => {
-
     return (dispatch) => {
         dispatch(actionNoteFetchIsLoading(true));
-
-        const options = {
-            method: 'GET'
-        };
-
-        fetch('http://localhost:8080' + '/note/' + id, options)
-            .then((response) => response.json())
+        ApiService.fetch('http://localhost:8080/note/' + id)
             .then((json) => {
                 dispatch(actionNoteFetchSuccess(json));
             })
-            .catch(() => {
-                dispatch(actionNoteFetchFailure())
-            });
     }
 };
 

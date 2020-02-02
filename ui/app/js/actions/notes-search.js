@@ -1,10 +1,11 @@
 import {C_NOTES_SEARCH_IS_LOADING, C_NOTES_SEARCH_LOAD_FAILURE, C_NOTES_SEARCH_LOAD_SUCCESS} from "./action-type";
 import {
     actionDoNoteFetchWithSelect,
-    actionNoteFetchFailure,
     actionNoteFetchIsLoading,
+    actionNoteFetchSuccess,
     actionNoteFetchSuccessEmpty
 } from "./note-select";
+import ApiService from "../service/api.service";
 
 export const actionNotesSearchIsLoading = (bool, searchQuery) => ({
     type: C_NOTES_SEARCH_IS_LOADING,
@@ -29,41 +30,19 @@ export const actionDoNotesSearch = (searchQuery = '', page = 0, rows = 10) => {
         dispatch(actionNotesSearchIsLoading(true, searchQuery));
         dispatch(actionNoteFetchIsLoading(true));
 
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'text': searchQuery,
-                'page': page,
-                'rows': rows
-            })
-        };
-
-        fetch('http://localhost:8080' + '/notes/user/0/search', options)
-            .then(handleErrors)
-            .then((json) => {
-                dispatch(actionNotesSearchSuccess(json, searchQuery));
-
-                if (json.notes.length) {
-                    let id = json.notes[0].id;
-                    dispatch(actionDoNoteFetchWithSelect(id));
-                } else {
-                    dispatch(actionNoteFetchSuccessEmpty());
-                }
-            })
-            .catch((errors) => {
-                console.log('[search] Error occurred...\n' + errors);
-                dispatch(actionNotesSearchFailure(errors));
-                dispatch(actionNoteFetchFailure());
-            });
+        ApiService.fetch('http://localhost:8080/notes/user/0/search', {
+            'text': searchQuery,
+            'page': page,
+            'rows': rows
+        }).then((json) => {
+            dispatch(actionNoteFetchSuccess(json));
+            dispatch(actionNotesSearchSuccess(json, searchQuery));
+            if (json.notes.length) {
+                let id = json.notes[0].id;
+                dispatch(actionDoNoteFetchWithSelect(id));
+            } else {
+                dispatch(actionNoteFetchSuccessEmpty());
+            }
+        })
     }
 };
-
-function handleErrors(response) {
-    if (!response.ok) {
-        throw Error(response.statusText);
-    }
-    return response.json();
-}
