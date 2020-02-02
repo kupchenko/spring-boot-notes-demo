@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Input} from "antd";
-import {actionDoUpdateNoteTitle, actionEnableTitleEditing} from "../../actions/note-editing";
+import {actionDoUpdateNoteTitle, actionEnableTitleEditing} from "../../../actions/note-editing";
 
 class NoteContainerTitle extends React.PureComponent {
 

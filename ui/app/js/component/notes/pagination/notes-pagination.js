@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
-import {actionDoNotesSearch} from "../../actions/notes-search";
+import {actionDoNotesSearch} from "../../../actions/notes-search";
 import {Pagination} from "antd";
 
 class NotesPagination extends PureComponent {

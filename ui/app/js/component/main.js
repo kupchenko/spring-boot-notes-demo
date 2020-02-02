@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {actionDoNotesSearch} from "../actions/notes-search";
 import {Layout} from "antd";
 import NoteHeader from "./common/header";
-import NoteCreateModal from "./notes/note-create-modal";
+import NoteCreateModal from "./notes/create/note-create-modal";
 import NotesPage from "./notes/notes-page";
 
 const Aux = props => props.children;

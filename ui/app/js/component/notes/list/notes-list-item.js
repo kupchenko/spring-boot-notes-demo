@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {actionDoNoteFetchWithSelect} from "../../actions/note-select";
+import {actionDoNoteFetchWithSelect} from "../../../actions/note-select";
 import {connect} from "react-redux";
 import {List} from "antd";
 

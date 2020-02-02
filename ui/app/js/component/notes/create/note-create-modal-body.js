@@ -1,7 +1,7 @@
 import {Input} from 'antd';
 import React from "react";
 import {connect} from "react-redux";
-import {actionDoUpdateNoteContent, actionDoUpdateNoteTitle} from "../../actions/note-creating";
+import {actionDoUpdateNoteContent, actionDoUpdateNoteTitle} from "../../../actions/note-creating";
 
 class NoteCreateModalBody extends React.Component {
 

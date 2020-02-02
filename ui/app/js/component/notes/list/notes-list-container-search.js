@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {actionDoNotesSearch} from "../../actions/notes-search";
+import {actionDoNotesSearch} from "../../../actions/notes-search";
 import {connect} from 'react-redux';
 import {Input} from "antd";
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Button} from "antd";
-import {actionDoNoteUpdate} from "../../actions/note-update";
+import {actionDoNoteUpdate} from "../../../actions/note-update";
 import {isEqual} from 'lodash';
 
 class NoteContainerSaveBtn extends React.Component {

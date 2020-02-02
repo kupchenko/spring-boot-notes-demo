@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Input} from "antd";
-import {actionDoUpdateNoteContent} from "../../actions/note-editing";
+import {actionDoUpdateNoteContent} from "../../../actions/note-editing";
 
 class NoteContainerContent extends React.Component {
 

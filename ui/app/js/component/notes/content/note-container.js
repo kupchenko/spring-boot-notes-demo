@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import NoteContainerHeader from "./note-container-header";
-import Spinner from "../common/spinner";
+import Spinner from "../../common/spinner";
 import NoteContainerContent from "./note-container-content";
 
 class NoteContainer extends React.Component {

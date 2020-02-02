@@ -1,6 +1,6 @@
 import {Button} from 'antd';
 import React from "react";
-import {actionDoNoteCreate} from "../../actions/note-create";
+import {actionDoNoteCreate} from "../../../actions/note-create";
 import {connect} from "react-redux";
 
 class NoteCreateModalSubmit extends React.Component {

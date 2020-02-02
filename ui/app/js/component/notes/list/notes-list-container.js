@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react';
-import {actionDoNotesSearch} from "../../actions/notes-search";
+import {actionDoNotesSearch} from "../../../actions/notes-search";
 import {connect} from 'react-redux';
 import NotesListContainerSearch from "./notes-list-container-search";
 import {List} from "antd";
 import NotesListItem from "./notes-list-item";
-import NotesPagination from "./notes-pagination";
+import NotesPagination from "../pagination/notes-pagination";
 
 class NotesListContainer extends PureComponent {
 
