@@ -34,6 +34,9 @@ class NoteContainerTitle extends React.PureComponent {
                 size="large"
                 defaultValue={title}
                 onChange={this.handleTitleChange}
+                style={{
+                    maxWidth: '300px'
+                }}
             />
         );
     }
