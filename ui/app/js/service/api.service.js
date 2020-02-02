@@ -1,9 +1,11 @@
 import ExceptionHandlerService from './exception-handler-service';
+import NotificationService from "./notification-service";
+import {HTTP_METHOD_GET, HTTP_METHOD_POST, HTTP_METHOD_PUT} from "../utils/request-type";
 
 export default class ApiService {
     static fetch(url, payload = {}) {
         const options = {
-            method: 'GET',
+            method: HTTP_METHOD_GET,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -12,13 +14,14 @@ export default class ApiService {
         if (!url) return;
         return fetch(ApiService.buildUrl(url, payload), options)
             .then((response) => {
-                return ApiService.parseResponse(response, 'GET');
+                return ApiService.parseResponse(response, HTTP_METHOD_GET);
             });
     }
 
     static async update(url, payload) {
+        NotificationService.loading('Updating ...', url);
         const options = {
-            method: 'PUT',
+            method: HTTP_METHOD_PUT,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -28,14 +31,14 @@ export default class ApiService {
         if (!url) return;
         return fetch(url, options)
             .then((response) => {
-                return ApiService.parseResponse(response, 'GET');
+                return ApiService.parseResponse(response, HTTP_METHOD_PUT);
             });
     }
 
     static async create(url, payload) {
+        NotificationService.loading('Creating ...', url);
         const options = {
-            method: 'POST',
-            mode: 'cors',
+            method: HTTP_METHOD_POST,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -44,7 +47,7 @@ export default class ApiService {
         if (!url) return;
         return fetch(url, options)
             .then((response) => {
-                return ApiService.parseResponse(response, 'GET');
+                return ApiService.parseResponse(response, HTTP_METHOD_POST);
             });
     }
 

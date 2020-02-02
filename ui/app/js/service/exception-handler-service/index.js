@@ -1,64 +1,46 @@
-import {message} from "antd";
+import NotificationService from "../notification-service";
+import {HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_PUT} from "../../utils/request-type";
+import {BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND} from "../../utils/http-status";
 
 export default class ExceptionHandlerService {
     static catchApiErrors(response, requestType) {
 
         if (!response || !response.status) {
             ExceptionHandlerService.handleInternalError(
-                "Response or it's status is null", requestType
+                "Response or it's status is null", response.url
             );
-        } else if (response.status >= 500) {
-            ExceptionHandlerService.handleServerError(response, requestType);
-        } else if (response.status === 400) {
-            ExceptionHandlerService.handleBadRequest(response, requestType);
-        } else if (response.status === 404) {
-            ExceptionHandlerService.handleBadRequest(response, requestType);
-        } else if (response.status === 409) {
-            const data = response.json();
-            ExceptionHandlerService.dispatchErrorMessage(data.message, requestType);
+        } else if (response.status >= INTERNAL_SERVER_ERROR) {
+            ExceptionHandlerService.handleServerError(response, response.url);
+        } else if (response.status === BAD_REQUEST) {
+            ExceptionHandlerService.handleBadRequest(response, response.url);
+        } else if (response.status === NOT_FOUND) {
+            ExceptionHandlerService.handleBadRequest(response, response.url);
         }
 
         if (!response.ok) {
             const responseText = response.clone().text();
             throw new Error(responseText);
         } else {
-            if (requestType === 'POST') {
-                ExceptionHandlerService.dispatchSuccessMessage('Request proceeded', requestType);
-            } else if (requestType === 'PUT') {
-                ExceptionHandlerService.dispatchSuccessMessage('Updated', requestType);
-            } else if (requestType === 'DELETE') {
-                ExceptionHandlerService.dispatchSuccessMessage('Deleted', requestType);
-            }
-        }
-    }
-
-    static dispatchMessage(messageContent, notification) {
-        const key = notification.key;
-        switch (notification.type) {
-            case 'success': {
-                message.success({content: messageContent, key, duration: 2});
-                break;
-            }
-            case 'error': {
-                message.error({content: messageContent, key, duration: 2});
-                break;
-            }
-            case 'loading': {
-                message.loading({content: messageContent, key});
-                break;
+            if (requestType === HTTP_METHOD_POST) {
+                ExceptionHandlerService.dispatchSuccessMessage('Request proceeded', response.url);
+            } else if (requestType === HTTP_METHOD_PUT) {
+                console.log('Success response');
+                ExceptionHandlerService.dispatchSuccessMessage('Updated', response.url);
+            } else if (requestType === HTTP_METHOD_DELETE) {
+                ExceptionHandlerService.dispatchSuccessMessage('Deleted', response.url);
             }
         }
     }
 
     static dispatchSuccessMessage(message, key = '') {
-        ExceptionHandlerService.dispatchMessage(`${message} successfully!`, {
+        NotificationService.notifyAfterResponse(`${message} successfully!`, {
             type: 'success',
             key: key
         });
     }
 
     static dispatchErrorMessage(errorMessage = 'Something went wrong', key = '') {
-        ExceptionHandlerService.dispatchMessage(errorMessage, {
+        NotificationService.notifyAfterResponse(errorMessage, {
             type: 'error',
             key: key
         });

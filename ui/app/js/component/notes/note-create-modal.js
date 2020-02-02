@@ -29,7 +29,7 @@ class NoteCreateModal extends React.Component {
                     <Button key="back" onClick={this.hideModal}>
                         Cancel
                     </Button>,
-                    <NoteCreateModalSubmit isLoading={isLoading}/>
+                    <NoteCreateModalSubmit key="submit" isLoading={isLoading}/>
                 ]}
             >
                 <NoteCreateModalBody/>
