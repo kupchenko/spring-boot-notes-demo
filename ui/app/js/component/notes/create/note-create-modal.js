@@ -21,7 +21,7 @@ class NoteCreateModal extends React.Component {
 
         return (
             <Modal
-                title="Creating new note"
+                title="Creating a new note"
                 visible={modalVisible}
                 confirmLoading={isLoading}
                 onCancel={this.hideModal}
