@@ -7,10 +7,9 @@ class NoteHeader extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.showModal = this.showModal.bind(this);
     }
 
-    showModal() {
+    showModal = () => {
         this.props.actionShowNoteCreateModal();
     };
 

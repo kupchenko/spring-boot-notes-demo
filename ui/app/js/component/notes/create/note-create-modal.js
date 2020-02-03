@@ -9,10 +9,9 @@ class NoteCreateModal extends React.Component {
 
     constructor(props) {
         super(props);
-        this.hideModal = this.hideModal.bind(this);
     }
 
-    hideModal() {
+    hideModal = () => {
         this.props.actionHideNoteCreateModal();
     };
 

@@ -9,9 +9,9 @@ class NotesListItem extends Component {
         super(props);
     }
 
-    openNote(id) {
+    openNote = (id) => {
         this.props.actionDoNoteFetchWithSelect(id)
-    }
+    };
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         if (this.props.note.id === this.props.selectedNote.id

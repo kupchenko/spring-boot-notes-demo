@@ -9,25 +9,24 @@ class NotesPagination extends React.Component {
         super(props);
     }
 
-    handlePageChange(page) {
+    handlePageChange = (page) => {
         const {query} = this.props;
         const pageIndex = page - 1;
         this.props.actionDoNotesSearch(query, pageIndex)
-    }
+    };
 
     render() {
         if (!this.props.pagination) {
             return '';
         }
         const {numFound, page, rows} = this.props.pagination;
-        const onButtonChangePageHandler = (page) => this.handlePageChange(page);
         const pageIndex = page + 1;
         return (
             <Pagination
                 defaultCurrent={pageIndex}
                 total={numFound}
                 pageSize={rows}
-                onChange={onButtonChangePageHandler}
+                onChange={this.handlePageChange}
                 className="pagination"
                 style={{
                     paddingTop: 10,

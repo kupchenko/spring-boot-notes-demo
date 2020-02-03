@@ -7,17 +7,15 @@ class NoteCreateModalBody extends React.Component {
 
     constructor(props) {
         super(props);
-        this.handleContentChange = this.handleContentChange.bind(this);
-        this.handleTitleChange = this.handleTitleChange.bind(this);
     }
 
-    handleContentChange(e) {
+    handleContentChange = (e) => {
         this.props.actionDoUpdateNoteContent(e.target.value);
-    }
+    };
 
-    handleTitleChange(e) {
+    handleTitleChange = (e) => {
         this.props.actionDoUpdateNoteTitle(e.target.value);
-    }
+    };
 
     render() {
         const {TextArea} = Input;

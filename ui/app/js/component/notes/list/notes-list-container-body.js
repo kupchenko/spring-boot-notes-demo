@@ -7,11 +7,6 @@ class NotesListContainerContent extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.searchNotes = this.searchNotes.bind(this);
-    }
-
-    searchNotes(text) {
-        this.props.actionDoNotesSearch(text);
     }
 
     render() {

@@ -7,17 +7,15 @@ class NotesListContainerSearch extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.searchNotes = this.searchNotes.bind(this);
-        this.updateQuery = this.updateQuery.bind(this);
     }
 
-    searchNotes(text) {
+    searchNotes = (text) => {
         this.props.actionDoNotesSearch(text);
-    }
+    };
 
-    updateQuery(e) {
+    updateQuery = (e) => {
         this.props.actionUpdateSearchQuery(e.target.value);
-    }
+    };
 
     render() {
         const {isLoading} = this.props;

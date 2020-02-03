@@ -7,12 +7,11 @@ class NoteContainerContent extends React.Component {
 
     constructor(props) {
         super(props);
-        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    handleInputChange(e) {
+    handleInputChange = (e) => {
         this.props.actionDoUpdateNoteContent(e.target.value)
-    }
+    };
 
     render() {
         const {TextArea} = Input;

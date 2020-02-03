@@ -11,20 +11,17 @@ class NoteContainerTitle extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        this.editTitle = this.editTitle.bind(this);
-        this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.disableTitleEditing = this.disableTitleEditing.bind(this);
     }
 
-    handleTitleChange(e) {
+    handleTitleChange = (e) => {
         this.props.actionDoUpdateNoteTitle(e.target.value);
-    }
+    };
 
-    editTitle() {
+    editTitle = () => {
         this.props.actionEnableTitleEditing()
     };
 
-    disableTitleEditing() {
+    disableTitleEditing = () => {
         this.props.actionDisableTitleEditing()
     };
 

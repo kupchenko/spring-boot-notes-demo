@@ -8,10 +8,9 @@ class NoteContainerSaveBtn extends React.Component {
 
     constructor(props) {
         super(props);
-        this.updateNote = this.updateNote.bind(this);
     }
 
-    updateNote() {
+    updateNote = () => {
         const {id} = this.props.note;
         const {title, content} = this.calculateNewNoteValues(this.props.note, this.props.noteEditing);
         this.props.actionDoNoteUpdate(id, title, content);
