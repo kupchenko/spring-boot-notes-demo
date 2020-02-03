@@ -1,7 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Input} from "antd";
-import {actionDoUpdateNoteTitle, actionEnableTitleEditing} from "../../../actions/note-editing";
+import {
+    actionDisableTitleEditing,
+    actionDoUpdateNoteTitle,
+    actionEnableTitleEditing
+} from "../../../actions/note-editing";
 
 class NoteContainerTitle extends React.PureComponent {
 
@@ -9,6 +13,7 @@ class NoteContainerTitle extends React.PureComponent {
         super(props);
         this.editTitle = this.editTitle.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.disableTitleEditing = this.disableTitleEditing.bind(this);
     }
 
     handleTitleChange(e) {
@@ -19,9 +24,13 @@ class NoteContainerTitle extends React.PureComponent {
         this.props.actionEnableTitleEditing()
     };
 
+    disableTitleEditing() {
+        this.props.actionDisableTitleEditing()
+    };
+
     render() {
-        let {title} = this.props.note;
-        let {titleEditable} = this.props;
+        const {titleEditable} = this.props;
+        const title = (this.props.title) ? this.props.title : this.props.note.title;
         if (!titleEditable) {
             return (
                 <h1 onClick={this.editTitle}>
@@ -32,8 +41,10 @@ class NoteContainerTitle extends React.PureComponent {
         return (
             <Input
                 size="large"
-                defaultValue={title}
+                value={title}
                 onChange={this.handleTitleChange}
+                onBlur={this.disableTitleEditing}
+                autoFocus={true}
                 style={{
                     maxWidth: '300px'
                 }}
@@ -45,12 +56,14 @@ class NoteContainerTitle extends React.PureComponent {
 const mapDispatchToProps = (dispatch) => {
     return {
         actionDoUpdateNoteTitle: (newTitle) => dispatch(actionDoUpdateNoteTitle(newTitle)),
-        actionEnableTitleEditing: () => dispatch(actionEnableTitleEditing())
+        actionEnableTitleEditing: () => dispatch(actionEnableTitleEditing()),
+        actionDisableTitleEditing: () => dispatch(actionDisableTitleEditing())
     };
 };
 
 const mapStateToProps = (state) => ({
     titleEditable: state.noteEditing.titleEditable,
+    title: state.noteEditing.title,
     note: state.noteFetch.note
 });
 

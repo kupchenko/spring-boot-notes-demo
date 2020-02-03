@@ -1,4 +1,5 @@
 import {
+    C_NOTE_EDITING_DISABLE_TITLE_EDIT,
     C_NOTE_EDITING_ENABLE_TITLE_EDIT,
     C_NOTE_EDITING_NEW_CONTENT_VALUE,
     C_NOTE_EDITING_NEW_TITLE_VALUE,
@@ -20,4 +21,8 @@ export const actionRestoreNewValues = () => ({
 
 export const actionEnableTitleEditing = () => ({
     type: C_NOTE_EDITING_ENABLE_TITLE_EDIT
+});
+
+export const actionDisableTitleEditing = () => ({
+    type: C_NOTE_EDITING_DISABLE_TITLE_EDIT
 });
