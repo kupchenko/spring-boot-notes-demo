@@ -36,7 +36,7 @@ class NoteCreateModalBody extends React.Component {
                           allowClear
                           placeholder="Note content"
                           style={{
-                              paddingTop: '20'
+                              paddingTop: '20px'
                           }}
                 />
             </div>
