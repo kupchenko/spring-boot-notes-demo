@@ -1,6 +1,6 @@
 import {Button, Modal} from 'antd';
 import React from "react";
-import {actionHideNoteCreateModal} from "../../actions/note-create";
+import {actionHideNoteCreateModal} from "../../../actions/note-create";
 import {connect} from "react-redux";
 import NoteCreateModalBody from "./note-create-modal-body";
 import NoteCreateModalSubmit from "./note-create-modal-submit";
@@ -9,10 +9,9 @@ class NoteCreateModal extends React.Component {
 
     constructor(props) {
         super(props);
-        this.hideModal = this.hideModal.bind(this);
     }
 
-    hideModal() {
+    hideModal = () => {
         this.props.actionHideNoteCreateModal();
     };
 
@@ -21,7 +20,7 @@ class NoteCreateModal extends React.Component {
 
         return (
             <Modal
-                title="Creating new note"
+                title="Creating a new note"
                 visible={modalVisible}
                 confirmLoading={isLoading}
                 onCancel={this.hideModal}
@@ -29,7 +28,7 @@ class NoteCreateModal extends React.Component {
                     <Button key="back" onClick={this.hideModal}>
                         Cancel
                     </Button>,
-                    <NoteCreateModalSubmit isLoading={isLoading}/>
+                    <NoteCreateModalSubmit key="submit" isLoading={isLoading}/>
                 ]}
             >
                 <NoteCreateModalBody/>

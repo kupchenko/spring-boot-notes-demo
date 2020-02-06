@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
-import NavBar from './common/nav-bar'
-import NotesPage from "./notes/notes-page";
 import {actionDoNotesSearch} from "../actions/notes-search";
-import PopUp from "./common/pop-up";
-import NoteCreateModal from "./notes/note-create-modal";
+import {Layout} from "antd";
+import NoteHeader from "./common/header";
+import NoteCreateModal from "./notes/create/note-create-modal";
+import NotesPage from "./notes/notes-page";
 
 const Aux = props => props.children;
 
@@ -17,10 +17,11 @@ class Main extends PureComponent {
     render() {
         return (
             <Aux>
-                <PopUp/>
-                <NavBar/>
-                <NotesPage/>
                 <NoteCreateModal/>
+                <Layout>
+                    <NoteHeader/>
+                    <NotesPage/>
+                </Layout>
             </Aux>
         )
     }

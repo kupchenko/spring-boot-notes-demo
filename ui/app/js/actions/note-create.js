@@ -5,9 +5,10 @@ import {
     C_NOTE_CREATE_MODAL_SHOW,
     C_NOTE_CREATE_SUCCESS
 } from "./action-type";
-import {actionNoteFetchSuccess} from "./note-select";
 import {actionDoNotesSearch} from "./notes-search";
 import {actionRestoreCreateValues} from "./note-creating";
+import ApiService from "../service/api.service";
+import appConfig from "../config/config-app";
 
 export const actionNoteCreateInProgress = (bool) => ({
     type: C_NOTE_CREATE_IS_IN_PROGRESS,
@@ -35,36 +36,16 @@ export const actionDoNoteCreate = (newTitle, newContent) => {
 
     return (dispatch) => {
         dispatch(actionNoteCreateInProgress(true));
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'userId': 0,
-                'title': newTitle,
-                'content': newContent
-            })
-        };
-
-        fetch('http://localhost:8080' + '/note', options)
-            .then(handleErrors)
-            .then((json) => {
-                dispatch(actionNoteCreateSuccess());
-                dispatch(actionNoteFetchSuccess(json));
-                dispatch(actionDoNotesSearch());
-                dispatch(actionRestoreCreateValues())
-            })
-            .catch(() => {
-                console.log('Error occurred...');
-                dispatch(actionNoteCreateFailure())
-            });
+        ApiService.create(`${appConfig.API_URL_BASE}/note`, {
+            'userId': 0,
+            'title': newTitle,
+            'content': newContent
+        }).then((json) => {
+            dispatch(actionNoteCreateSuccess());
+            dispatch(actionRestoreCreateValues());
+            dispatch(actionDoNotesSearch());
+        }).catch(() => {
+            dispatch(actionNoteCreateFailure())
+        });
     }
 };
-
-function handleErrors(response) {
-    if (!response.ok) {
-        throw Error(response.statusText);
-    }
-    return response.json();
-}

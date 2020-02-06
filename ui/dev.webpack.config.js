@@ -19,7 +19,15 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['env', "stage-0", "react", 'es2015']
+                        presets: [[
+                            "@babel/preset-env", {
+                                "useBuiltIns": "entry"
+                            }],
+                            "@babel/preset-react"],
+                        plugins: [
+                            "@babel/plugin-proposal-class-properties",
+                            "@babel/plugin-proposal-export-default-from"
+                        ]
                     }
                 }
             },
@@ -51,11 +59,10 @@ module.exports = {
             filename: 'index.html'
         }),
         new CopyWebpackPlugin([
-            { from: './app/css', to: 'css' }
+            {from: './app/css', to: 'css'}
         ]),
         new webpack.ProvidePlugin({
-            TextDecoder: ['text-encoding', 'TextDecoder'],
-            TextEncoder: ['text-encoding', 'TextEncoder']
+            TextDecoder: ['text-encoding', 'TextDecoder']
         })
     ]
 };

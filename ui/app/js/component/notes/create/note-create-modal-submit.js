@@ -1,16 +1,15 @@
 import {Button} from 'antd';
 import React from "react";
-import {actionDoNoteCreate} from "../../actions/note-create";
+import {actionDoNoteCreate} from "../../../actions/note-create";
 import {connect} from "react-redux";
 
 class NoteCreateModalSubmit extends React.Component {
 
     constructor(props) {
         super(props);
-        this.handleOk = this.handleOk.bind(this);
     }
 
-    handleOk() {
+    handleOk = () => {
         const {title, content} = this.props.noteCreating;
         this.props.actionDoNoteCreate(title, content)
     };

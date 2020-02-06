@@ -1,32 +1,26 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Input} from "antd";
-import {actionDoUpdateNoteContent} from "../../actions/note-editing";
+import {actionDoUpdateNoteContent} from "../../../actions/note-editing";
 
 class NoteContainerContent extends React.Component {
 
     constructor(props) {
         super(props);
-        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    handleInputChange(e) {
+    handleInputChange = (e) => {
         this.props.actionDoUpdateNoteContent(e.target.value)
-    }
+    };
 
     render() {
         const {TextArea} = Input;
-
-        let {content} = this.props.noteFetch.note;
-
+        let {content} = this.props;
         return (
-            <div className="textarea">
-                <TextArea
-                    rows={31}
-                    defaultValue={content}
-                    onChange={this.handleInputChange}
-                />
-            </div>
+            <TextArea
+                defaultValue={content}
+                onChange={this.handleInputChange}
+            />
         )
     }
 }
@@ -38,7 +32,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => ({
-    noteFetch: state.noteFetch
+    content: state.noteFetch.note.content
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteContainerContent);

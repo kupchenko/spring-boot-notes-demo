@@ -1,19 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Button} from "antd";
-import {actionDoNoteUpdate} from "../../actions/note-update";
+import {actionDoNoteUpdate} from "../../../actions/note-update";
 import {isEqual} from 'lodash';
 
 class NoteContainerSaveBtn extends React.Component {
 
     constructor(props) {
         super(props);
-        this.updateNote = this.updateNote.bind(this);
     }
 
-    updateNote() {
-        const {id} = this.props.noteFetch.note;
-        const {title, content} = this.calculateNewNoteValues(this.props.noteFetch.note, this.props.noteEditing);
+    updateNote = () => {
+        const {id} = this.props.note;
+        const {title, content} = this.calculateNewNoteValues(this.props.note, this.props.noteEditing);
         this.props.actionDoNoteUpdate(id, title, content);
     };
 
@@ -29,8 +28,7 @@ class NoteContainerSaveBtn extends React.Component {
     };
 
     render() {
-        console.log("Btn rerender");
-        const {isUpdateInProgress} = this.props.noteUpdate;
+        const {isUpdateInProgress} = this.props;
         return (
             <Button
                 type="primary"
@@ -51,8 +49,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({
     noteEditing: state.noteEditing,
-    noteFetch: state.noteFetch,
-    noteUpdate: state.noteUpdate
+    note: state.noteFetch.note,
+    isUpdateInProgress: state.noteUpdate.isUpdateInProgress
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteContainerSaveBtn);
