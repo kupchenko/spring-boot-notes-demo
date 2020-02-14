@@ -1,21 +1,10 @@
 .gradle
 build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**
-!**/src/test/**
+src/main/resources/static
 
 ui/dist/**
 ui/.idea/**
 ui/node_modules/**
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
 
 ### IntelliJ IDEA ###
 .idea
@@ -23,13 +12,3 @@ ui/node_modules/**
 *.iml
 *.ipr
 out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
-.vscode/
