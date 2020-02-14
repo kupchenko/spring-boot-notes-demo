@@ -4,7 +4,8 @@
 
 ### Setting up UI:
 
-* Build React UI part with ```npm i```
+* Install dependencies UI part with ```npm i```
+* UI Prod-Build ```npm run build:prod```
 * Move output from ```ui/dist``` folder to ```src/main/resources/static```
 
 ### Run the application:
