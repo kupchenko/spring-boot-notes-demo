@@ -82,11 +82,11 @@ module.exports = {
         new CopyWebpackPlugin([
             {
                 from: path.resolve(__dirname, 'src/img/favicon.ico'),
-                to: path.resolve(__dirname, outputFolder)
+                to: path.resolve(__dirname, outputFolder + '/img')
             }
         ]),
         new MiniCssExtractPlugin({
-            filename: '[name].[hash].css'
+            filename: 'styles/[name].[hash].css'
         })
     ]
 };
