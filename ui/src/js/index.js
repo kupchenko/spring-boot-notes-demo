@@ -14,5 +14,5 @@ ReactDOM.render(
         <Main/>
     </Provider>,
 
-    document.getElementById('src')
+    document.getElementById('container')
 );
