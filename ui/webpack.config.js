@@ -8,6 +8,13 @@ module.exports = {
         path: path.resolve(__dirname, "dist"),
         filename: "js/[name].js"
     },
+    resolve: {
+        extensions: ['.js', '.json', '.css'],
+        alias: {
+            '@styles': path.resolve(__dirname, 'src/styles'),
+            '@': path.resolve(__dirname, 'src'),
+        }
+    },
     module: {
         rules: [
             {
@@ -16,7 +23,8 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react']
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                        plugins: ['@babel/plugin-proposal-class-properties']
                     }
                 }
             },
