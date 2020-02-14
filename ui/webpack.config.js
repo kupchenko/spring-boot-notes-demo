@@ -1,16 +1,13 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const webpack = require('webpack');
 
 module.exports = {
-    entry: './app/js/app.js',
+    entry: './js/index.js',
+    context: path.resolve(__dirname, "src"),
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "js/[name].js"
-      //  publicPath: "/"
     },
-    mode: 'production',
     module: {
         rules: [
             {
@@ -19,7 +16,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['env', "stage-0", "react", 'es2015']
+                        presets: ['@babel/preset-env', '@babel/preset-react']
                     }
                 }
             },
@@ -31,16 +28,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './app/index.html',
-            //path: path.join(__dirname, "app/js/dist"),
-            filename: './index.html'
-        }),
-        new CopyWebpackPlugin([
-            { from: './app/css', to: 'css' }
-        ]),
-        new webpack.ProvidePlugin({
-            TextDecoder: ['text-encoding', 'TextDecoder'],
-            TextEncoder: ['text-encoding', 'TextEncoder']
+            template: './index.html'
         })
     ]
 };
