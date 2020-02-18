@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -25,9 +23,7 @@ public class Note {
     private Long id;
     private String title;
     private String content;
-    @ManyToOne
-    @JoinColumn(name = "owner")
-    private User user;
+    private Long owner;
     @Column(name = "created_ts")
     private LocalDateTime createdTs;
     @Column(name = "updated_ts")

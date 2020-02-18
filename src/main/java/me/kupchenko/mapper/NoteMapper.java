@@ -12,12 +12,12 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface NoteMapper {
 
-    @Mapping(ignore = true, target = "user")
+    @Mapping(ignore = true, target = "owner")
     Note noteDtoToNote(NoteDto noteDto);
 
     @Mappings({
             @Mapping(ignore = true, target = "id"),
-            @Mapping(ignore = true, target = "user"),
+            @Mapping(ignore = true, target = "owner"),
             @Mapping(ignore = true, target = "createdTs"),
             @Mapping(ignore = true, target = "updatedTs"),
     })

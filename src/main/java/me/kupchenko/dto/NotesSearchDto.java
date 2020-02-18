@@ -15,8 +15,7 @@ import static me.kupchenko.util.Constant.DEFAULT_START_PAGE;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotesSearchDto {
-    @NotNull(message = "Text cannot be NULL")
-    private String text;
+    private String text = "";
     @Min(value = 0, message = "Page number cannot be less then 0")
     private Integer page = DEFAULT_START_PAGE;
     @Min(value = 1, message = "Number of rows cannot be less then 1")

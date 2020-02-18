@@ -11,9 +11,7 @@ import me.kupchenko.dto.ResponsePagination;
 import me.kupchenko.exception.NoteNotFoundException;
 import me.kupchenko.mapper.NoteMapper;
 import me.kupchenko.model.Note;
-import me.kupchenko.model.User;
 import me.kupchenko.repository.NoteRepository;
-import me.kupchenko.repository.UserRepository;
 import me.kupchenko.service.NoteService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +31,6 @@ import java.util.function.Supplier;
 public class NoteServiceImpl implements NoteService {
 
     private NoteRepository noteRepository;
-    private UserRepository userRepository;
     private NoteMapper noteMapper;
 
     @Override
@@ -46,9 +43,9 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public NoteDto createNote(CreateNoteDto noteDto) {
         Note note = noteMapper.noteDtoToNote(noteDto);
-        User user = userRepository.findById(noteDto.getUserId())
-                .orElseThrow(IllegalArgumentException::new);
-        note.setUser(user);
+//        User user = userRepository.findById(noteDto.getUserId())
+//                .orElseThrow(IllegalArgumentException::new);
+//        note.setUser(user);
         note.setUpdatedTs(LocalDateTime.now());
         note.setCreatedTs(LocalDateTime.now());
         Note newNote = noteRepository.save(note);
@@ -89,9 +86,9 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public NotesResponseDto getNotesByUserId(Long userId) {
-        List<Note> userNotes = noteRepository.findAllByUserId(userId);
+        List<Note> userNotes = noteRepository.findAllByOwner(userId);
         List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
-        ResponsePagination responsePagination = getDefaultResponsePagination(() -> noteRepository.countByUserId(userId));
+        ResponsePagination responsePagination = getDefaultResponsePagination(() -> noteRepository.countByOwner(userId));
         return new NotesResponseDto(userNotesDtos, responsePagination);
     }
 
@@ -101,7 +98,7 @@ public class NoteServiceImpl implements NoteService {
         ResponsePagination pagination = getResponsePagination(searchDto, () -> noteRepository.countTotalNotesByCriteria(content, userId));
 
         Pageable pageable = PageRequest.of(searchDto.getPage(), searchDto.getRows());
-        List<Note> userNotes = noteRepository.searchNotes(content, userId, pageable);
+        List<Note> userNotes = noteRepository.findAll(content, userId, pageable);
         List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
 //        log.info("Total found: {}, returning: {}, for filter '{}'", count, userNotesDtos.size(), searchDto.getText());
         return new NotesResponseDto(userNotesDtos, pagination);
