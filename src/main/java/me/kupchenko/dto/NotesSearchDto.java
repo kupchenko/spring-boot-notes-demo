@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 import static me.kupchenko.util.Constant.DEFAULT_ROWS_NUMBER;
 import static me.kupchenko.util.Constant.DEFAULT_START_PAGE;

@@ -10,7 +10,7 @@
     "build": "cross-env NODE_ENV=dev webpack --mode development",
     "watch": "cross-env NODE_ENV=dev webpack --mode development --watch",
     "build:prod": "cross-env NODE_ENV=prod webpack --mode production",
-    "start": "cross-env NODE_ENV=dev webpack-dev-server --mode development --open",
+    "start": "cross-env NODE_ENV=dev webpack-dev-server --mode development --open --port 3000",
     "stats": "webpack --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "dependencies": {
@@ -19,6 +19,8 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.3",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },

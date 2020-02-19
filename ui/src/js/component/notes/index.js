@@ -1,14 +1,14 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
-import {actionDoNotesSearch} from "../actions/notes-search";
+import {actionDoNotesSearch} from "../../actions/notes-search";
 import {Layout} from "antd";
-import NoteHeader from "./common/header";
-import NoteCreateModal from "./notes/create/note-create-modal";
-import NotesPage from "./notes/notes-page";
+import NoteHeader from "../common/header";
+import NoteCreateModal from "./create/note-create-modal";
+import NotesPage from "./notes-page";
 
 const Aux = props => props.children;
 
-class Main extends PureComponent {
+class Notes extends PureComponent {
     constructor(props) {
         super(props);
         this.props.actionDoRequest();
@@ -33,4 +33,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(Main);
+export default connect(null, mapDispatchToProps)(Notes);

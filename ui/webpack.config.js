@@ -33,7 +33,8 @@ module.exports = {
     context: path.resolve(__dirname, "src"),
     output: {
         path: path.resolve(__dirname, outputFolder),
-        filename: "js/[name].[hash].bundle.js"
+        filename: "js/[name].[hash].bundle.js",
+        publicPath: '/'
     },
     optimization: optimization(),
     resolve: {
@@ -44,6 +45,9 @@ module.exports = {
         }
     },
     devtool: isDev() ? 'source-map' : '',
+    devServer: {
+        historyApiFallback: true
+    },
     module: {
         rules: [
             {
