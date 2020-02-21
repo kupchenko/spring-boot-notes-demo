@@ -19,3 +19,15 @@
 ```
     ./gradlew bootRun --args='--spring.profiles.active=dev' 
 ```
+
+### Build service docker image:
+
+To build run:
+```
+    docker build -t notes:1.0-notes-service -f src/main/docker/Dockerfile .
+```
+
+To run:
+```
+    docker run -p 8080:8080 notes:1.0-notes-service
+```
