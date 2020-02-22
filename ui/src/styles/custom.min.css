@@ -21,3 +21,8 @@
 .pagination {
     align-content: center;
 }
+
+.login-warp{
+    max-width: 360px;
+    margin: auto;
+}

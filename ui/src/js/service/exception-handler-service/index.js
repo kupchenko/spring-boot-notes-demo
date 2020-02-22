@@ -1,6 +1,6 @@
 import NotificationService from "../notification-service";
 import {HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_PUT} from "../../utils/request-method";
-import {BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND} from "../../utils/response-status";
+import {BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, UNAUTHORIZED} from "../../utils/response-status";
 
 export default class ExceptionHandlerService {
     static catchApiErrors(response, requestType) {
@@ -13,6 +13,8 @@ export default class ExceptionHandlerService {
             ExceptionHandlerService.handleBadRequest(response, response.url);
         } else if (response.status === NOT_FOUND) {
             ExceptionHandlerService.handleBadRequest(response, response.url);
+        } else if (response.status === UNAUTHORIZED) {
+            ExceptionHandlerService.handleUnauthorized();
         }
 
         if (!response.ok) {
@@ -53,5 +55,9 @@ export default class ExceptionHandlerService {
 
     static handleInternalError(responseOrItSStatusIsNull, key) {
         ExceptionHandlerService.dispatchErrorMessage(responseOrItSStatusIsNull, key);
+    }
+
+    static handleUnauthorized() {
+        window.location.href = '/login';
     }
 }

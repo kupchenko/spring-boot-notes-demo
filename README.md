@@ -31,3 +31,15 @@ To run:
 ```
     docker run -p 8080:8080 notes:1.0-notes-service
 ```
+
+### Build ui docker image:
+
+To build run:
+```
+    docker build -t notes:1.0-notes-frontend -f ui/src/docker/Dockerfile .
+```
+
+To run:
+```
+    docker run -p 80:80 notes:1.0-notes-frontend
+```

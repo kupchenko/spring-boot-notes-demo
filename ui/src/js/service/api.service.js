@@ -2,14 +2,21 @@ import ExceptionHandlerService from './exception-handler-service';
 import NotificationService from "./notification-service";
 import {HTTP_METHOD_GET, HTTP_METHOD_POST, HTTP_METHOD_PUT} from "../utils/request-method";
 import {APPLICATION_JSON_VALUE} from "../utils/request-header";
+import appConfig from "../config/config-app";
 
 export default class ApiService {
+    static AUTH_TOKEN = 'auth_token';
+
     static fetch(url, payload = {}) {
         const options = {
-            method: HTTP_METHOD_GET
+            method: HTTP_METHOD_GET,
+            headers: {
+                'Authorization': ApiService.getToken(this.AUTH_TOKEN),
+                'Content-Type': APPLICATION_JSON_VALUE
+            },
         };
 
-        return fetch(ApiService.buildUrl(url, payload), options)
+        return fetch(ApiService.buildUri(url, payload), options)
             .then((response) => {
                 return ApiService.parseResponse(response, HTTP_METHOD_GET);
             });
@@ -20,12 +27,13 @@ export default class ApiService {
         const options = {
             method: HTTP_METHOD_PUT,
             headers: {
+                'Authorization': ApiService.getToken(this.AUTH_TOKEN),
                 'Content-Type': APPLICATION_JSON_VALUE
             },
             body: JSON.stringify(payload),
         };
 
-        return fetch(url, options)
+        return fetch(this.getFullUrl(url), options)
             .then((response) => {
                 return ApiService.parseResponse(response, HTTP_METHOD_PUT);
             });
@@ -36,21 +44,27 @@ export default class ApiService {
         const options = {
             method: HTTP_METHOD_POST,
             headers: {
+                'Authorization': ApiService.getToken(this.AUTH_TOKEN),
                 'Content-Type': APPLICATION_JSON_VALUE
             },
             body: JSON.stringify(payload),
         };
-        return fetch(url, options)
+        return fetch(this.getFullUrl(url), options)
             .then((response) => {
                 return ApiService.parseResponse(response, HTTP_METHOD_POST);
             });
     }
 
-    static buildUrl(url, params = {}) {
-        if (!params || Object.entries(params).length === 0) return url;
-        const uri = url.indexOf('?') === -1 ? `${url}?` : url;
+    static buildUri(url, params = {}) {
+        const fullUrl = this.getFullUrl(url);
+        if (!params || Object.entries(params).length === 0) return fullUrl;
+        const uri = fullUrl.indexOf('?') === -1 ? `${fullUrl}?` : fullUrl;
 
         return uri + ApiService.buildParams(params);
+    }
+
+    static getFullUrl(url) {
+        return appConfig.API_URL_BASE + appConfig.API_CONTEXT_PATH + url;
     }
 
     static buildParams(params) {
@@ -59,10 +73,14 @@ export default class ApiService {
     }
 
     static parseResponse(response, requestType) {
+        console.log(`Parsing response with status: ${response.status}`);
         ExceptionHandlerService.catchApiErrors(response, requestType);
 
         if (response.status === 204) return null;
         return response.json();
     }
 
+    static getToken(tokenName) {
+        return localStorage.getItem(tokenName);
+    }
 }

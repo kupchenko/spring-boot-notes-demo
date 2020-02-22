@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> defaultExceptionHandler(Exception e) {
-        log.error("Unexpected error occurred with message: {}", e.getMessage());
+        log.error("Unexpected error occurred with message: {}", e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 }

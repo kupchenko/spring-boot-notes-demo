@@ -31,10 +31,10 @@ public class SecurityServerConfigJwt extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(final HttpSecurity http) throws Exception {
         http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
     }
 
     @Override

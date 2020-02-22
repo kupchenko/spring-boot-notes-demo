@@ -11,7 +11,6 @@ import {
     actionNoteFetchSuccessEmpty
 } from "./note-select";
 import ApiService from "../service/api.service";
-import appConfig from "../config/config-app";
 
 export const actionNotesSearchIsLoading = (bool) => ({
     type: C_NOTES_SEARCH_IS_LOADING,
@@ -40,7 +39,7 @@ export const actionDoNotesSearch = (searchQuery = '', page = 0, rows = 10) => {
         dispatch(actionNotesSearchIsLoading(true));
         dispatch(actionNoteFetchIsLoading(true));
 
-        ApiService.fetch(`${appConfig.API_URL_BASE}/notes/user/0`, {
+        ApiService.fetch(`/notes/user`, {
             'text': searchQuery,
             'page': page,
             'rows': rows
