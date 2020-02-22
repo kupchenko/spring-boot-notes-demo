@@ -1,5 +1,7 @@
 import React from 'react';
 import Login from 'ant-design-pro/lib/Login';
+import {connect} from "react-redux";
+import {actionDoLogin} from "../../actions/login";
 
 const {UserName, Password, Submit} = Login;
 
@@ -9,8 +11,7 @@ class LoginPage extends React.Component {
     }
 
     onSubmit = (err, values) => {
-        console.log(values.username);
-        console.log(values.password);
+        this.props.actionDoLogin(values.username, values.password)
     };
 
     render() {
@@ -31,4 +32,10 @@ class LoginPage extends React.Component {
     }
 }
 
-export default LoginPage;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actionDoLogin: (content) => dispatch(actionDoLogin(content))
+    };
+};
+
+export default connect(null, mapDispatchToProps)(LoginPage);

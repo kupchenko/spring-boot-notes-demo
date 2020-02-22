@@ -14,8 +14,12 @@ export default class NotificationService {
             }
         }
     }
+
     static loading(messageContent, key) {
         message.loading({content: messageContent, key});
     }
 
+    static loginFail(content) {
+        message.error({content, key: 'login', duration: 2});
+    }
 }

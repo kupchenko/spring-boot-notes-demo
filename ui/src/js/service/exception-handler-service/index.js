@@ -60,4 +60,8 @@ export default class ExceptionHandlerService {
     static handleUnauthorized() {
         window.location.href = '/login';
     }
+
+    static handleLoginFail() {
+        ExceptionHandlerService.dispatchErrorMessage('Username or password is not correct!', 'login');
+    }
 }

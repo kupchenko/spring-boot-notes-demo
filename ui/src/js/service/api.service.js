@@ -1,17 +1,16 @@
 import ExceptionHandlerService from './exception-handler-service';
 import NotificationService from "./notification-service";
 import {HTTP_METHOD_GET, HTTP_METHOD_POST, HTTP_METHOD_PUT} from "../utils/request-method";
-import {APPLICATION_JSON_VALUE} from "../utils/request-header";
+import {APPLICATION_JSON_VALUE, AUTH_TOKEN} from "../utils/request-header";
 import appConfig from "../config/config-app";
+import {BAD_REQUEST} from "../utils/response-status";
 
 export default class ApiService {
-    static AUTH_TOKEN = 'auth_token';
-
     static fetch(url, payload = {}) {
         const options = {
             method: HTTP_METHOD_GET,
             headers: {
-                'Authorization': ApiService.getToken(this.AUTH_TOKEN),
+                'Authorization': ApiService.getToken(AUTH_TOKEN),
                 'Content-Type': APPLICATION_JSON_VALUE
             },
         };
@@ -27,7 +26,7 @@ export default class ApiService {
         const options = {
             method: HTTP_METHOD_PUT,
             headers: {
-                'Authorization': ApiService.getToken(this.AUTH_TOKEN),
+                'Authorization': ApiService.getToken(AUTH_TOKEN),
                 'Content-Type': APPLICATION_JSON_VALUE
             },
             body: JSON.stringify(payload),
@@ -44,7 +43,7 @@ export default class ApiService {
         const options = {
             method: HTTP_METHOD_POST,
             headers: {
-                'Authorization': ApiService.getToken(this.AUTH_TOKEN),
+                'Authorization': ApiService.getToken(AUTH_TOKEN),
                 'Content-Type': APPLICATION_JSON_VALUE
             },
             body: JSON.stringify(payload),
@@ -52,6 +51,28 @@ export default class ApiService {
         return fetch(this.getFullUrl(url), options)
             .then((response) => {
                 return ApiService.parseResponse(response, HTTP_METHOD_POST);
+            });
+    }
+
+    static async login(username, password) {
+        const url = '/auth/login';
+        NotificationService.loading('Authentication ...', 'login');
+        const options = {
+            method: HTTP_METHOD_POST,
+            headers: {
+                'Content-Type': APPLICATION_JSON_VALUE
+            },
+            body: JSON.stringify({
+                username,
+                password
+            }),
+        };
+        return fetch(this.getFullUrl(url), options)
+            .then((response) => {
+                if (response.status === BAD_REQUEST) {
+                    ExceptionHandlerService.handleLoginFail();
+                }
+                return response.json();
             });
     }
 
