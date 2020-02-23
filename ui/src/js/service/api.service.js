@@ -3,7 +3,6 @@ import NotificationService from "./notification-service";
 import {HTTP_METHOD_GET, HTTP_METHOD_POST, HTTP_METHOD_PUT} from "../utils/request-method";
 import {APPLICATION_JSON_VALUE, AUTH_TOKEN} from "../utils/request-header";
 import appConfig from "../config/config-app";
-import {BAD_REQUEST} from "../utils/response-status";
 
 export default class ApiService {
     static fetch(url, payload = {}) {
@@ -54,26 +53,23 @@ export default class ApiService {
             });
     }
 
-    static async login(username, password) {
-        const url = '/auth/login';
-        NotificationService.loading('Authentication ...', 'login');
-        const options = {
+    static async retrieveToken(code) {
+        const username = 'notes-react-client';
+        const password = 'secret';
+        const url = '/oauth/token';
+
+        let formdata = new FormData();
+        let headers = new Headers();
+
+        formdata.append('grant_type', 'authorization_code');
+        formdata.append('code', code);
+        headers.append('Authorization', 'Basic ' + Buffer.from(username + ":" + password).toString('base64'));
+
+        return fetch(appConfig.API_URL_BASE + url, {
             method: HTTP_METHOD_POST,
-            headers: {
-                'Content-Type': APPLICATION_JSON_VALUE
-            },
-            body: JSON.stringify({
-                username,
-                password
-            }),
-        };
-        return fetch(this.getFullUrl(url), options)
-            .then((response) => {
-                if (response.status === BAD_REQUEST) {
-                    ExceptionHandlerService.handleLoginFail();
-                }
-                return response.json();
-            });
+            headers: headers,
+            body: formdata
+        }).then((response) => response.json());
     }
 
     static buildUri(url, params = {}) {

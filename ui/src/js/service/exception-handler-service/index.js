@@ -58,7 +58,8 @@ export default class ExceptionHandlerService {
     }
 
     static handleUnauthorized() {
-        window.location.href = '/login';
+        console.log("Auth redirect");
+        window.location.href = '/oauth/authorize?grant_type=authorization_code&response_type=code&client_id=notes-react-client';
     }
 
     static handleLoginFail() {
