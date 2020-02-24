@@ -4,7 +4,7 @@ import NotificationService from "../service/notification-service";
 
 export const retrieveToken = (code) => {
 
-    return (dispatch) => {
+    return () => {
         console.log('Authenticating ...');
         ApiService.retrieveToken(code).then((data) => {
             console.log("Got response");

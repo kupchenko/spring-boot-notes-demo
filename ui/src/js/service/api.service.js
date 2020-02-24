@@ -54,9 +54,8 @@ export default class ApiService {
     }
 
     static async retrieveToken(code) {
-        const username = 'notes-react-client';
-        const password = 'secret';
-        const url = '/oauth/token';
+        const username = appConfig.APP_OAUTH2_USERNAME;
+        const password = appConfig.APP_OAUTH2_PASSWORD;
 
         let formdata = new FormData();
         let headers = new Headers();
@@ -65,11 +64,13 @@ export default class ApiService {
         formdata.append('code', code);
         headers.append('Authorization', 'Basic ' + Buffer.from(username + ":" + password).toString('base64'));
 
-        return fetch(appConfig.API_URL_BASE + url, {
+        const options = {
             method: HTTP_METHOD_POST,
             headers: headers,
             body: formdata
-        }).then((response) => response.json());
+        };
+        return fetch(appConfig.API_URL_BASE + '/oauth/token', options)
+            .then((response) => response.json());
     }
 
     static buildUri(url, params = {}) {

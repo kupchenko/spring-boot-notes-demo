@@ -18,7 +18,11 @@ class AuthSuccess extends React.Component {
     render() {
         console.log("Rendering login");
         return (
-            <div className="login-warp" style={{paddingTop: 500}}>
+            <div style={{
+                paddingTop: 300,
+                margin: 'auto',
+                textAlign: 'center'
+            }}>
                 <Spin size="large"/>
             </div>
         )
