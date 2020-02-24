@@ -14,6 +14,5 @@ public class CreateNoteDto {
     @NotEmpty
     private String title;
     private String content;
-    @NotNull
-    private Long userId;
+    private Long owner;
 }

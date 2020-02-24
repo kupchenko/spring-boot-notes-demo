@@ -17,7 +17,6 @@ public interface NoteMapper {
 
     @Mappings({
             @Mapping(ignore = true, target = "id"),
-            @Mapping(ignore = true, target = "owner"),
             @Mapping(ignore = true, target = "createdTs"),
             @Mapping(ignore = true, target = "updatedTs"),
     })

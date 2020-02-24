@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.function.LongSupplier;
 
 @Slf4j
 @Service
@@ -43,9 +43,6 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public NoteDto createNote(CreateNoteDto noteDto) {
         Note note = noteMapper.noteDtoToNote(noteDto);
-//        User user = userRepository.findById(noteDto.getUserId())
-//                .orElseThrow(IllegalArgumentException::new);
-//        note.setUser(user);
         note.setUpdatedTs(LocalDateTime.now());
         note.setCreatedTs(LocalDateTime.now());
         Note newNote = noteRepository.save(note);
@@ -53,12 +50,13 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public NoteDto replaceNote(Long id, NoteDto noteDto) {
-        Note note = noteRepository.findById(id)
-                .map(n -> replaceAllFields(n, noteDto, "id", "createdTs", "updatedTs"))
+    public NoteDto replaceNote(Long userId, NoteDto noteDto) {
+        Note changedNote = noteRepository.findById(noteDto.getId())
+                .filter(note -> note.getOwner().equals(userId))
+                .map(note -> replaceAllFields(note, noteDto, "id", "createdTs", "updatedTs"))
                 .orElseThrow(NoteNotFoundException::new);
 
-        Note newNote = noteRepository.save(note);
+        Note newNote = noteRepository.save(changedNote);
         return noteMapper.noteToNoteDto(newNote);
     }
 
@@ -72,8 +70,11 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public void deleteNote(Long id) {
-        noteRepository.deleteById(id);
+    public void deleteNote(Long userId, Long noteId) {
+        Note noteForDelete = noteRepository.findById(noteId)
+                .filter(note -> note.getOwner().equals(userId))
+                .orElseThrow(NoteNotFoundException::new);
+        noteRepository.delete(noteForDelete);
     }
 
     @Override
@@ -100,22 +101,21 @@ public class NoteServiceImpl implements NoteService {
         Pageable pageable = PageRequest.of(searchDto.getPage(), searchDto.getRows());
         List<Note> userNotes = noteRepository.findAll(content, userId, pageable);
         List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
-//        log.info("Total found: {}, returning: {}, for filter '{}'", count, userNotesDtos.size(), searchDto.getText());
         return new NotesResponseDto(userNotesDtos, pagination);
     }
 
-    private ResponsePagination getResponsePagination(NotesSearchDto searchDto, Supplier<Long> countSupplier) {
+    private ResponsePagination getResponsePagination(NotesSearchDto searchDto, LongSupplier countSupplier) {
         ResponsePagination pagination = new ResponsePagination();
-        Long count = countSupplier.get();
+        Long count = countSupplier.getAsLong();
         pagination.setNumFound(count);
         pagination.setRows(searchDto.getRows());
         pagination.setPage(searchDto.getPage());
         return pagination;
     }
 
-    private ResponsePagination getDefaultResponsePagination(Supplier<Long> countSupplier) {
+    private ResponsePagination getDefaultResponsePagination(LongSupplier countSupplier) {
         ResponsePagination pagination = new ResponsePagination();
-        Long count = countSupplier.get();
+        Long count = countSupplier.getAsLong();
         pagination.setNumFound(count);
         return pagination;
     }

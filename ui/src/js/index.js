@@ -15,7 +15,6 @@ const store = configureStore();
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            {/*<Route path="/" component={<Main/>}/>*/}
             <Route exact path="/" component={Notes}/>
             <Route exact path="/notes" component={Notes}/>
             <Route path="/auth/success" component={AuthSuccess}/>

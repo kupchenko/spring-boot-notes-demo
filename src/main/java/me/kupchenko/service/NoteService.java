@@ -10,11 +10,11 @@ public interface NoteService {
 
     NoteDto createNote(CreateNoteDto noteDto);
 
-    NoteDto replaceNote(Long id, NoteDto noteDto);
+    NoteDto replaceNote(Long userId, NoteDto noteDto);
 
     NoteDto updateNote(Long id, NoteDto noteDto);
 
-    void deleteNote(Long id);
+    void deleteNote(Long userId, Long noteId);
 
     NotesResponseDto getNotes();
 
