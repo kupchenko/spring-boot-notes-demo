@@ -50,7 +50,6 @@ public class NoteController {
         return noteService.replaceNote(userId, noteDto);
     }
 
-    @Secured("isAuthenticated()")
     @PatchMapping("/{id:[0-9]+}")
     public NoteDto updateNote(@PathVariable Long id, NoteDto noteDto) {
         return noteService.updateNote(id, noteDto);
