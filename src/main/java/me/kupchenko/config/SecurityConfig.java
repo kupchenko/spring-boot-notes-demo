@@ -26,15 +26,14 @@ import java.util.Map;
 @Configuration
 @AllArgsConstructor
 @EnableResourceServer
-public class SecurityServerConfigJwt extends ResourceServerConfigurerAdapter {
+public class SecurityConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(final HttpSecurity http) throws Exception {
-		http.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		http.authorizeRequests()
+				.anyRequest().authenticated()
 				.and()
-				.authorizeRequests()
-				.anyRequest().authenticated();
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
 	@Bean

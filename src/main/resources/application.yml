@@ -11,3 +11,5 @@ jdbc:
   driverClassName: com.mysql.cj.jdbc.Driver
   user: root
   pass: rootroot
+
+client.service.auth.url: http://localhost:8085
