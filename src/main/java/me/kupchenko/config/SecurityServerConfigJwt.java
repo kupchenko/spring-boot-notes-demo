@@ -10,22 +10,23 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import java.nio.charset.Charset;
+import java.util.Map;
 
 @Configuration
 @AllArgsConstructor
 @EnableResourceServer
 public class SecurityServerConfigJwt extends ResourceServerConfigurerAdapter {
-
-	private CustomAccessTokenConverter customAccessTokenConverter;
 
 	@Override
 	public void configure(final HttpSecurity http) throws Exception {
@@ -36,21 +37,32 @@ public class SecurityServerConfigJwt extends ResourceServerConfigurerAdapter {
 				.anyRequest().authenticated();
 	}
 
-	@Override
-	public void configure(final ResourceServerSecurityConfigurer config) {
-		config.tokenServices(tokenServices());
-	}
-
 	@Bean
 	public TokenStore tokenStore() {
-		return new JwtTokenStore(accessTokenConverter());
+		return new JwtTokenStore(accessTokenConverter()) {
+			@Override
+			public OAuth2AccessToken readAccessToken(String tokenValue) {
+				DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) super.readAccessToken(tokenValue);
+				//This needs for disabling token expiration check
+				token.setExpiration(null);
+				return token;
+			}
+		};
 	}
 
 	@Bean
 	@SneakyThrows
 	public JwtAccessTokenConverter accessTokenConverter() {
-		final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-		converter.setAccessTokenConverter(customAccessTokenConverter);
+		JwtAccessTokenConverter converter = new JwtAccessTokenConverter() {
+			// This needs for setting decoded details from JWT to Authentication object in order to Spring does not do it by default
+			// This prevents us from parsing JWT two times.
+			@Override
+			public OAuth2Authentication extractAuthentication(Map<String, ?> map) {
+				OAuth2Authentication authentication = super.extractAuthentication(map);
+				authentication.setDetails(map);
+				return authentication;
+			}
+		};
 
 		final Resource resource = new ClassPathResource("public.txt");
 		String publicKey = IOUtils.toString(resource.getInputStream(), Charset.defaultCharset());
