@@ -24,7 +24,7 @@ export const actionDoNoteUpdate = (id, newTitle, newContent) => {
 
     return (dispatch) => {
         dispatch(actionNoteUpdateInProgress(true));
-        ApiService.update(`/note/${id}`, {
+        ApiService.update(`/notes/${id}`, {
             'title': newTitle,
             'content': newContent
         }).then(() => {

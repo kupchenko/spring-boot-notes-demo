@@ -17,27 +17,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private UserClient userClient;
+    private UserClient userClient;
 
-	@Autowired
-	public UserServiceImpl(Client client, @Value("${client.service.auth.url}") String authServiceUrl) {
-		this.userClient = Feign.builder()
-				.client(client)
-				.contract(new SpringMvcContract())
-				.encoder(new JacksonEncoder())
-				.decoder(new JacksonDecoder())
-				.logger(new Slf4jLogger(UserClient.class))
-				.logLevel(Logger.Level.FULL)
-				.target(UserClient.class, authServiceUrl);
-	}
+    @Autowired
+    public UserServiceImpl(Client client, @Value("${client.service.auth.url}") String authServiceUrl) {
+        this.userClient = Feign.builder()
+                .client(client)
+                .contract(new SpringMvcContract())
+                .encoder(new JacksonEncoder())
+                .decoder(new JacksonDecoder())
+                .logger(new Slf4jLogger(UserClient.class))
+                .logLevel(Logger.Level.FULL)
+                .target(UserClient.class, authServiceUrl);
+    }
 
-	@Override
-	public UserDto findByUserName(String username) {
-		return userClient.findUserByUsername(username);
-	}
+    @Override
+    public UserDto findByUserName(String username) {
+        return userClient.findUserByUsername(username);
+    }
 
-	@Override
-	public UserDto findById(Long id) {
-		return userClient.findUserByUsername(id.toString());
-	}
+    @Override
+    public UserDto findById(Long id) {
+        return userClient.findUserById(id);
+    }
 }

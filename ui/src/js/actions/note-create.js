@@ -35,7 +35,7 @@ export const actionDoNoteCreate = (newTitle, newContent) => {
 
     return (dispatch) => {
         dispatch(actionNoteCreateInProgress(true));
-        ApiService.create(`/note`, {
+        ApiService.create(`/notes`, {
             'userId': 0,
             'title': newTitle,
             'content': newContent

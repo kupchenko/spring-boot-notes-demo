@@ -34,7 +34,7 @@ export const actionNotesSelect = (id) => ({
 export const actionDoNoteFetch = (id) => {
     return (dispatch) => {
         dispatch(actionNoteFetchIsLoading(true));
-        ApiService.fetch(`/note/${id}`).then((json) => {
+        ApiService.fetch(`/notes/${id}`).then((json) => {
             dispatch(actionNoteFetchSuccess(json));
         }).catch(() => {
             dispatch(actionNoteFetchFailure())
