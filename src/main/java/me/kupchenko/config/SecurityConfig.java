@@ -28,53 +28,54 @@ import java.util.Map;
 @EnableResourceServer
 public class SecurityConfig extends ResourceServerConfigurerAdapter {
 
-	@Override
-	public void configure(final HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-				.anyRequest().authenticated()
-				.and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-	}
+    @Override
+    public void configure(final HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
 
-	@Bean
-	public TokenStore tokenStore() {
-		return new JwtTokenStore(accessTokenConverter()) {
-			@Override
-			public OAuth2AccessToken readAccessToken(String tokenValue) {
-				DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) super.readAccessToken(tokenValue);
-				//This needs for disabling token expiration check
-				token.setExpiration(null);
-				return token;
-			}
-		};
-	}
+    @Bean
+    public TokenStore tokenStore() {
+        return new JwtTokenStore(accessTokenConverter()) {
+            @Override
+            public OAuth2AccessToken readAccessToken(String tokenValue) {
+                DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) super.readAccessToken(tokenValue);
+                //This needs for disabling token expiration check
+                token.setExpiration(null);
+                return token;
+            }
+        };
+    }
 
-	@Bean
-	@SneakyThrows
-	public JwtAccessTokenConverter accessTokenConverter() {
-		JwtAccessTokenConverter converter = new JwtAccessTokenConverter() {
-			// This needs for setting decoded details from JWT to Authentication object in order to Spring does not do it by default
-			// This prevents us from parsing JWT two times.
-			@Override
-			public OAuth2Authentication extractAuthentication(Map<String, ?> map) {
-				OAuth2Authentication authentication = super.extractAuthentication(map);
-				authentication.setDetails(map);
-				return authentication;
-			}
-		};
+    @Bean
+    @SneakyThrows
+    public JwtAccessTokenConverter accessTokenConverter() {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter() {
+            // This needs for setting decoded details from JWT to Authentication object in order to Spring does not do it by default
+            // This prevents us from parsing JWT two times.
+            @Override
+            public OAuth2Authentication extractAuthentication(Map<String, ?> map) {
+                OAuth2Authentication authentication = super.extractAuthentication(map);
+                authentication.setDetails(map);
+                return authentication;
+            }
+        };
 
-		final Resource resource = new ClassPathResource("public.txt");
-		String publicKey = IOUtils.toString(resource.getInputStream(), Charset.defaultCharset());
-		converter.setVerifierKey(publicKey);
-		return converter;
-	}
+        final Resource resource = new ClassPathResource("public.txt");
+        String publicKey = IOUtils.toString(resource.getInputStream(), Charset.defaultCharset());
+        converter.setVerifierKey(publicKey);
+        return converter;
+    }
 
-	@Bean
-	@Primary
-	public DefaultTokenServices tokenServices() {
-		final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-		defaultTokenServices.setTokenStore(tokenStore());
-		return defaultTokenServices;
-	}
+    @Bean
+    @Primary
+    public DefaultTokenServices tokenServices() {
+        final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        defaultTokenServices.setTokenStore(tokenStore());
+        return defaultTokenServices;
+    }
 
 }

@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import me.kupchenko.dto.CreateNoteDto;
 import me.kupchenko.dto.ExtendedNoteDto;
 import me.kupchenko.dto.NoteDto;
+import me.kupchenko.dto.NotesResponseDto;
+import me.kupchenko.dto.NotesSearchDto;
 import me.kupchenko.service.NoteService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,10 +27,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/note")
+@RequestMapping("/notes")
 public class NoteController {
 
     private NoteService noteService;
+
+    @GetMapping(value = "/user", produces = APPLICATION_JSON_VALUE)
+    public NotesResponseDto searchUserNotes(Authentication auth,
+                                            @Valid NotesSearchDto searchDto) {
+        log.info("Searching notes for user {} by search criteria: {}", auth.getName(), searchDto);
+        Long userId = extractUserId(auth);
+        return noteService.searchUserNotes(userId, searchDto);
+    }
 
     @GetMapping("/{id:[0-9]+}")
     public ExtendedNoteDto getNote(Authentication auth, @PathVariable Long id) {
