@@ -37,3 +37,5 @@ INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
 VALUES (15, '11My sixth note', 'Sixth Another content here. Another text is presented here.', 0, '2014-02-14', '2014-02-14');
 INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
 VALUES (16, '12My sixth note', 'Sixth Another content here. Another text is presented here.', 0, '2014-02-14', '2014-02-14');
+INSERT INTO notes(id, title, content, owner, created_ts, updated_ts)
+VALUES (17, 'Note with non-existing user', 'Some content here. Another text is presented here.', -1, '2014-02-14', '2014-02-14');

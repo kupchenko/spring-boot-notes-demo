@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import me.kupchenko.auth.service.dto.UserDto;
+import me.kupchenko.dto.AdminNotesResponseDto;
 import me.kupchenko.dto.CreateNoteDto;
 import me.kupchenko.dto.ExtendedNoteDto;
 import me.kupchenko.dto.NoteDto;
@@ -33,125 +34,151 @@ import java.util.function.LongSupplier;
 @AllArgsConstructor
 public class NoteServiceImpl implements NoteService {
 
-	private NoteRepository noteRepository;
-	private NoteMapper noteMapper;
-	private UserService userServices;
+    private NoteRepository noteRepository;
+    private NoteMapper noteMapper;
+    private UserService userService;
 
-	@Override
-	public ExtendedNoteDto getNote(Long id) {
-		Note note = noteRepository.findById(id).orElseThrow(NoteNotFoundException::new);
-		UserDto userDto = userServices.findById(note.getOwner());
+    @Override
+    public ExtendedNoteDto getNote(Long userId, Long id) {
+        Note note = noteRepository.findById(id).orElseThrow(() -> new NoteNotFoundException(userId, id));
 
-		ExtendedNoteDto extendedNoteDto = noteMapper.noteToExtendedNoteDto(note);
-		extendedNoteDto.setUser(userDto);
+        validateNote(userId, note);
 
-		return extendedNoteDto;
-	}
+        return noteMapper.noteToExtendedNoteDto(note);
+    }
 
-	@Override
-	public NoteDto createNote(CreateNoteDto noteDto) {
-		Note note = noteMapper.noteDtoToNote(noteDto);
-		note.setUpdatedTs(LocalDateTime.now());
-		note.setCreatedTs(LocalDateTime.now());
-		Note newNote = noteRepository.save(note);
-		return noteMapper.noteToNoteDto(newNote);
-	}
+    private void validateNote(Long userId, Note note) {
+        if (!note.getOwner().equals(userId)) {
+            throw new NoteNotFoundException(userId, note.getId());
+        }
+    }
 
-	@Override
-	public NoteDto replaceNote(Long userId, NoteDto noteDto) {
-		Note changedNote = noteRepository.findById(noteDto.getId())
-				.filter(note -> note.getOwner().equals(userId))
-				.map(note -> replaceAllFields(note, noteDto, "id", "createdTs", "updatedTs"))
-				.orElseThrow(NoteNotFoundException::new);
+    @Override
+    public NoteDto createNote(CreateNoteDto noteDto) {
+        Note note = noteMapper.noteDtoToNote(noteDto);
+        note.setUpdatedTs(LocalDateTime.now());
+        note.setCreatedTs(LocalDateTime.now());
+        Note newNote = noteRepository.save(note);
+        return noteMapper.noteToNoteDto(newNote);
+    }
 
-		Note newNote = noteRepository.save(changedNote);
-		return noteMapper.noteToNoteDto(newNote);
-	}
+    @Override
+    public NoteDto replaceNote(Long userId, NoteDto noteDto) {
+        Note changedNote = noteRepository.findById(noteDto.getId())
+                .filter(note -> note.getOwner().equals(userId))
+                .map(note -> replaceAllFields(note, noteDto, "id", "createdTs", "updatedTs"))
+                .orElseThrow(() -> new NoteNotFoundException(userId, noteDto.getId()));
 
-	@Override
-	public NoteDto updateNote(Long id, NoteDto noteDto) {
-		Note note = noteRepository.findById(id)
-				.orElseThrow(NoteNotFoundException::new);
+        Note newNote = noteRepository.save(changedNote);
+        return noteMapper.noteToNoteDto(newNote);
+    }
+
+    @Override
+    public NoteDto updateNote(Long id, NoteDto noteDto) {
+        Note note = noteRepository.findById(id)
+                .orElseThrow(() -> new NoteNotFoundException(-1L, id));
 //        replace fields
-		Note newNote = noteRepository.save(note);
-		return noteMapper.noteToNoteDto(newNote);
-	}
+        Note newNote = noteRepository.save(note);
+        return noteMapper.noteToNoteDto(newNote);
+    }
 
-	@Override
-	public void deleteNote(Long userId, Long noteId) {
-		Note noteForDelete = noteRepository.findById(noteId)
-				.filter(note -> note.getOwner().equals(userId))
-				.orElseThrow(NoteNotFoundException::new);
-		noteRepository.delete(noteForDelete);
-	}
+    @Override
+    public void deleteNote(Long userId, Long noteId) {
+        Note noteForDelete = noteRepository.findById(noteId)
+                .filter(note -> note.getOwner().equals(userId))
+                .orElseThrow(() -> new NoteNotFoundException(userId, noteId));
+        noteRepository.delete(noteForDelete);
+    }
 
-	@Override
-	public NotesResponseDto getNotes() {
-		List<Note> notes = noteRepository.findAll();
-		List<NoteDto> noteDtos = noteMapper.noteListToNoteDtoList(notes);
-		ResponsePagination responsePagination = getDefaultResponsePagination(() -> noteRepository.count());
-		return new NotesResponseDto(noteDtos, responsePagination);
-	}
+    @Override
+    public NotesResponseDto getNotes() {
+        List<Note> notes = noteRepository.findAll();
+        List<NoteDto> noteDtos = noteMapper.noteListToNoteDtoList(notes);
+        ResponsePagination responsePagination = getDefaultResponsePagination(() -> noteRepository.count());
+        return new NotesResponseDto(noteDtos, responsePagination);
+    }
 
-	@Override
-	public NotesResponseDto getNotesByUserId(Long userId) {
-		List<Note> userNotes = noteRepository.findAllByOwner(userId);
-		List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
-		ResponsePagination responsePagination = getDefaultResponsePagination(() -> noteRepository.countByOwner(userId));
-		return new NotesResponseDto(userNotesDtos, responsePagination);
-	}
+    @Override
+    public NotesResponseDto getNotesByUserId(Long userId) {
+        List<Note> userNotes = noteRepository.findAllByOwner(userId);
+        List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
+        ResponsePagination responsePagination = getDefaultResponsePagination(() -> noteRepository.countByOwner(userId));
+        return new NotesResponseDto(userNotesDtos, responsePagination);
+    }
 
-	@Override
-	public NotesResponseDto searchUserNotes(Long userId, NotesSearchDto searchDto) {
-		String content = "%" + searchDto.getText() + "%";
-		ResponsePagination pagination = getResponsePagination(searchDto, () -> noteRepository.countTotalNotesByCriteria(content, userId));
+    @Override
+    public NotesResponseDto searchUserNotes(Long userId, NotesSearchDto searchDto) {
+        String content = "%" + searchDto.getText() + "%";
+        ResponsePagination pagination = getResponsePagination(searchDto, () -> noteRepository.countTotalNotesByCriteria(content, userId));
 
-		Pageable pageable = PageRequest.of(searchDto.getPage(), searchDto.getRows());
-		List<Note> userNotes = noteRepository.findAll(content, userId, pageable);
-		List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
-		return new NotesResponseDto(userNotesDtos, pagination);
-	}
+        Pageable pageable = PageRequest.of(searchDto.getPage(), searchDto.getRows());
+        List<Note> userNotes = noteRepository.findAll(content, userId, pageable);
+        List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
+        return new NotesResponseDto(userNotesDtos, pagination);
+    }
 
-	private ResponsePagination getResponsePagination(NotesSearchDto searchDto, LongSupplier countSupplier) {
-		ResponsePagination pagination = new ResponsePagination();
-		Long count = countSupplier.getAsLong();
-		pagination.setNumFound(count);
-		pagination.setRows(searchDto.getRows());
-		pagination.setPage(searchDto.getPage());
-		return pagination;
-	}
+    @Override
+    public ExtendedNoteDto getNote(Long noteId) {
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(() -> new NoteNotFoundException(-1L, noteId));
+        UserDto user = userService.findById(note.getOwner());
+        ExtendedNoteDto extendedNoteDto = noteMapper.noteToExtendedNoteDto(note);
+        extendedNoteDto.setUser(user);
 
-	private ResponsePagination getDefaultResponsePagination(LongSupplier countSupplier) {
-		ResponsePagination pagination = new ResponsePagination();
-		Long count = countSupplier.getAsLong();
-		pagination.setNumFound(count);
-		return pagination;
-	}
+        return extendedNoteDto;
+    }
 
-	private Note replaceAllFields(Note note, NoteDto noteDto, String... excludeFields) {
-		List<String> excludeFieldsList = Arrays.asList(excludeFields);
-		Map<String, Object> clazzFields = Arrays.stream(noteDto.getClass().getDeclaredFields())
-				.collect(HashMap::new, (m, v) -> m.put(v.getName(), getObjectFieldValue(noteDto, v)), HashMap::putAll);
+    @Override
+    public AdminNotesResponseDto searchAdminUserNotes(Long userId, NotesSearchDto searchDto) {
+        NotesResponseDto note = searchUserNotes(userId, searchDto);
+        UserDto user = userService.findById(userId);
+        return AdminNotesResponseDto.builder()
+                .notes(note.getNotes())
+                .pagination(note.getPagination())
+                .user(user)
+                .build();
+    }
 
-		Arrays.stream(note.getClass().getDeclaredFields())
-				.filter(field -> !excludeFieldsList.contains(field.getName()))
-				.forEach(field -> setObjectFieldValue(note, clazzFields, field));
-		note.setUpdatedTs(LocalDateTime.now());
-		return note;
-	}
+    private ResponsePagination getResponsePagination(NotesSearchDto searchDto, LongSupplier countSupplier) {
+        ResponsePagination pagination = new ResponsePagination();
+        Long count = countSupplier.getAsLong();
+        pagination.setNumFound(count);
+        pagination.setRows(searchDto.getRows());
+        pagination.setPage(searchDto.getPage());
+        return pagination;
+    }
 
-	@SneakyThrows
-	private void setObjectFieldValue(Note note, Map<String, Object> collect, Field field) {
-		field.setAccessible(true);
-		String name = field.getName();
-		if (collect.containsKey(name)) {
-			field.set(note, collect.get(name));
-		}
-	}
+    private ResponsePagination getDefaultResponsePagination(LongSupplier countSupplier) {
+        ResponsePagination pagination = new ResponsePagination();
+        Long count = countSupplier.getAsLong();
+        pagination.setNumFound(count);
+        return pagination;
+    }
 
-	@SneakyThrows
-	private Object getObjectFieldValue(NoteDto noteDto, Field field) {
-		field.setAccessible(true);
-		return field.get(noteDto);
-	}
+    private Note replaceAllFields(Note note, NoteDto noteDto, String... excludeFields) {
+        List<String> excludeFieldsList = Arrays.asList(excludeFields);
+        Map<String, Object> clazzFields = Arrays.stream(noteDto.getClass().getDeclaredFields())
+                .collect(HashMap::new, (m, v) -> m.put(v.getName(), getObjectFieldValue(noteDto, v)), HashMap::putAll);
+
+        Arrays.stream(note.getClass().getDeclaredFields())
+                .filter(field -> !excludeFieldsList.contains(field.getName()))
+                .forEach(field -> setObjectFieldValue(note, clazzFields, field));
+        note.setUpdatedTs(LocalDateTime.now());
+        return note;
+    }
+
+    @SneakyThrows
+    private void setObjectFieldValue(Note note, Map<String, Object> collect, Field field) {
+        field.setAccessible(true);
+        String name = field.getName();
+        if (collect.containsKey(name)) {
+            field.set(note, collect.get(name));
+        }
+    }
+
+    @SneakyThrows
+    private Object getObjectFieldValue(NoteDto noteDto, Field field) {
+        field.setAccessible(true);
+        return field.get(noteDto);
+    }
 }
