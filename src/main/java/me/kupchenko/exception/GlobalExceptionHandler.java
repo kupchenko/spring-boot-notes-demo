@@ -6,6 +6,7 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -24,8 +25,14 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final String MESSAGE_RESPONSE_KEY = "message";
+
+    @NonNull
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  @NonNull HttpHeaders headers,
+                                                                  @NonNull HttpStatus status,
+                                                                  @NonNull WebRequest request) {
         log.warn("Error while validation request body");
         Map<String, String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(error -> ((FieldError) error))
@@ -37,7 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleNoteNotFoundException(NoteNotFoundException ex) {
         log.warn("Error while fetching note");
         Map<String, Object> errors = new LinkedHashMap<>();
-        errors.put("message", "Note was not found for user");
+        errors.put(MESSAGE_RESPONSE_KEY, "Note was not found for user");
         errors.put("userId", ex.getUserId());
         errors.put("noteId", ex.getNoteId());
         return ResponseEntity.badRequest().body(errors);
@@ -47,7 +54,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleFeignExceptionNotFound(FeignException.NotFound ex) {
         log.warn("Error while fetching user from [{} {}]", ex.request().httpMethod().name(), ex.request().url());
         Map<String, Object> errors = new HashMap<>();
-        errors.put("message", "User was not found");
+        errors.put(MESSAGE_RESPONSE_KEY, "User was not found");
         return ResponseEntity.badRequest().body(errors);
     }
 
@@ -55,7 +62,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleFeignException(FeignException ex) {
         log.warn("Error while fetching data from another service [{} {}]", ex.request().httpMethod().name(), ex.request().url());
         Map<String, Object> errors = new LinkedHashMap<>();
-        errors.put("message", "Unexpected error from external server");
+        errors.put(MESSAGE_RESPONSE_KEY, "Unexpected error from external server");
         errors.put("request.method", ex.request().httpMethod().name());
         errors.put("request.url", ex.request().url());
         errors.put("response.status", ex.status());
@@ -64,7 +71,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex) {
+    public ResponseEntity<Object> handleAccessDeniedException() {
+        //Not handled by default
+        log.info("User is not UNAUTHORIZED to request this resource.");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 

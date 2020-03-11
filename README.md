@@ -12,7 +12,9 @@
 
 * Start the application by executing: 
 
-```./gradlew clean bootRun```
+```
+    ./gradlew clean bootRun
+```
 
 * DEV: Start the application by executing: 
 
