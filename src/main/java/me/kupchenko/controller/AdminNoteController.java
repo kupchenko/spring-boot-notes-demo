@@ -23,7 +23,6 @@ public class AdminNoteController {
 
     private NoteService noteService;
 
-    //    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{noteId:[0-9]+}")
     public ExtendedNoteDto getNote(@PathVariable Long noteId) {
         return noteService.getNote(noteId);
