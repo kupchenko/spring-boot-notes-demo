@@ -13,3 +13,12 @@ jdbc:
   pass: rootroot
 
 client.service.auth.url: http://localhost:8085
+
+key:
+  location: classpath:key.pub
+
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE

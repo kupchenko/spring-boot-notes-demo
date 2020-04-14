@@ -1,8 +1,7 @@
 package me.kupchenko.util;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -17,9 +16,8 @@ public class WebUtils {
         }
     }
 
-    public static Long extractUserId(Authentication auth) {
-        OAuth2AuthenticationDetails oauthDetails = (OAuth2AuthenticationDetails) auth.getDetails();
-        Map<String, Object> details = (Map<String, Object>) oauthDetails.getDecodedDetails();
+    public static Long extractUserId(JwtAuthenticationToken auth) {
+        Map<String, Object> details = auth.getTokenAttributes();
         return Long.parseLong(details.get("user-id").toString());
     }
 }

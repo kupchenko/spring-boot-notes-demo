@@ -8,7 +8,7 @@ import me.kupchenko.dto.NoteDto;
 import me.kupchenko.dto.NotesResponseDto;
 import me.kupchenko.dto.NotesSearchDto;
 import me.kupchenko.service.NoteService;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -33,7 +33,7 @@ public class NoteController {
     private NoteService noteService;
 
     @GetMapping(value = "/user", produces = APPLICATION_JSON_VALUE)
-    public NotesResponseDto searchUserNotes(Authentication auth,
+    public NotesResponseDto searchUserNotes(JwtAuthenticationToken auth,
                                             @Valid NotesSearchDto searchDto) {
         log.info("Searching notes for user {} by search criteria: {}", auth.getName(), searchDto);
         Long userId = extractUserId(auth);
@@ -41,20 +41,20 @@ public class NoteController {
     }
 
     @GetMapping("/{id:[0-9]+}")
-    public ExtendedNoteDto getNote(Authentication auth, @PathVariable Long id) {
+    public ExtendedNoteDto getNote(JwtAuthenticationToken auth, @PathVariable Long id) {
         Long userId = extractUserId(auth);
         return noteService.getNote(userId, id);
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public NoteDto createNote(Authentication auth, @Valid @RequestBody CreateNoteDto noteDto) {
+    public NoteDto createNote(JwtAuthenticationToken auth, @Valid @RequestBody CreateNoteDto noteDto) {
         Long userId = extractUserId(auth);
         noteDto.setOwner(userId);
         return noteService.createNote(noteDto);
     }
 
     @PutMapping(value = "/{id:[0-9]+}", consumes = APPLICATION_JSON_VALUE)
-    public NoteDto replaceNote(Authentication auth, @PathVariable Long id, @Valid @RequestBody NoteDto noteDto) {
+    public NoteDto replaceNote(JwtAuthenticationToken auth, @PathVariable Long id, @Valid @RequestBody NoteDto noteDto) {
         noteDto.setId(id);
         log.info("Updating note: {}", noteDto);
         Long userId = extractUserId(auth);
@@ -67,7 +67,7 @@ public class NoteController {
     }
 
     @DeleteMapping("/{id:[0-9]+}")
-    public void deleteNote(Authentication auth, @PathVariable Long id) {
+    public void deleteNote(JwtAuthenticationToken auth, @PathVariable Long id) {
         Long userId = extractUserId(auth);
         noteService.deleteNote(userId, id);
     }
