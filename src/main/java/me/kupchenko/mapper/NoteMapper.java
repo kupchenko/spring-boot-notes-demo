@@ -13,20 +13,20 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface NoteMapper {
 
-	@Mapping(ignore = true, target = "owner")
-	Note noteDtoToNote(NoteDto noteDto);
+    @Mapping(ignore = true, target = "owner")
+    Note noteDtoToNote(NoteDto noteDto);
 
-	@Mappings({
-			@Mapping(ignore = true, target = "id"),
-			@Mapping(ignore = true, target = "createdTs"),
-			@Mapping(ignore = true, target = "updatedTs"),
-	})
-	Note noteDtoToNote(CreateNoteDto noteDto);
+    @Mappings({
+            @Mapping(ignore = true, target = "id"),
+            @Mapping(ignore = true, target = "createdTs"),
+            @Mapping(ignore = true, target = "updatedTs"),
+    })
+    Note noteDtoToNote(CreateNoteDto noteDto);
 
-	NoteDto noteToNoteDto(Note note);
+    NoteDto noteToNoteDto(Note note);
 
-	@Mapping(ignore = true, target = "user")
-	ExtendedNoteDto noteToExtendedNoteDto(Note note);
+    @Mapping(ignore = true, target = "user")
+    ExtendedNoteDto noteToExtendedNoteDto(Note note);
 
-	List<NoteDto> noteListToNoteDtoList(List<Note> notes);
+    List<NoteDto> noteListToNoteDtoList(List<Note> notes);
 }
