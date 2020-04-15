@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static me.kupchenko.util.WebUtils.extractUserId;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
@@ -36,20 +35,17 @@ public class NoteController {
     public NotesResponseDto searchUserNotes(JwtAuthenticationToken auth,
                                             @Valid NotesSearchDto searchDto) {
         log.info("Searching notes for user {} by search criteria: {}", auth.getName(), searchDto);
-        String userId = extractUserId(auth);
-        return noteService.searchUserNotes(userId, searchDto);
+        return noteService.searchUserNotes(auth.getName(), searchDto);
     }
 
     @GetMapping("/{id:[0-9]+}")
     public ExtendedNoteDto getNote(JwtAuthenticationToken auth, @PathVariable Long id) {
-        String userId = extractUserId(auth);
-        return noteService.getNote(userId, id);
+        return noteService.getNote(auth.getName(), id);
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public NoteDto createNote(JwtAuthenticationToken auth, @Valid @RequestBody CreateNoteDto noteDto) {
-        String userId = extractUserId(auth);
-        noteDto.setOwner(userId);
+        noteDto.setOwner(auth.getName());
         return noteService.createNote(noteDto);
     }
 
@@ -57,8 +53,7 @@ public class NoteController {
     public NoteDto replaceNote(JwtAuthenticationToken auth, @PathVariable Long id, @Valid @RequestBody NoteDto noteDto) {
         noteDto.setId(id);
         log.info("Updating note: {}", noteDto);
-        String userId = extractUserId(auth);
-        return noteService.replaceNote(userId, noteDto);
+        return noteService.replaceNote(auth.getName(), noteDto);
     }
 
     @PatchMapping("/{id:[0-9]+}")
@@ -68,7 +63,6 @@ public class NoteController {
 
     @DeleteMapping("/{id:[0-9]+}")
     public void deleteNote(JwtAuthenticationToken auth, @PathVariable Long id) {
-        String userId = extractUserId(auth);
-        noteService.deleteNote(userId, id);
+        noteService.deleteNote(auth.getName(), id);
     }
 }

@@ -26,7 +26,6 @@ public class WithMockOAuth2ScopeSecurityContextFactory implements WithSecurityCo
         Jwt jwt = Jwt.withTokenValue("token")
                 .header("alg", "none")
                 .subject(user.username())
-                .claim("user-id", user.username())
                 .claim("roles", authorities)
                 .claim("scopes", scope)
                 .build();
