@@ -16,8 +16,8 @@ public class WebUtils {
         }
     }
 
-    public static Long extractUserId(JwtAuthenticationToken auth) {
+    public static String extractUserId(JwtAuthenticationToken auth) {
         Map<String, Object> details = auth.getTokenAttributes();
-        return Long.parseLong(details.get("user-id").toString());
+        return details.get("user-id").toString();
     }
 }

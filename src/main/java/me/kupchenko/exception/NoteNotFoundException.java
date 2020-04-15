@@ -8,6 +8,6 @@ import lombok.Value;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class NoteNotFoundException extends RuntimeException {
-	private final Long userId;
+	private final String userId;
 	private final Long noteId;
 }

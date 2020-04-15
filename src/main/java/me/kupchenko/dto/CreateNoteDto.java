@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -14,5 +13,5 @@ public class CreateNoteDto {
     @NotEmpty
     private String title;
     private String content;
-    private Long owner;
+    private String owner;
 }

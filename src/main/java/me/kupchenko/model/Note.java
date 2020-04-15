@@ -23,7 +23,7 @@ public class Note {
     private Long id;
     private String title;
     private String content;
-    private Long owner;
+    private String owner;
     @Column(name = "created_ts")
     private LocalDateTime createdTs;
     @Column(name = "updated_ts")

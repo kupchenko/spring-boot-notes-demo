@@ -29,7 +29,7 @@ public class AdminNoteController {
     }
 
     @GetMapping(value = "/user/{userId:[0-9]+}", produces = APPLICATION_JSON_VALUE)
-    public AdminNotesResponseDto searchUserNotes(@PathVariable Long userId,
+    public AdminNotesResponseDto searchUserNotes(@PathVariable String userId,
                                                  @Valid NotesSearchDto searchDto) {
         return noteService.searchAdminUserNotes(userId, searchDto);
     }

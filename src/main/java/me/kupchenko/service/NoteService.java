@@ -8,24 +8,24 @@ import me.kupchenko.dto.NotesResponseDto;
 import me.kupchenko.dto.NotesSearchDto;
 
 public interface NoteService {
-    ExtendedNoteDto getNote(Long userId, Long id);
+    ExtendedNoteDto getNote(String userId, Long id);
 
     NoteDto createNote(CreateNoteDto noteDto);
 
-    NoteDto replaceNote(Long userId, NoteDto noteDto);
+    NoteDto replaceNote(String userId, NoteDto noteDto);
 
     NoteDto updateNote(Long id, NoteDto noteDto);
 
-    void deleteNote(Long userId, Long noteId);
+    void deleteNote(String userId, Long noteId);
 
     NotesResponseDto getNotes();
 
-    NotesResponseDto getNotesByUserId(Long userId);
+    NotesResponseDto getNotesByUserId(String userId);
 
-    NotesResponseDto searchUserNotes(Long id, NotesSearchDto searchDto);
+    NotesResponseDto searchUserNotes(String id, NotesSearchDto searchDto);
 
     //admin endpoints
     ExtendedNoteDto getNote(Long noteId);
 
-    AdminNotesResponseDto searchAdminUserNotes(Long userId, NotesSearchDto searchDto);
+    AdminNotesResponseDto searchAdminUserNotes(String userId, NotesSearchDto searchDto);
 }

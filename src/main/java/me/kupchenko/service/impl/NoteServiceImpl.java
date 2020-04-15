@@ -39,7 +39,7 @@ public class NoteServiceImpl implements NoteService {
     private UserService userService;
 
     @Override
-    public ExtendedNoteDto getNote(Long userId, Long id) {
+    public ExtendedNoteDto getNote(String userId, Long id) {
         Note note = noteRepository.findById(id).orElseThrow(() -> new NoteNotFoundException(userId, id));
 
         validateNote(userId, note);
@@ -47,7 +47,7 @@ public class NoteServiceImpl implements NoteService {
         return noteMapper.noteToExtendedNoteDto(note);
     }
 
-    private void validateNote(Long userId, Note note) {
+    private void validateNote(String userId, Note note) {
         if (!note.getOwner().equals(userId)) {
             throw new NoteNotFoundException(userId, note.getId());
         }
@@ -63,7 +63,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public NoteDto replaceNote(Long userId, NoteDto noteDto) {
+    public NoteDto replaceNote(String userId, NoteDto noteDto) {
         Note changedNote = noteRepository.findById(noteDto.getId())
                 .filter(note -> note.getOwner().equals(userId))
                 .map(note -> replaceAllFields(note, noteDto, "id", "createdTs", "updatedTs"))
@@ -76,14 +76,14 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public NoteDto updateNote(Long id, NoteDto noteDto) {
         Note note = noteRepository.findById(id)
-                .orElseThrow(() -> new NoteNotFoundException(-1L, id));
+                .orElseThrow(() -> new NoteNotFoundException("unknown", id));
 //        replace fields
         Note newNote = noteRepository.save(note);
         return noteMapper.noteToNoteDto(newNote);
     }
 
     @Override
-    public void deleteNote(Long userId, Long noteId) {
+    public void deleteNote(String userId, Long noteId) {
         Note noteForDelete = noteRepository.findById(noteId)
                 .filter(note -> note.getOwner().equals(userId))
                 .orElseThrow(() -> new NoteNotFoundException(userId, noteId));
@@ -99,7 +99,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public NotesResponseDto getNotesByUserId(Long userId) {
+    public NotesResponseDto getNotesByUserId(String userId) {
         List<Note> userNotes = noteRepository.findAllByOwner(userId);
         List<NoteDto> userNotesDtos = noteMapper.noteListToNoteDtoList(userNotes);
         ResponsePagination responsePagination = getDefaultResponsePagination(() -> noteRepository.countByOwner(userId));
@@ -107,7 +107,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public NotesResponseDto searchUserNotes(Long userId, NotesSearchDto searchDto) {
+    public NotesResponseDto searchUserNotes(String userId, NotesSearchDto searchDto) {
         String content = "%" + searchDto.getText() + "%";
         ResponsePagination pagination = getResponsePagination(searchDto, () -> noteRepository.countTotalNotesByCriteria(content, userId));
 
@@ -120,7 +120,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public ExtendedNoteDto getNote(Long noteId) {
         Note note = noteRepository.findById(noteId)
-                .orElseThrow(() -> new NoteNotFoundException(-1L, noteId));
+                .orElseThrow(() -> new NoteNotFoundException("unknown", noteId));
         UserDto user = userService.findById(note.getOwner());
         ExtendedNoteDto extendedNoteDto = noteMapper.noteToExtendedNoteDto(note);
         extendedNoteDto.setUser(user);
@@ -129,7 +129,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public AdminNotesResponseDto searchAdminUserNotes(Long userId, NotesSearchDto searchDto) {
+    public AdminNotesResponseDto searchAdminUserNotes(String userId, NotesSearchDto searchDto) {
         NotesResponseDto note = searchUserNotes(userId, searchDto);
         UserDto user = userService.findById(userId);
         return AdminNotesResponseDto.builder()

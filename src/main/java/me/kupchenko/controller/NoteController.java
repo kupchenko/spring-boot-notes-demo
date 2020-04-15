@@ -36,19 +36,19 @@ public class NoteController {
     public NotesResponseDto searchUserNotes(JwtAuthenticationToken auth,
                                             @Valid NotesSearchDto searchDto) {
         log.info("Searching notes for user {} by search criteria: {}", auth.getName(), searchDto);
-        Long userId = extractUserId(auth);
+        String userId = extractUserId(auth);
         return noteService.searchUserNotes(userId, searchDto);
     }
 
     @GetMapping("/{id:[0-9]+}")
     public ExtendedNoteDto getNote(JwtAuthenticationToken auth, @PathVariable Long id) {
-        Long userId = extractUserId(auth);
+        String userId = extractUserId(auth);
         return noteService.getNote(userId, id);
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public NoteDto createNote(JwtAuthenticationToken auth, @Valid @RequestBody CreateNoteDto noteDto) {
-        Long userId = extractUserId(auth);
+        String userId = extractUserId(auth);
         noteDto.setOwner(userId);
         return noteService.createNote(noteDto);
     }
@@ -57,7 +57,7 @@ public class NoteController {
     public NoteDto replaceNote(JwtAuthenticationToken auth, @PathVariable Long id, @Valid @RequestBody NoteDto noteDto) {
         noteDto.setId(id);
         log.info("Updating note: {}", noteDto);
-        Long userId = extractUserId(auth);
+        String userId = extractUserId(auth);
         return noteService.replaceNote(userId, noteDto);
     }
 
@@ -68,7 +68,7 @@ public class NoteController {
 
     @DeleteMapping("/{id:[0-9]+}")
     public void deleteNote(JwtAuthenticationToken auth, @PathVariable Long id) {
-        Long userId = extractUserId(auth);
+        String userId = extractUserId(auth);
         noteService.deleteNote(userId, id);
     }
 }

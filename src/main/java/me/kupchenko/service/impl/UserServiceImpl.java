@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findById(Long id) {
-        return userClient.findUserById(id);
+    public UserDto findById(String id) {
+        return userClient.findUserById(0L);
     }
 }
